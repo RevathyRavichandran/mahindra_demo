@@ -79,9 +79,24 @@ export class FeedbackComponent implements OnInit {
           }
         ]
       },
+      {
+        label: 'File Name',
+        controlName: 'file',
+        type: 'select',
+        list:[
+          {
+            key: 'MMMF_Flexi_cap_July_2022.pdf',
+            value: 'MMMF_Flexi_cap_July_2022.pdf'
+          },
+          {
+            key: 'MMMF_Product_July_2022.pdf',
+            value: 'MMMF_Product_July_2022.pdf'
+          }
+        ]
+      },
    
     ],
-    header: ['SNo', "Created Date","Mobile Number","Profile Name","ARN Number","Profile Name","Market Updates"], 
+    header: ['SNo', "Created Date","Mobile Number","ARN Number","Profile Name","Market Updates","File Name","File Download"], 
   }
 
   customListDatas = {};
@@ -144,8 +159,10 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "Equity",
                 "product_notes" : "-",
                 "profile_name" : "lalit maharshi",
-                "Corporate Deck_File": "pdf",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-15T11:54:55Z",
+                "update":"Aaj ka Bazaar",
+                "file_download":"YES/NO",
                 "url" : "MMMF_Product_Deck_July_2022.pdf"
              },
              {
@@ -161,8 +178,10 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "Corporate Deck_File": "pdf",
+                "update":"Fund manager videos",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-15T11:32:57Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
              {
@@ -178,8 +197,10 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "Corporate Deck_File": "pdf",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-14T16:27:55Z",
+                "update":"Monthly samvaad",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
              {
@@ -195,9 +216,11 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "Equity",
                 "product_notes" : "-",
                 "profile_name" : "Amit Teckchandani",
-                "Corporate Deck_File": "pdf",
+                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
                 "updated_at" : "2022-09-13T14:25:27Z",
-                "url" : "MMMF_Kar_Bachat__Yojana_July_2022.pdf"
+                "update":"Monthly samvaad",
+                "url" : "MMMF_Kar_Bachat__Yojana_July_2022.pdf",
+                "file_download":"YES/NO",
              },
              {
           "SNo": "5",
@@ -212,9 +235,11 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "Equity",
                 "product_notes" : "-",
                 "profile_name" : "Amit Teckchandani",
-                "Corporate Deck_File": "pdf",
+                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
                 "updated_at" : "2022-09-13T14:07:42Z",
-                "url" : "MMMF_Unnati_Yojana_July_2022.pdf "
+                "update":"Weekly market snapshot",
+                "url" : "MMMF_Unnati_Yojana_July_2022.pdf ",
+                "file_download":"YES/NO",
              },
              {
           "SNo": "6",
@@ -229,8 +254,10 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "Corporate Deck_File": "pdf",
+                "update":"Weekly market snapshot",
+                "Corporate Deck_File": "MMMF_Product_Deck_July_2022.pdf",
                 "updated_at" : "2022-09-13T13:48:58Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
          {
@@ -246,8 +273,10 @@ export class FeedbackComponent implements OnInit {
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "Corporate Deck_File": "pdf",
+                "update":"Market update video",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-15T17:02:52Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
          {
@@ -258,13 +287,15 @@ export class FeedbackComponent implements OnInit {
                 "id" : "916",
                 "latest_product_info" : "-",
                 "market_updates" : "url",
+                "update":"Market update video",
                 "marketing_material" : "-",
                 "mobile_number" : "+919833667644",
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "Corporate Deck_File": "pdf",
+                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
                 "updated_at" : "2022-09-16T10:23:15Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              }
       ];
@@ -287,7 +318,7 @@ export class FeedbackComponent implements OnInit {
         goodCount : params.rating == 'Good' || !params.rating ? this.goodCount : 0,
         okCount : params.rating == 'Ok' || !params.rating ? this.okCount : 0,
         badCount : params.rating == 'Bad' || !params.rating ? this.badCount : 0,
-        keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number', "profile_name","url"],
+        keys: ['SNo', "created_at",'mobile_number','arn_number','profile_name','update',"Corporate Deck_File",'file_download'],
         //Table header length should be equal to keys
       }
       console.log(this.customListDatas)

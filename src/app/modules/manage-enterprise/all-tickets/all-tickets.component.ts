@@ -25,7 +25,22 @@ export class AllTicketsComponent implements OnInit {
     title: 'Product Information',
     formDetails: [
       {
-        label: 'Latest Product Info',
+        label: 'ARN Number',
+        controlName: 'arn',
+        type: 'select',
+        list:[
+          {
+            key: 'Corporate_Deck',
+            value: 'Corporate_Deck'
+          },
+          {
+            key: 'arn-909090',
+            value: 'arn-909090'
+          }
+        ]
+      },
+      {
+        label: 'Product Information',
         controlName: 'info',
         type: 'select',
         list:[
@@ -40,6 +55,22 @@ export class AllTicketsComponent implements OnInit {
        
         ]
       },
+      {
+        label: 'File Name',
+        controlName: 'file',
+        type: 'select',
+        list:[
+          {
+            key: 'MMMF_Product_July_2022.pdf',
+            value: 'MMMF_Product_July_2022.pdf'
+          },
+          {
+            key: 'MMMF_Flexi_cap_July_2022.pdf',
+            value: 'MMMF_Flexi_cap_July_2022.pdf'
+          }
+        ]
+      },
+     
       // {
       //   label: 'Product Notes',
       //   controlName: 'notes',
@@ -49,7 +80,7 @@ export class AllTicketsComponent implements OnInit {
       //   ]
       // },
     ],
-    header: ['SNo', "Created Date", 'Mobile Number',  "Profile Name","ARN Number","Latest Product Info","File Name"], // table headers
+    header: ['SNo', "Created Date", 'Mobile Number', "ARN Number", "Profile Name","Product Info","File Name","File Download"], // table headers
   }
 
   customListDatas= {}
@@ -95,38 +126,43 @@ export class AllTicketsComponent implements OnInit {
       this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
       this.allTickets = [
         
+         
         {
           "SNo": "1",
                 "arn_number" : "arn-909090",
                 "created_at" : "2022-09-15T11:47:28Z",
                 "digital_factsheet" : "-",
                 "id" : "913",
-                "latest_product_info" : "Product_Deck",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info ",
+                "latest_product_info" : "Product_Deck ",
+                "market_updates" : "url",
+                "marketing_material" : "Product_Info | Product_Info",
                 "mobile_number" : "+918055191660",
                 "one_pager" : "Equity",
                 "product_notes" : "-",
                 "profile_name" : "lalit maharshi",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-15T11:54:55Z",
-                "file_name":"pdf",
-                "url" : "MMMF_Product_Deck_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf"
+                "update":"Aaj ka Bazaar",
+                "file_download":"YES/NO",
+                "url" : "MMMF_Product_Deck_July_2022.pdf"
              },
              {
           "SNo": "2",
-                "arn_number" : "Corporate_Deck",
+                "arn_number" : "arn-23456",
                 "created_at" : "2022-09-15T11:23:23Z",
                 "digital_factsheet" : "-",
                 "id" : "912",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
+                "latest_product_info" : "Monthly Factsheet",
+                "market_updates" : "url",
                 "marketing_material" : "-",
                 "mobile_number" : "+919025347318",
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "file_name":"pdf",
+                "update":"Fund manager videos",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-15T11:32:57Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
              {
@@ -135,15 +171,17 @@ export class AllTicketsComponent implements OnInit {
                 "created_at" : "2022-09-14T16:27:55Z",
                 "digital_factsheet" : "-",
                 "id" : "911",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
+                "latest_product_info" : "Monthly Factsheet",
+                "market_updates" : "url",
                 "marketing_material" : "-",
                 "mobile_number" : "+918226096969",
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "file_name":"pdf",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-14T16:27:55Z",
+                "update":"Monthly samvaad",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
              {
@@ -152,16 +190,18 @@ export class AllTicketsComponent implements OnInit {
                 "created_at" : "2022-09-13T14:24:02Z",
                 "digital_factsheet" : "-",
                 "id" : "910",
-                "latest_product_info" : "One_Pagers",
-                "market_updates" : "-",
+                "latest_product_info" : "Monthly Factsheet",
+                "market_updates" : "url",
                 "marketing_material" : "Product_Info",
                 "mobile_number" : "+919836233352",
                 "one_pager" : "Equity",
                 "product_notes" : "-",
                 "profile_name" : "Amit Teckchandani",
-                "file_name":"pdf",
+                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
                 "updated_at" : "2022-09-13T14:25:27Z",
-                "url" : "One_Pager_MMMF_Kar_Bachat__Yojana_July_2022.pdf"
+                "update":"Monthly samvaad",
+                "url" : "MMMF_Kar_Bachat__Yojana_July_2022.pdf",
+                "file_download":"YES/NO",
              },
              {
           "SNo": "5",
@@ -169,16 +209,18 @@ export class AllTicketsComponent implements OnInit {
                 "created_at" : "2022-09-13T14:06:40Z",
                 "digital_factsheet" : "-",
                 "id" : "909",
-                "latest_product_info" : "One_Pagers",
-                "market_updates" : "-",
+                "latest_product_info" : "Product_Deck ",
+                "market_updates" : "url",
                 "marketing_material" : "Product_Info",
                 "mobile_number" : "+919836233352",
                 "one_pager" : "Equity",
                 "product_notes" : "-",
                 "profile_name" : "Amit Teckchandani",
-                "file_name":"pdf",
+                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
                 "updated_at" : "2022-09-13T14:07:42Z",
-                "url" : "One_pager_MMMF_Unnati_Yojana_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf"
+                "update":"Weekly market snapshot",
+                "url" : "MMMF_Unnati_Yojana_July_2022.pdf ",
+                "file_download":"YES/NO",
              },
              {
           "SNo": "6",
@@ -186,15 +228,17 @@ export class AllTicketsComponent implements OnInit {
                 "created_at" : "2022-09-13T13:48:58Z",
                 "digital_factsheet" : "-",
                 "id" : "908",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
+                "latest_product_info" : "Product_Deck ",
+                "market_updates" : "url",
                 "marketing_material" : "-",
                 "mobile_number" : "+919836233352",
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "file_name":"pdf",
+                "update":"Weekly market snapshot",
+                "Corporate Deck_File": "MMMF_Product_Deck_July_2022.pdf",
                 "updated_at" : "2022-09-13T13:48:58Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
          {
@@ -204,31 +248,35 @@ export class AllTicketsComponent implements OnInit {
                 "digital_factsheet" : "-",
                 "id" : "914",
                 "latest_product_info" : "-",
-                "market_updates" : "-",
+                "market_updates" : "url",
                 "marketing_material" : "-",
                 "mobile_number" : "+919768053120",
                 "one_pager" : "-",
                 "product_notes" : "-",
                 "profile_name" : "-",
-                "file_name":"pdf",
+                "update":"Market update video",
+                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
                 "updated_at" : "2022-09-15T17:02:52Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              },
          {
           "SNo": "8",
-                "arn_number" : "Hybrid",
+                "arn_number" : "arn-123456",
                 "created_at" : "2022-09-16T10:22:24Z",
                 "digital_factsheet" : "-",
                 "id" : "916",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
+                "latest_product_info" : "Product_Deck ",
+                "market_updates" : "url",
+                "update":"Market update video",
                 "marketing_material" : "-",
                 "mobile_number" : "+919833667644",
                 "one_pager" : "-",
                 "product_notes" : "-",
-                "file_name":"pdf",
                 "profile_name" : "-",
+                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
                 "updated_at" : "2022-09-16T10:23:15Z",
+                "file_download":"YES/NO",
                 "url" : "-"
              }
       ];
@@ -242,7 +290,7 @@ export class AllTicketsComponent implements OnInit {
         totalRecords: this.totalRecords,
         data: this.allTickets,
         appointment : true,
-        keys: ['SNo', "created_at", 'mobile_number',"profile_name",'arn_number', 'latest_product_info','file_name'],
+        keys: ['SNo', "created_at", 'mobile_number','arn_number',"profile_name", 'latest_product_info','Corporate Deck_File','file_download'],
       }    
   } else {
       

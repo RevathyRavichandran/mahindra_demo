@@ -135,7 +135,7 @@ export class CustomListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-
+    
   }
 
   public selectedDate(value: any, datepicker?: any) {
