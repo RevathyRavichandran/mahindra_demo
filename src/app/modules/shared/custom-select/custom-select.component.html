@@ -15,7 +15,7 @@
 <ng-select [placeholder]="placeholder" [virtualScroll]="true"
       [(ngModel)]="selectedOption" [items]="values" bindLabel="value" bindValue="key"
       [closeOnSelect]="true" (blur)="onBlurMethod($event)" [disabled]="isDisabled" (clear)="onClear()"
-      (scrollToEnd)="onScrollEnd()" [loading]='loading' >
+      (scrollToEnd)="onScrollEnd()" [loading]='loading' (change)="onFilterChange($event)" >
 </ng-select>
      
 <div class="error-feedback" *ngIf="inputError">
