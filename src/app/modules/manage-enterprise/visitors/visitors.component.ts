@@ -214,7 +214,7 @@ export class VisitorsComponent implements OnInit {
       //   type: 'input'
       // }
     ],
-    header: ['SNo', "Created Date","Mobile Number","ARN Number","Profile Name","Product Info","Branch","Product Type","File name","File Download"], // table headers
+    header: ['SNo', "Created Date","Mobile Number","Profile Name","ARN Number","Product Info","Branch","Product Type","File name","File Download"], // table headers
   }
   customListDatas: {};
   appointmentRating: any;
@@ -446,11 +446,12 @@ export class VisitorsComponent implements OnInit {
         totalVisitors: this.totalVisitors,
         totalAppointment: this.totalAppointment,
         appointmentRating: this.appointmentRating,
+        onePager: 1, //api needed
         conversion : true,
         appointment : false,
         data: this.visitorsList,
         // keys: ['SNo', "createdDate", "createdTime", 'mobileNumber', "waba_no", "isVisitorORBookedUser"],  // To get the data from key
-        keys: ['SNo', "created_at", 'mobile_number','arn_number','profile_name',  "product_info","branch","product_type","Corporate Deck_File",'file_download'],  // To get the data from key
+        keys: ['SNo', "created_at", 'mobile_number','profile_name','arn_number',  "product_info","branch","product_type","Corporate Deck_File",'file_download'],  // To get the data from key
       }
 
     } else {

@@ -96,7 +96,7 @@ export class FeedbackComponent implements OnInit {
       },
    
     ],
-    header: ['SNo', "Created Date","Mobile Number","ARN Number","Profile Name","Market Updates","File Name","File Download"], 
+    header: ['SNo', "Created Date","Mobile Number","Profile Name","ARN Number","Market Updates","File Name","File Download"], 
   }
 
   customListDatas = {};
@@ -157,9 +157,10 @@ export class FeedbackComponent implements OnInit {
         totalCount: this.totalCount,
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
+        marketUpdateCount : 5, //api needed
         data: this.feedbackList,
         appointment : true,
-        keys: ['SNo', "created_at",'mobile_number','arn_number','profile_name','folder_name',"url",'file_download'],
+        keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number','folder_name',"url",'file_download'],
       }
 
     } else {

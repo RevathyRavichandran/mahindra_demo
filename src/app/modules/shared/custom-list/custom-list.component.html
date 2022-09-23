@@ -39,7 +39,12 @@
                             <div class="col-md-8 float-left">
                                 <p class="label-count label">
                                     <span class="col-md-3 p-0" *ngIf="appointment">Total Count : {{totalRecords || '0'}}</span>
-                                    <span class="col-md-3" *ngIf="appointment"> Total Corporate_Deck_User_Count : {{totalRecords || 0}}</span>
+                                    <span class="col-md-3" *ngIf="deckCount"> Total Corporate Deck User Count : {{deckCount || 0}}</span>
+                                    <span class="col-md-3" *ngIf="marketUpdate"> Total Market Update User Count : {{marketUpdate || 0}}</span>
+                                    <span class="col-md-3" *ngIf="productInfo"> Total Product Info User Count : {{productInfo || 0}}</span>
+                                    <span class="col-md-3" *ngIf="productDeck"> Total Product Deck User Count : {{productDeck || 0}}</span>
+                                    <span class="col-md-3" *ngIf="monthlyFactsheet"> Total Monthly Factsheet User Count : {{monthlyFactsheet || 0}}</span>
+                                    <!-- <span class="col-md-3" *ngIf="onePager"> Total Monthly OnePager : {{onePager || 0}}</span> -->
                                     <!-- <span class="col-md-3" *ngIf="conversion"> Total Visitors : {{totalVisitors || 0}}</span> -->
                                     <span class="col-md-3" *ngIf="conversion"> Total Count : {{totalVisitors || 0}}</span>
                                   

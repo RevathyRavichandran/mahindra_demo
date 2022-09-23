@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CorporateDeckService } from '@services/corporate-deck.service';
+import { FilterService } from '@services/filter.service';
 import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 var moment = require('moment');
@@ -20,8 +21,8 @@ export class AppointmentComponent implements OnInit {
   showTicketModal: boolean;
 
   visitorsList: any;
-  patientList: any = [];
-  regionList: any = [];
+  arnList: any = [];
+  fileList: any = [];
   branchList: any = [];
   deptList: any = [];
   searchDatas: any;
@@ -35,20 +36,11 @@ export class AppointmentComponent implements OnInit {
         label: 'ARN Number',
         controlName: 'arn_number',
         type: 'select',
-        list:[
-          {
-            key: 'Corporate_Deck',
-            value: 'Corporate_Deck'
-          },
-          {
-            key: 'mk123',
-            value: 'mk123'
-          }
-        ]
+        list:this.arnList,
       },
       {
         label: 'File Name',
-        controlName: 'file',
+        controlName: 'url',
         type: 'select',
         list:[
           {
@@ -62,21 +54,30 @@ export class AppointmentComponent implements OnInit {
         ]
       },
     ],
-    header: ['SNo', "Created Date", 'Mobile Number',"ARN Number", "Profile Name","File Name","File Download"], // table headers
+    header: ['SNo', "Created Date", 'Mobile Number',"Profile Name","ARN Number", "File Name","File Download"], // table headers
   }
   customListDatas: {};
 
   constructor(
     private enterpriseService: CorporateDeckService,
     private toasterService: ToasterService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private filterService:FilterService
   ) {
     // this.getAppointmentPatientList();
   }
 
   ngOnInit(): void {    
-   
-    this.getAppointmentList();    
+   var payload = {ProcessVariables:{}}
+    this.getAppointmentList(); 
+    this.filterService.arnlist(payload).subscribe(res=>{
+      this.arnList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.arnList;
+    }) 
+    this.filterService.filelist(payload).subscribe(res=>{
+      this.fileList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[1].list=this.fileList;
+    }) 
   }
 
  
@@ -90,7 +91,8 @@ export class AppointmentComponent implements OnInit {
     }
 
     console.log('params', params);
-    this.enterpriseService.corporateList(params).subscribe(visitors => {
+  var payload = {ProcessVariables:params}
+    this.enterpriseService.corporateList(payload).subscribe(visitors => {
       console.log('Visitors', visitors)
 
       const appiyoError = visitors?.Error;
@@ -116,11 +118,12 @@ export class AppointmentComponent implements OnInit {
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
         totalCount: this.totalCount,
+        CorporateDeckCount:3,  //api needed
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
         data: this.visitorsList,
         appointment : true,
-        keys: ['SNo', "created_at", 'mobile_number', 'arn_number', "profile_name","url","file_download"],  // To get the data from key
+        keys: ['SNo', "created_at", 'mobile_number',"profile_name", 'arn_number', "url","file_download"],  // To get the data from key
       }
 
     } else {

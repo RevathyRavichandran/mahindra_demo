@@ -80,7 +80,7 @@ export class AllTicketsComponent implements OnInit {
       //   ]
       // },
     ],
-    header: ['SNo', "Created Date", 'Mobile Number', "ARN Number", "Profile Name","Product Info","File Name","File Download"], // table headers
+    header: ['SNo', "Created Date", 'Mobile Number', "Profile Name","ARN Number", "Product Info","File Name","File Download"], // table headers
   }
 
   customListDatas= {}
@@ -136,9 +136,12 @@ export class AllTicketsComponent implements OnInit {
         totalCount: this.totalCount,
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
+        productInfoCount:18,   //api needed
+        productdeckCount:10,  //api needed
+        productMonthlycount:8,   //api needed
         data: this.allTickets,
         appointment : true,
-        keys: ['SNo', "created_at",'mobile_number','arn_number','profile_name','folder_name',"url",'file_download'],
+        keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number','folder_name',"url",'file_download'],
       }
 
     } else {

@@ -40,6 +40,15 @@ export class CustomListComponent implements OnInit, OnChanges {
   okCount: any;
   badCount: any;
 
+  // variables for user count
+
+  deckCount: any;
+  marketUpdate: any;
+  productInfo: any;
+  productDeck: any;
+  monthlyFactsheet: any;
+  onePager: any;
+
   @Input() set initValues(value: any) {
     console.log('value', value)
     if (!value) {
@@ -92,6 +101,16 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.dataArr = value?.data;
     this.feedBackValue = value?.feedbackValue;
     this.agentValue = value?.agentValue;
+    
+
+    // this for user counts
+
+    this.deckCount = value?.CorporateDeckCount;
+    this.marketUpdate = value?.marketUpdateCount;
+    this.productInfo = value?.productInfoCount;
+    this.productDeck = value?.productdeckCount;
+    this.monthlyFactsheet = value?.productMonthlycount;
+    this.onePager = value?.onePager;
   }
 
   @Output() download = new EventEmitter();
@@ -132,7 +151,7 @@ export class CustomListComponent implements OnInit, OnChanges {
         // 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
     };
-    this.searchForm.get("info").valueChanges.subscribe(x => {
+    this.searchForm.get("info")?.valueChanges.subscribe(x => {
       console.log('firstname value changed')
       if(x=='One Pager') {
         this.formDetails[2].list= [
@@ -173,7 +192,7 @@ export class CustomListComponent implements OnInit, OnChanges {
       
       console.log(x, this.formDetails[2])
    })
-   this.searchForm.get("info1").valueChanges.subscribe(x => {
+   this.searchForm.get("info1")?.valueChanges.subscribe(x => {
     console.log('firstname value changed')
     if(x=='Equity') {
       this.formDetails[3].list= [

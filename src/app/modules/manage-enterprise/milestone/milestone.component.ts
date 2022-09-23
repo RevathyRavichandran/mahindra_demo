@@ -74,7 +74,7 @@ export class MilestoneComponent implements OnInit {
       // },
     ],
     // header: ['SNo', "Created Date", 'Mobile Number', "URL",  "One Pager", "Digital Factsheet"]
-    header: ['SNo', "Created Date", "Mobile Number",'ARN Number',"Profile Name", "File Name","File Download"], 
+    header: ['SNo', "Created Date", "Mobile Number","Profile Name", 'ARN Number',"File Name","File Download"], 
   }
   customListDatas= {};
   
@@ -406,7 +406,7 @@ export class MilestoneComponent implements OnInit {
         totalRecords: this.totalRecords,
         data: this.visitorsList,
         appointment : true,
-        keys: ['SNo', "created_at", 'mobile_number','arn_number', 'profile_name','url','file_download'],
+        keys: ['SNo', "created_at", 'mobile_number', 'profile_name','arn_number','url','file_download'],
         //Table header length should be equal to keys
       }
 
