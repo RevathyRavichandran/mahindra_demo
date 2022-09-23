@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { EnterpriseApiService } from '@services/enterprise-api.service';
+import { ProductInfoService } from '@services/product-info.service';
 import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 var moment = require('moment');
@@ -87,7 +87,7 @@ export class AllTicketsComponent implements OnInit {
   agentValue: boolean;
 
   constructor(
-    private enterpriseService: EnterpriseApiService, 
+    private enterpriseService: ProductInfoService, 
     private toasterService: ToasterService, 
     private utilityService: UtilityService
   ) {}
@@ -100,211 +100,61 @@ export class AllTicketsComponent implements OnInit {
 
   async getLiveAgentData(searchData?) {
     const params = {
-      currentPage: this.page || 1,
-      perPage: this.itemsPerPage || 10,
-      isApplyFilter: false,
+      current_page: this.page || 1,
+      per_page: this.itemsPerPage || 10,
+      // isApplyFilter: false,
       isCSVDownload: true,
       ...searchData
     }
 
-    console.log('params', params)
+    console.log('params', params);
+    this.enterpriseService.productList(params).subscribe(visitors => {
+      console.log('Visitors', visitors)
 
-    const ticketsData: any = await this.enterpriseService.getLiveAgentList(params);
+      const appiyoError = visitors?.Error;
+    const apiErrorCode = visitors.ProcessVariables?.errorCode;
+    const errorMessage = visitors.ProcessVariables?.errorMessage;
 
-    console.log('Tickets Data', ticketsData)
-
-    const appiyoError = ticketsData?.Error;
-    const apiErrorCode = ticketsData.ProcessVariables?.errorCode;
-    const errorMessage = ticketsData.ProcessVariables?.errorMessage;
-    
-
-    if (appiyoError == '0' && apiErrorCode == "200") {
-      const processVariables = ticketsData['ProcessVariables']
-      
-      this.itemsPerPage = processVariables['perPage'];
-      let totalPages = processVariables['totalPages'];
+    if (appiyoError == '0') {
+      const processVariables = visitors['ProcessVariables']
+      this.itemsPerPage = processVariables['per_page'];
+      let totalPages = processVariables['total_pages'];
       this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
-      this.allTickets = [
-        
-         
-        {
-          "SNo": "1",
-                "arn_number" : "arn-909090",
-                "created_at" : "2022-09-15T11:47:28Z",
-                "digital_factsheet" : "-",
-                "id" : "913",
-                "latest_product_info" : "Product_Deck ",
-                "market_updates" : "url",
-                "marketing_material" : "Product_Info | Product_Info",
-                "mobile_number" : "+918055191660",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "lalit maharshi",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-15T11:54:55Z",
-                "update":"Aaj ka Bazaar",
-                "file_download":"YES/NO",
-                "url" : "MMMF_Product_Deck_July_2022.pdf"
-             },
-             {
-          "SNo": "2",
-                "arn_number" : "arn-23456",
-                "created_at" : "2022-09-15T11:23:23Z",
-                "digital_factsheet" : "-",
-                "id" : "912",
-                "latest_product_info" : "Monthly Factsheet",
-                "market_updates" : "url",
-                "marketing_material" : "-",
-                "mobile_number" : "+919025347318",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "update":"Fund manager videos",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-15T11:32:57Z",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-             {
-          "SNo": "3",
-                "arn_number" : "-",
-                "created_at" : "2022-09-14T16:27:55Z",
-                "digital_factsheet" : "-",
-                "id" : "911",
-                "latest_product_info" : "Monthly Factsheet",
-                "market_updates" : "url",
-                "marketing_material" : "-",
-                "mobile_number" : "+918226096969",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-14T16:27:55Z",
-                "update":"Monthly samvaad",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-             {
-          "SNo": "4",
-                "arn_number" : "151515",
-                "created_at" : "2022-09-13T14:24:02Z",
-                "digital_factsheet" : "-",
-                "id" : "910",
-                "latest_product_info" : "Monthly Factsheet",
-                "market_updates" : "url",
-                "marketing_material" : "Product_Info",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "Amit Teckchandani",
-                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
-                "updated_at" : "2022-09-13T14:25:27Z",
-                "update":"Monthly samvaad",
-                "url" : "MMMF_Kar_Bachat__Yojana_July_2022.pdf",
-                "file_download":"YES/NO",
-             },
-             {
-          "SNo": "5",
-                "arn_number" : "151515",
-                "created_at" : "2022-09-13T14:06:40Z",
-                "digital_factsheet" : "-",
-                "id" : "909",
-                "latest_product_info" : "Product_Deck ",
-                "market_updates" : "url",
-                "marketing_material" : "Product_Info",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "Amit Teckchandani",
-                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
-                "updated_at" : "2022-09-13T14:07:42Z",
-                "update":"Weekly market snapshot",
-                "url" : "MMMF_Unnati_Yojana_July_2022.pdf ",
-                "file_download":"YES/NO",
-             },
-             {
-          "SNo": "6",
-                "arn_number" : "-",
-                "created_at" : "2022-09-13T13:48:58Z",
-                "digital_factsheet" : "-",
-                "id" : "908",
-                "latest_product_info" : "Product_Deck ",
-                "market_updates" : "url",
-                "marketing_material" : "-",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "update":"Weekly market snapshot",
-                "Corporate Deck_File": "MMMF_Product_Deck_July_2022.pdf",
-                "updated_at" : "2022-09-13T13:48:58Z",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-         {
-          "SNo": "7",
-                "arn_number" : "39164",
-                "created_at" : "2022-09-15T17:01:15Z",
-                "digital_factsheet" : "-",
-                "id" : "914",
-                "latest_product_info" : "-",
-                "market_updates" : "url",
-                "marketing_material" : "-",
-                "mobile_number" : "+919768053120",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "update":"Market update video",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-15T17:02:52Z",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-         {
-          "SNo": "8",
-                "arn_number" : "arn-123456",
-                "created_at" : "2022-09-16T10:22:24Z",
-                "digital_factsheet" : "-",
-                "id" : "916",
-                "latest_product_info" : "Product_Deck ",
-                "market_updates" : "url",
-                "update":"Market update video",
-                "marketing_material" : "-",
-                "mobile_number" : "+919833667644",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
-                "updated_at" : "2022-09-16T10:23:15Z",
-                "file_download":"YES/NO",
-                "url" : "-"
-             }
-      ];
-      this.totalRecords = processVariables?.totalItems;
-      
+      // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
+      // this.corporateCount = 80000;
+      this.totalRecords = processVariables?.count;
+      this.allTickets = processVariables.output_data;
+
+      for(var i=0; i<processVariables.output_data.length; i++) {
+        this.allTickets[i].SNo=i+1;
+        this.allTickets[i].file_download='Yes';
+      }
+     
       this.customListDatas = {
-        agentValue : true,
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
         totalCount: this.totalCount,
+        // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
         data: this.allTickets,
         appointment : true,
-        keys: ['SNo', "created_at", 'mobile_number','arn_number',"profile_name", 'latest_product_info','Corporate Deck_File','file_download'],
-      }    
-  } else {
-      
-      this.toasterService.showError(ticketsData['ProcessVariables']?.errorMessage == undefined ? 'Live agent list' : ticketsData['ProcessVariables']?.errorMessage, 'Tickets')
+        keys: ['SNo', "created_at",'mobile_number','arn_number','profile_name','folder_name',"url",'file_download'],
+      }
+
+    } else {
+      this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Appointment list error' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
     }
+    })
+   
   }
 
-  async onDownloadCsv(event){
+  async onDownloadCsv(event) {
     var params;
     if (!event.fromDate && !event.toDate) {
       params = {
         fromDate: moment().format("YYYY-MM-DD"),
         toDate: moment().format("YYYY-MM-DD"),
-        isApplyFilter: false,
+        // isApplyFilter: false,
         isCSVDownload: true,
         ...event
       }
@@ -312,27 +162,36 @@ export class AllTicketsComponent implements OnInit {
     else {
       params = {
 
-        isApplyFilter: false,
+        // isApplyFilter: false,
         isCSVDownload: true,
         ...event
       }
-      
+     
     }
-    const ticketsData: any = await this.enterpriseService.liveAgentCsvDownload(params);
-    console.log('Tickets Data', ticketsData)
 
-    const appiyoError = ticketsData?.Error;
-    const apiErrorCode = ticketsData.ProcessVariables?.errorCode;
-    const errorMessage = ticketsData.ProcessVariables?.errorMessage;
+    console.log('params', params);
 
-    if (appiyoError == '0' && apiErrorCode == "200") {
-      const processVariables = ticketsData['ProcessVariables']
-      this.attachments= processVariables?.attachment;
+    this.enterpriseService.productCSV(params).subscribe(visitors => {
+      console.log('Visitors', visitors)
+
+    const appiyoError = visitors?.Error;
+    const apiErrorCode = visitors.ProcessVariables?.errorCode;
+    const errorMessage = visitors.ProcessVariables?.errorMessage;
+
+    if (appiyoError == '0') {
+
+      const processVariables = visitors['ProcessVariables']
+
+      this.attachments = processVariables?.attachment;
       this.utilityService.onDownloadCsv(this.attachments);
-      
-  } else {
-      this.toasterService.showError(ticketsData['ProcessVariables']?.errorMessage == undefined ? 'Download error' : ticketsData['ProcessVariables']?.errorMessage, 'Tickets')
-    }  
+
+
+    } else {
+      this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Download error' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
+    }
+    })
+
+   
   }
 
 

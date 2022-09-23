@@ -9,7 +9,7 @@ export const environment = {
     login: 'v3/',
     api: 'v2/'
   },
-
+  baseURL: 'https://appiyo.karix.solutions/appiyo/d/project/Mahindra/api/',
   projectIds: {
     
     vps: '603dcdb6dbeb11ec84380022480d6e6c'

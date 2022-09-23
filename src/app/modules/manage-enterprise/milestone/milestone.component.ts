@@ -104,21 +104,21 @@ export class MilestoneComponent implements OnInit {
 
     console.log('params', params);
 
-    const milestone: any = await this.enterpriseService.getMilestoneList(params);
+    // const milestone: any = await this.enterpriseService.getMilestoneList(params);
 
-    console.log('Milestone', milestone)
+    // console.log('Milestone', milestone)
 
-    const appiyoError = milestone?.Error;
-    const apiErrorCode = milestone.ProcessVariables?.errorCode;
-    const errorMessage = milestone.ProcessVariables?.errorMessage;
+    // const appiyoError = milestone?.Error;
+    // const apiErrorCode = milestone.ProcessVariables?.errorCode;
+    // const errorMessage = milestone.ProcessVariables?.errorMessage;
     
 
-    if (appiyoError == '0' && apiErrorCode == "200") {
+    if (params) {
       
-      const processVariables = milestone['ProcessVariables'];
-      this.itemsPerPage = processVariables['perPage'];
-      let totalPages = processVariables['totalPages'];
-      this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
+      // const processVariables = milestone['ProcessVariables'];
+      // this.itemsPerPage = processVariables['perPage'];
+      // let totalPages = processVariables['totalPages'];
+      // this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.milestoneList = [
         
       //   {
@@ -397,7 +397,7 @@ export class MilestoneComponent implements OnInit {
                 "url" : "Link"
              }
       ];
-      this.totalRecords = processVariables?.totalItems;
+      // this.totalRecords = processVariables?.totalItems;
       
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
@@ -413,7 +413,7 @@ export class MilestoneComponent implements OnInit {
       
     } else {
      
-      this.toasterService.showError(milestone['ProcessVariables']?.errorMessage == undefined ? 'Milestone list error' : milestone['ProcessVariables']?.errorMessage, 'Milestone')
+      // this.toasterService.showError(milestone['ProcessVariables']?.errorMessage == undefined ? 'Milestone list error' : milestone['ProcessVariables']?.errorMessage, 'Milestone')
     }
   }
 

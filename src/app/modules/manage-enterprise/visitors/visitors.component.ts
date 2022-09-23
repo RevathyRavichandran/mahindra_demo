@@ -66,23 +66,23 @@ export class VisitorsComponent implements OnInit {
         // controlName: 'waba_no',
         // type: 'input'
         label: 'Branch',
-        controlName: 'info',
+        controlName: 'info1',
         type: 'select',
-        list:[
-          {
-            key: 'Equity',
-            value: 'Equity'
-          },
-          {
-            key: 'Hybrid',
-            value: 'Hybrid'
-          },
-          {
-            key: 'Debt',
-            value: 'Debt'
-          },
+        list:[]
+        //   {
+        //     key: 'Equity',
+        //     value: 'Equity'
+        //   },
+        //   {
+        //     key: 'Hybrid',
+        //     value: 'Hybrid'
+        //   },
+        //   {
+        //     key: 'Debt',
+        //     value: 'Debt'
+        //   },
         
-        ]
+        // ]
       },
       // {
       //   // label: 'Waba Number',
@@ -104,42 +104,42 @@ export class VisitorsComponent implements OnInit {
       // },
       {
         label: 'Product Type',
-        controlName: 'mu',
+        controlName: 'type_prod',
         type: 'select',
-        list:[
-          {
-            key: 'ELSS Kar Bachat Yojana - PDF',
-            value: 'ELSS Kar Bachat Yojana - PDF'
-          },
-          {
-            key: 'Multi Cap Badhat Yojana - PDF',
-            value: 'Multi Cap Badhat Yojana - PDF'
-          },
-          {
-            key: 'Mid Cap Unnati Yojana-PDF',
-            value: 'Mid Cap Unnati Yojana-PDF'
-          },
-          {
-            key: 'Rural and Consumption-PDF',
-            value: 'Rural and Consumption-PDF'
-          },
-          {
-            key: 'Large Cap Pragati Yojana-PDF',
-            value: 'Large Cap Pragati Yojana-PDF'
-          },
-          {
-            key: 'Top 250 Nivesh Yojanac-PDF',
-            value: 'Top 250 Nivesh Yojanac-PDF'
-          },
-          {
-            key: 'Focused Equity Yojana-PDF',
-            value: 'Focused Equity Yojana-PDF'
-          },
-          {
-            key: 'Flexi Cap Yojana-PDF',
-            value: 'Flexi Cap Yojana-PDF'
-          }
-        ]
+        list:[]
+        //   {
+        //     key: 'ELSS Kar Bachat Yojana - PDF',
+        //     value: 'ELSS Kar Bachat Yojana - PDF'
+        //   },
+        //   {
+        //     key: 'Multi Cap Badhat Yojana - PDF',
+        //     value: 'Multi Cap Badhat Yojana - PDF'
+        //   },
+        //   {
+        //     key: 'Mid Cap Unnati Yojana-PDF',
+        //     value: 'Mid Cap Unnati Yojana-PDF'
+        //   },
+        //   {
+        //     key: 'Rural and Consumption-PDF',
+        //     value: 'Rural and Consumption-PDF'
+        //   },
+        //   {
+        //     key: 'Large Cap Pragati Yojana-PDF',
+        //     value: 'Large Cap Pragati Yojana-PDF'
+        //   },
+        //   {
+        //     key: 'Top 250 Nivesh Yojanac-PDF',
+        //     value: 'Top 250 Nivesh Yojanac-PDF'
+        //   },
+        //   {
+        //     key: 'Focused Equity Yojana-PDF',
+        //     value: 'Focused Equity Yojana-PDF'
+        //   },
+        //   {
+        //     key: 'Flexi Cap Yojana-PDF',
+        //     value: 'Flexi Cap Yojana-PDF'
+        //   }
+        // ]
       },
       
       // {
@@ -246,24 +246,25 @@ export class VisitorsComponent implements OnInit {
       params.toDate = moment().format("YYYY-MM-DD")
     }
 
-    const visitors: any = await this.enterpriseService.getConversationList(params);
+    // const visitors: any = await this.enterpriseService.getConversationList(params);
 
-    console.log('Visitors', visitors)
+    // console.log('Visitors', visitors)
 
-    const appiyoError = visitors?.Error;
-    const apiErrorCode = visitors.ProcessVariables?.errorCode;
-    const errorMessage = visitors.ProcessVariables?.errorMessage;
+    // const appiyoError = visitors?.Error;
+    // const apiErrorCode = visitors.ProcessVariables?.errorCode;
+    // const errorMessage = visitors.ProcessVariables?.errorMessage;
 
-    if (appiyoError == '0' && apiErrorCode == "200") {
+    // if (appiyoError == '0' && apiErrorCode == "200") {
+      if (params) {
 
-      const processVariables = visitors['ProcessVariables']
-      this.itemsPerPage = processVariables['perPage'];
-      let totalPages = processVariables['totalPages'];
-      this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
-      this.totalRecords = processVariables?.totalItems;
-      this.totalVisitors = processVariables?.totalCount;
-      this.totalAppointment = processVariables?.totalAppointment;
-      this.appointmentRating = processVariables?.appointmentRating;
+      // const processVariables = visitors['ProcessVariables']
+      // this.itemsPerPage = processVariables['perPage'];
+      // let totalPages = processVariables['totalPages'];
+      // this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
+      // this.totalRecords = processVariables?.totalItems;
+      // this.totalVisitors = processVariables?.totalCount;
+      // this.totalAppointment = processVariables?.totalAppointment;
+      // this.appointmentRating = processVariables?.appointmentRating;
       // this.visitorsList = processVariables['appointmentConversionList'] || [];
       this.visitorsList = [
         
@@ -453,7 +454,7 @@ export class VisitorsComponent implements OnInit {
       }
 
     } else {
-      this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Appointment conversion list' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
+      // this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Appointment conversion list' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
     }
   }
 

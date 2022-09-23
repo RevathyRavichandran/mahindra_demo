@@ -37,28 +37,28 @@ export class MenuBarComponent implements OnInit {
         this.selectedNavTab = '1';
         this.isEnterpriseClicked = true;
       } 
-      else if (location.includes('appointment')) {
+      else if (location.includes('Corporate-Deck')) {
         this.selectedNavTab = '2';
         this.isEnterpriseClicked = true;
       }
      
-      else if (location.includes('feedback')) {
+      else if (location.includes('Market-Updates')) {
         this.selectedNavTab = '3';
         this.isEnterpriseClicked = true;
       }
-      else if (location.includes('tickets')) {
+      else if (location.includes('Product-Information')) {
         this.selectedNavTab = '4';
         this.isEnterpriseClicked = true;
       }
-      else if (location.includes('milestone')) {
+      else if (location.includes('Digital-Factsheet')) {
         this.selectedNavTab = '5';
         this.isEnterpriseClicked = true;
       }
-      else if(location.includes('visitors')){
+      else if(location.includes('OnePager-Report')){
         this.selectedNavTab = '6';
         this.isEnterpriseClicked = true;
       }
-      else if (location.includes('region')) {
+      else if (location.includes('Product-Notes')) {
         this.selectedNavTab = '7';
         this.isEnterpriseClicked = true;
       }
@@ -72,27 +72,27 @@ export class MenuBarComponent implements OnInit {
         this.selectedNavTab = '1';
         this.isEnterpriseClicked = true;
       } 
-      else if(location.includes('appointment')){
+      else if(location.includes('Corporate-Deck')){
         this.selectedNavTab = '2';
         this.isEnterpriseClicked = true;
       }
-      else if (location.includes('feedback')) {
+      else if (location.includes('Market-Updates')) {
         this.selectedNavTab = '3';
         this.isEnterpriseClicked = true;
       }
-      else if (location.includes('tickets')) {
+      else if (location.includes('Product-Information')) {
         this.selectedNavTab = '4';
         this.isEnterpriseClicked = true;
       }
-      else if (location.includes('milestone')) {
+      else if (location.includes('Digital-Factsheet')) {
         this.selectedNavTab = '5';
         this.isEnterpriseClicked = true;
       }
-      else if(location.includes('visitors')){
+      else if(location.includes('OnePager-Report')){
         this.selectedNavTab = '6';
         this.isEnterpriseClicked = true;
       }
-      else if(location.includes('region')){
+      else if(location.includes('Product-Notes')){
         this.selectedNavTab = '7';
         this.isEnterpriseClicked = true;
       }
@@ -108,38 +108,38 @@ export class MenuBarComponent implements OnInit {
   }
 
   onAppointment(){
-    this.router.navigateByUrl('pages/list/appointment');
+    this.router.navigateByUrl('pages/list/Corporate-Deck');
     this.selectedNavTab = '2';
     this.selectedChildNavTab = '0';
   }
 
  
   onFeedback() {
-    this.router.navigateByUrl('pages/list/feedback');
+    this.router.navigateByUrl('pages/list/Market-Updates');
     this.selectedNavTab = '3';
     this.selectedChildNavTab = '0';
   }
 
   onTickets() {
-    this.router.navigateByUrl('pages/list/tickets');
+    this.router.navigateByUrl('pages/list/Product-Information');
     this.selectedNavTab = '4';
     this.selectedChildNavTab = '0';
   }
 
   onMilestone() {
-    this.router.navigateByUrl('pages/list/milestone');
+    this.router.navigateByUrl('pages/list/Digital-Factsheet');
     this.selectedNavTab = '5';
     this.selectedChildNavTab = '0';
   }
 
   onVisitors() {
-    this.router.navigateByUrl('pages/list/visitors');
+    this.router.navigateByUrl('pages/list/OnePager-Report');
     this.selectedNavTab = '6';
     this.selectedChildNavTab = '0';
   } 
 
   onMatrix(){
-    this.router.navigateByUrl('pages/list/activity');
+    this.router.navigateByUrl('pages/list/Product-Notes');
     this.selectedNavTab = '7';
     this.selectedChildNavTab = '0';
   }

@@ -16,27 +16,27 @@ const routes: Routes = [
     component: ManageEnterpriseComponent,
     children: [
       {
-        path: 'visitors',
+        path: 'OnePager-Report',
         component: VisitorsComponent
       },
       {
-        path: 'feedback',
+        path: 'Market-Updates',
         component: FeedbackComponent
       },
       {
-        path: 'tickets',
+        path: 'Product-Information',
         component: AllTicketsComponent
       },
       {
-        path: 'milestone',
+        path: 'Digital-Factsheet',
         component: MilestoneComponent
       },
       {
-        path: 'activity',
+        path: 'Product-Notes',
         component: ActivityComponent
       },
       {
-       path: 'appointment' ,
+       path: 'Corporate-Deck' ,
        component: AppointmentComponent
       },
       {

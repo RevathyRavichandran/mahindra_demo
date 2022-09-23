@@ -287,7 +287,81 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
         xAxis: this.xAxisType,
         nameOfCounts: this.nameOfCounts
       }
-      const response: any = await this.enterpriseApiService.getChart(params);
+      const response: any = {
+        "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "Error" : "0",
+        "ErrorCode" : "",
+        "ErrorMessage" : "",
+        "ProcessId" : "47a8532c4dc811ecb55f0022480d6e6c",
+        "ProcessInstanceId" : "764527583b1811ed98d10242ac110002",
+        "ProcessName" : "VPS Healthcare Chart API",
+        "ProcessVariables" : {
+           "count2" : "29",
+           "domain" : "",
+           "errorCode" : "200",
+           "errorMessage" : "Chart",
+           "errorStatus" : "S",
+           "getGraphQuery" : "SELECT COUNT(id) AS count FROM vps_feedback WHERE is_active = 1 AND rating = '1' AND `created_at` like '2022-09-17 __:__:__' ",
+           "getGraphQuery2" : "",
+           "graphCount" : 29,
+           "graphDateList" : [
+              {
+                 "graphCount" : 19,
+                 "graphDate" : "2022-09-23"
+              },
+              {
+                 "graphCount" : 49,
+                 "graphDate" : "2022-09-22"
+              },
+              {
+                 "graphCount" : 48,
+                 "graphDate" : "2022-09-21"
+              },
+              {
+                 "graphCount" : 44,
+                 "graphDate" : "2022-09-20"
+              },
+              {
+                 "graphCount" : 46,
+                 "graphDate" : "2022-09-19"
+              },
+              {
+                 "graphCount" : 36,
+                 "graphDate" : "2022-09-18"
+              },
+              {
+                 "graphCount" : 29,
+                 "graphDate" : "2022-09-17"
+              }
+           ],
+           "graphDateListCount" : 7,
+           "graphLoop" : 7,
+           "graphLoopStop" : true,
+           "greatCount" : 0,
+           "greatQuery" : "",
+           "language" : "",
+           "nameOfCounts" : "FEEDBACK",
+           "test" : "",
+           "testValue" : "",
+           "totalAverage" : "38.00",
+           "totalCoun2" : "271",
+           "totalCount" : "",
+           "xAxis" : "1"
+        },
+        "Status" : "Execution Completed",
+        "WorkflowId" : "628dbe44d8299cd2b49dd678",
+        "currentCorrelationId" : "281475477335059",
+        "customizedLogId" : "",
+        "endedOn" : "2022-09-23T08:19:36.994414",
+        "isWaitingForEvent" : false,
+        "nodeBPMNId" : "2",
+        "processId" : "47a8532c4dc811ecb55f0022480d6e6c",
+        "processName" : "VPS Healthcare Chart API",
+        "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "repoName" : "VPS Health_v1",
+        "rootCorrelationId" : "281475477335059",
+        "startedOn" : "2022-09-23T08:19:36.785502"
+     };
       console.log('getChart', response);
 
       const appiyoError = response?.Error;
@@ -361,7 +435,124 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
         xAxis: this.xAxisType,
         nameOfCounts: this.nameOfCounts
       }
-      const response: any = await this.enterpriseApiService.getFeedbackChart(params);
+      // const response: any = await this.enterpriseApiService.getFeedbackChart(params);
+      const response: any = {
+        "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "Error" : "0",
+        "ErrorCode" : "",
+        "ErrorMessage" : "",
+        "ProcessId" : "116b2bfcdb4611ec84290022480d6e6c",
+        "ProcessInstanceId" : "b24337863b1811ed81c00242ac110002",
+        "ProcessName" : "Feedback chart API",
+        "ProcessVariables" : {
+           "aTemp" : {
+              "bad" : 1,
+              "good" : 4,
+              "graphCount" : 34,
+              "great" : 29,
+              "ok" : 0
+           },
+           "badGraphQuery" : "SELECT COUNT(id) AS count FROM vps_feedback WHERE is_active = 1 AND cast(created_at as date)='2022-09-17' and rating ='4'",
+           "count" : 7,
+           "count2" : "",
+           "domain" : "",
+           "errorCode" : "200",
+           "errorMessage" : "",
+           "errorStatus" : "",
+           "getGraphQuery" : "SELECT COUNT(id) AS count FROM vps_feedback WHERE is_active = 1 AND cast(created_at as date)='2022-09-17' and rating ='1'",
+           "getGraphQuery2" : "",
+           "goodGraphQuery" : "SELECT COUNT(id) AS count FROM vps_feedback WHERE is_active = 1 AND cast(created_at as date)='2022-09-17' and rating ='2'",
+           "graphCount" : 0,
+           "graphDateList" : [
+              {
+                 "bad" : 1,
+                 "good" : 3,
+                 "graphCount" : 19,
+                 "graphDate" : "2022-09-23",
+                 "great" : 14,
+                 "ok" : 1
+              },
+              {
+                 "bad" : 1,
+                 "good" : 23,
+                 "graphCount" : 81,
+                 "graphDate" : "2022-09-22",
+                 "great" : 49,
+                 "ok" : 8
+              },
+              {
+                 "bad" : 2,
+                 "good" : 7,
+                 "graphCount" : 64,
+                 "graphDate" : "2022-09-21",
+                 "great" : 48,
+                 "ok" : 7
+              },
+              {
+                 "bad" : 3,
+                 "good" : 10,
+                 "graphCount" : 59,
+                 "graphDate" : "2022-09-20",
+                 "great" : 44,
+                 "ok" : 2
+              },
+              {
+                 "bad" : 1,
+                 "good" : 7,
+                 "graphCount" : 57,
+                 "graphDate" : "2022-09-19",
+                 "great" : 46,
+                 "ok" : 3
+              },
+              {
+                 "bad" : 2,
+                 "good" : 9,
+                 "graphCount" : 51,
+                 "graphDate" : "2022-09-18",
+                 "great" : 36,
+                 "ok" : 4
+              },
+              {
+                 "bad" : 1,
+                 "good" : 4,
+                 "graphCount" : 34,
+                 "graphDate" : "2022-09-17",
+                 "great" : 29,
+                 "ok" : 0
+              }
+           ],
+           "graphDateListCount" : 7,
+           "graphDateListTemp" : {
+              "graphDate" : "2022-09-17"
+           },
+           "graphLoop" : 0,
+           "graphLoopStop" : false,
+           "language" : "",
+           "nameOfCounts" : "FEEDBACK",
+           "okGraphQuery" : "SELECT COUNT(id) AS count FROM vps_feedback WHERE is_active = 1 AND cast(created_at as date)='2022-09-17' and rating ='3'",
+           "sum" : 1482,
+           "test" : "",
+           "totalAverage" : "211.00",
+           "totalCount" : "",
+           "totalCount2" : "",
+           "totalGraphQuery" : "SELECT COUNT(id) AS count FROM vps_feedback WHERE is_active = 1 AND cast(created_at as date)='2022-09-17'",
+           "xAxis" : "1"
+        },
+        "Status" : "Execution Completed",
+        "WorkflowId" : "628dbe44d8299cd2b49dd678",
+        "currentCorrelationId" : "281475477335203",
+        "customizedLogId" : "",
+        "endedOn" : "2022-09-23T08:21:18.553026",
+        "isWaitingForEvent" : false,
+        "nodeBPMNId" : "4",
+        "processId" : "116b2bfcdb4611ec84290022480d6e6c",
+        "processName" : "Feedback chart API",
+        "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "repoName" : "VPS Health_v1",
+        "rootCorrelationId" : "281475477335203",
+        "startedOn" : "2022-09-23T08:21:17.436170"
+     }
+     ;
       console.log('getChart', response);
 
       const appiyoError = response?.Error;
@@ -467,7 +658,43 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
         xAxis: this.xAxisType,
         // nameOfCounts: this.nameOfCounts
       }
-      const response: any = await this.enterpriseApiService.getConversionChart(params);
+      const response: any = {
+        "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "Error" : "0",
+        "ErrorCode" : "",
+        "ErrorMessage" : "",
+        "ProcessId" : "186630e867a411ecb8da0022480d6e6c",
+        "ProcessInstanceId" : "ed302b6a3b1811ed94f70242ac110002",
+        "ProcessName" : "VPS Healthcare Chart Appointment Conversion API",
+        "ProcessVariables" : {
+           "appointmentBookingCount" : 1513,
+           "appointmentBookingQuery" : "SELECT COUNT(id) as appointment_booking_count FROM vps_appointment_booking_report WHERE is_active = 1 AND cast(created_at as date) BETWEEN '2022-09-16' AND '2022-09-23' ",
+           "appointmentRating" : 87,
+           "countQuery" : "",
+           "endDate" : "2022-09-23",
+           "startDate" : "2022-09-16",
+           "totalCount" : 0,
+           "visitorCount" : 1728,
+           "visitorCount2" : 0,
+           "visitorQuery" : "SELECT COUNT(id) as visitor_count FROM vps_user_monitor WHERE is_active = 1 AND cast(created_at as date) BETWEEN '2022-09-16' AND '2022-09-23' ",
+           "visitorTotalQuery" : "",
+           "xAxis" : "1"
+        },
+        "Status" : "Execution Completed",
+        "WorkflowId" : "628dbe44d8299cd2b49dd678",
+        "currentCorrelationId" : "281475477335287",
+        "customizedLogId" : "",
+        "endedOn" : "2022-09-23T08:22:56.460213",
+        "isWaitingForEvent" : false,
+        "nodeBPMNId" : "5",
+        "processId" : "186630e867a411ecb8da0022480d6e6c",
+        "processName" : "VPS Healthcare Chart Appointment Conversion API",
+        "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "repoName" : "VPS Health_v1",
+        "rootCorrelationId" : "281475477335287",
+        "startedOn" : "2022-09-23T08:22:56.296623"
+     }
+     ;
       console.log('getChart', response);
 
       const Error = response?.Error;
@@ -535,7 +762,43 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   
   async getRetailerStatus() {
-    const response: any = await this.enterpriseApiService.getRetailerStatus();
+    const response: any ={
+      "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
+      "Error" : "0",
+      "ErrorCode" : "",
+      "ErrorMessage" : "",
+      "ProcessId" : "93d5b544519911ecb58f0022480d6e6c",
+      "ProcessInstanceId" : "01d4562a3b1b11edbe9e0242ac110002",
+      "ProcessName" : "VPS Count API",
+      "ProcessVariables" : {
+         "appointmentCount" : 77364,
+         "appointmentQuery" : "SELECT COUNT(id) AS appointment_count FROM vps_appointment_booking_report WHERE is_active = 1",
+         "appointmentRating" : 47,
+         "ccDate" : "",
+         "errorCode" : "200",
+         "errorMessage" : "Count Response",
+         "errorStatus" : "S",
+         "feedbackCount" : 29284,
+         "liveAgentCount" : 37785,
+         "test1" : "",
+         "totalAppointment" : 77364,
+         "totalVisitor" : 164223,
+         "visitorQuery" : "SELECT COUNT(id) AS visitor_count FROM vps_user_monitor WHERE is_active = 1"
+      },
+      "Status" : "Execution Completed",
+      "WorkflowId" : "628dbe44d8299cd2b49dd676",
+      "currentCorrelationId" : "281475477336294",
+      "customizedLogId" : "",
+      "endedOn" : "2022-09-23T08:37:50.093934",
+      "isWaitingForEvent" : false,
+      "nodeBPMNId" : "2",
+      "processId" : "93d5b544519911ecb58f0022480d6e6c",
+      "processName" : "VPS Count API",
+      "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
+      "repoName" : "VPS Health_v1",
+      "rootCorrelationId" : "281475477336294",
+      "startedOn" : "2022-09-23T08:37:49.920538"
+   };
 
     console.log('getRetailerStatus', response);
 

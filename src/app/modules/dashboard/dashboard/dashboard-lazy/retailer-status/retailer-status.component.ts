@@ -31,7 +31,43 @@ export class RetailerStatusComponent implements OnInit {
   
 
   async getRetailerStatus() {
-    const response: any = await this.enterpriseApiService.getRetailerStatus();
+    const response: any = {
+      "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
+      "Error" : "0",
+      "ErrorCode" : "",
+      "ErrorMessage" : "",
+      "ProcessId" : "93d5b544519911ecb58f0022480d6e6c",
+      "ProcessInstanceId" : "01d4562a3b1b11edbe9e0242ac110002",
+      "ProcessName" : "VPS Count API",
+      "ProcessVariables" : {
+         "appointmentCount" : 77364,
+         "appointmentQuery" : "SELECT COUNT(id) AS appointment_count FROM vps_appointment_booking_report WHERE is_active = 1",
+         "appointmentRating" : 47,
+         "ccDate" : "",
+         "errorCode" : "200",
+         "errorMessage" : "Count Response",
+         "errorStatus" : "S",
+         "feedbackCount" : 29284,
+         "liveAgentCount" : 37785,
+         "test1" : "",
+         "totalAppointment" : 77364,
+         "totalVisitor" : 164223,
+         "visitorQuery" : "SELECT COUNT(id) AS visitor_count FROM vps_user_monitor WHERE is_active = 1"
+      },
+      "Status" : "Execution Completed",
+      "WorkflowId" : "628dbe44d8299cd2b49dd676",
+      "currentCorrelationId" : "281475477336294",
+      "customizedLogId" : "",
+      "endedOn" : "2022-09-23T08:37:50.093934",
+      "isWaitingForEvent" : false,
+      "nodeBPMNId" : "2",
+      "processId" : "93d5b544519911ecb58f0022480d6e6c",
+      "processName" : "VPS Count API",
+      "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
+      "repoName" : "VPS Health_v1",
+      "rootCorrelationId" : "281475477336294",
+      "startedOn" : "2022-09-23T08:37:49.920538"
+   };
 
     console.log('getRetailerStatus', response);
 

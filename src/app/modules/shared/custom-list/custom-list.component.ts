@@ -132,6 +132,140 @@ export class CustomListComponent implements OnInit, OnChanges {
         // 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
     };
+    this.searchForm.get("info").valueChanges.subscribe(x => {
+      console.log('firstname value changed')
+      if(x=='One Pager') {
+        this.formDetails[2].list= [
+          {
+            key: 'Equity',
+            value: 'Equity'
+          },
+          {
+            key: 'Hybrid',
+            value: 'Hybrid'
+          },
+          {
+            key: 'Debt',
+            value: 'Debt'
+          },
+        
+        ]
+      } else if (x=='Product Notes') {
+        this.formDetails[2].list= [
+          {
+            key: 'Equity',
+            value: 'Equity'
+          },
+          {
+            key: 'Hybrid',
+            value: 'Hybrid'
+          },
+        
+        ]
+      }
+      else if (x=='' || x==null) {
+      
+        this.searchForm.controls['info1'].setValue("");
+        this.searchForm.controls['type_prod'].setValue("");
+        this.formDetails[2].list= [];
+        this.formDetails[3].list= [];
+      }
+      
+      console.log(x, this.formDetails[2])
+   })
+   this.searchForm.get("info1").valueChanges.subscribe(x => {
+    console.log('firstname value changed')
+    if(x=='Equity') {
+      this.formDetails[3].list= [
+       
+        {
+          key: 'ELSS Kar Bachat Yojana - PDF',
+          value: 'ELSS Kar Bachat Yojana - PDF'
+        },
+        {
+          key: 'Multi Cap Badhat Yojana - PDF',
+          value: 'Multi Cap Badhat Yojana - PDF'
+        },
+        {
+            key: 'Mid Cap Unnati Yojana-PDF',
+            value: 'Mid Cap Unnati Yojana-PDF'
+          },
+          {
+            key: 'Rural and Consumption-PDF',
+            value: 'Rural and Consumption-PDF'
+          },
+          {
+            key: 'Large Cap Pragati Yojana-PDF',
+            value: 'Large Cap Pragati Yojana-PDF'
+          },
+          {
+            key: 'Top 250 Nivesh Yojanac-PDF',
+            value: 'Top 250 Nivesh Yojanac-PDF'
+          },
+          {
+            key: 'Focused Equity Yojana-PDF',
+            value: 'Focused Equity Yojana-PDF'
+          },
+          {
+            key: 'Flexi Cap Yojana-PDF',
+            value: 'Flexi Cap Yojana-PDF'
+          }
+      
+      ]
+    } 
+    else if (x=='Hybrid') {
+      this.formDetails[3].list= [
+        {
+                key: 'Balancing benefit yojana',
+                value: 'Balancing benefit yojana'
+              },
+              {
+                key: 'Equity Nivesh Yojana',
+                value: 'Equity Nivesh Yojana'
+              },
+              {
+                key: 'Arbitrage Yojana',
+                value: 'Arbitrage Yojana'
+              },
+              {
+                key: 'Balancing benefit yojana',
+                value: 'Balancing benefit yojana'
+              },
+      
+      ]
+    }
+    else if (x=='Debt') {
+      this.formDetails[3].list= [
+        {
+                key: 'Liquid Fund',
+                value: 'Liquid Fund'
+              },
+              {
+                key: 'Low Duration Fund',
+                value: 'Low Duration Fund'
+              },
+              {
+                key: 'Dynamic Bond Yojana',
+                value: 'Dynamic Bond Yojana'
+              },
+              {
+                key: 'Ultra Short Term Fund',
+                value: 'Ultra Short Term Fund'
+              },
+              {
+                key: 'Short Term Fund',
+                value: 'Short Term Fund'
+              },
+      
+      ]
+    }
+    else if (x=='' || x==null) {
+      this.searchForm.controls['type_prod'].setValue("");
+      this.formDetails[3].list= [];
+    }
+    
+    console.log(x, this.formDetails[3])
+ })
   }
 
   ngOnChanges() {

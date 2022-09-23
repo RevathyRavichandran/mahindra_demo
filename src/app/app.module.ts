@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 // import { MenuBarComponent } from '@shared/menu-bar/menu-bar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import  { AuthInterceptorService } from './services/auth-interceptor.service';
+import  { ApiInterceptor } from './services/auth-interceptor.service';
 
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -62,7 +62,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
+      useClass: ApiInterceptor,
       multi: true
     },
     {provide: LocationStrategy, useClass: HashLocationStrategy},
