@@ -47,7 +47,7 @@ export class MenuBarComponent implements OnInit {
         this.isEnterpriseClicked = true;
       }
       else if (location.includes('Product-Information')) {
-        this.selectedNavTab = '4';
+        this.selectedNavTab = '8';
         this.isEnterpriseClicked = true;
       }
       else if (location.includes('Digital-Factsheet')) {
@@ -55,10 +55,14 @@ export class MenuBarComponent implements OnInit {
         this.isEnterpriseClicked = true;
       }
       else if(location.includes('OnePager-Report')){
-        this.selectedNavTab = '6';
+        this.selectedNavTab = '4';
         this.isEnterpriseClicked = true;
       }
       else if (location.includes('Product-Notes')) {
+        this.selectedNavTab = '6';
+        this.isEnterpriseClicked = true;
+      }
+      else if (location.includes('region')) {
         this.selectedNavTab = '7';
         this.isEnterpriseClicked = true;
       }
@@ -81,7 +85,7 @@ export class MenuBarComponent implements OnInit {
         this.isEnterpriseClicked = true;
       }
       else if (location.includes('Product-Information')) {
-        this.selectedNavTab = '4';
+        this.selectedNavTab = '8';
         this.isEnterpriseClicked = true;
       }
       else if (location.includes('Digital-Factsheet')) {
@@ -89,10 +93,14 @@ export class MenuBarComponent implements OnInit {
         this.isEnterpriseClicked = true;
       }
       else if(location.includes('OnePager-Report')){
-        this.selectedNavTab = '6';
+        this.selectedNavTab = '4';
         this.isEnterpriseClicked = true;
       }
       else if(location.includes('Product-Notes')){
+        this.selectedNavTab = '6';
+        this.isEnterpriseClicked = true;
+      }
+      else if(location.includes('region')){
         this.selectedNavTab = '7';
         this.isEnterpriseClicked = true;
       }
@@ -122,7 +130,7 @@ export class MenuBarComponent implements OnInit {
 
   onTickets() {
     this.router.navigateByUrl('pages/list/Product-Information');
-    this.selectedNavTab = '4';
+    this.selectedNavTab = '8';
     this.selectedChildNavTab = '0';
   }
 
@@ -134,12 +142,18 @@ export class MenuBarComponent implements OnInit {
 
   onVisitors() {
     this.router.navigateByUrl('pages/list/OnePager-Report');
+    this.selectedNavTab = '4';
+    this.selectedChildNavTab = '0';
+  } 
+
+  onVisitors1() {
+    this.router.navigateByUrl('pages/list/Product-Notes');
     this.selectedNavTab = '6';
     this.selectedChildNavTab = '0';
   } 
 
   onMatrix(){
-    this.router.navigateByUrl('pages/list/Product-Notes');
+    this.router.navigateByUrl('pages/list/metrix/region');
     this.selectedNavTab = '7';
     this.selectedChildNavTab = '0';
   }

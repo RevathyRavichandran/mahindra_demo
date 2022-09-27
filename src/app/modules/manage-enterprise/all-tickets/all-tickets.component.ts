@@ -14,6 +14,9 @@ export class AllTicketsComponent implements OnInit {
   page: number = 1;
   itemsPerPage: number = 8;
   totalCount: number;
+
+  arnList: any = [];
+  fileList: any = [];
   
   searchFromDate: any = '';
   searchToDate: any = '';
@@ -26,49 +29,39 @@ export class AllTicketsComponent implements OnInit {
     formDetails: [
       {
         label: 'ARN Number',
-        controlName: 'arn',
+        controlName: 'arn_number',
         type: 'select',
-        list:[
-          {
-            key: 'Corporate_Deck',
-            value: 'Corporate_Deck'
-          },
-          {
-            key: 'arn-909090',
-            value: 'arn-909090'
-          }
-        ]
+        list:this.arnList
       },
       {
         label: 'Product Information',
-        controlName: 'info',
+        controlName: 'folderName',
         type: 'select',
         list:[
           {
-            key: 'Product Deck',
-            value: 'Product Deck '
-          },
-          {
-            key: 'Monthly Factsheet',
-            value: 'Monthly Factsheet'
-          },
+            "key" : "Product_Deck",
+            "value" : "Product Deck"
+         },
+         {
+            "key" : "Factsheet",
+            "value" : "Monthly Factsheet"
+         },
+         {
+            "key" : "One_Pagers",
+            "value" : "One Pagers"
+         },
+         {
+            "key" : "Product_Notes",
+            "value" : "Product Notes"
+         }
        
         ]
       },
       {
         label: 'File Name',
-        controlName: 'file',
+        controlName: 'url',
         type: 'select',
-        list:[
-          {
-            key: 'MMMF_Product_July_2022.pdf',
-            value: 'MMMF_Product_July_2022.pdf'
-          },
-          {
-            key: 'MMMF_Flexi_cap_July_2022.pdf',
-            value: 'MMMF_Flexi_cap_July_2022.pdf'
-          }
-        ]
+        list:this.fileList
       },
      
       // {
@@ -80,7 +73,7 @@ export class AllTicketsComponent implements OnInit {
       //   ]
       // },
     ],
-    header: ['SNo', "Created Date", 'Mobile Number', "Profile Name","ARN Number", "Product Info","File Name","File Download"], // table headers
+    header: ['SNo', "Date and Time", 'Mobile Number', "Profile Name","ARN Number", "Product Info","File Name"], // table headers
   }
 
   customListDatas= {}
@@ -95,7 +88,16 @@ export class AllTicketsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    var payload = {ProcessVariables:{}}
     this.getLiveAgentData()
+    this.enterpriseService.arnlist(payload).subscribe(res=>{
+      this.arnList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.arnList;
+    }) 
+    this.enterpriseService.filelist(payload).subscribe(res=>{
+      this.fileList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[2].list=this.fileList;
+    }) 
   }
 
   async getLiveAgentData(searchData?) {
@@ -108,7 +110,8 @@ export class AllTicketsComponent implements OnInit {
     }
 
     console.log('params', params);
-    this.enterpriseService.productList(params).subscribe(visitors => {
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.productList(payload).subscribe(visitors => {
       console.log('Visitors', visitors)
 
       const appiyoError = visitors?.Error;
@@ -122,12 +125,12 @@ export class AllTicketsComponent implements OnInit {
       this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = 80000;
-      this.totalRecords = processVariables?.count;
+      this.totalRecords = processVariables?.totalCount;
       this.allTickets = processVariables.output_data;
 
-      for(var i=0; i<processVariables.output_data.length; i++) {
-        this.allTickets[i].SNo=i+1;
-        this.allTickets[i].file_download='Yes';
+      for(var i=0; i<processVariables.output_data?.length; i++) {
+        this.allTickets[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
+        this.allTickets[i].created_at=this.allTickets[i].created_at.split(' ').join(' and ');
       }
      
       this.customListDatas = {
@@ -136,12 +139,14 @@ export class AllTicketsComponent implements OnInit {
         totalCount: this.totalCount,
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
-        productInfoCount:18,   //api needed
-        productdeckCount:10,  //api needed
-        productMonthlycount:8,   //api needed
+        productInfoCount:processVariables['productInfoUserCount'],   //api needed
+        productdeckCount:processVariables['output_data1'][2]?.count,  //api needed
+        productMonthlycount:processVariables['output_data1'][0]?.count,
+        productOnePagercount:processVariables['output_data1'][1]?.count,  //api needed
+        productrPoductnotescount:processVariables['output_data1'][3]?.count,   //api needed
         data: this.allTickets,
         appointment : true,
-        keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number','folder_name',"url",'file_download'],
+        keys: ['SNo', "created_at", 'mobile_number','profile_name','arn_number','folder_name',"url"],
       }
 
     } else {
@@ -153,16 +158,7 @@ export class AllTicketsComponent implements OnInit {
 
   async onDownloadCsv(event) {
     var params;
-    if (!event.fromDate && !event.toDate) {
-      params = {
-        fromDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().format("YYYY-MM-DD"),
-        // isApplyFilter: false,
-        isCSVDownload: true,
-        ...event
-      }
-    }
-    else {
+    
       params = {
 
         // isApplyFilter: false,
@@ -170,11 +166,11 @@ export class AllTicketsComponent implements OnInit {
         ...event
       }
      
-    }
+    
 
     console.log('params', params);
-
-    this.enterpriseService.productCSV(params).subscribe(visitors => {
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.productCSV(payload).subscribe(visitors => {
       console.log('Visitors', visitors)
 
     const appiyoError = visitors?.Error;

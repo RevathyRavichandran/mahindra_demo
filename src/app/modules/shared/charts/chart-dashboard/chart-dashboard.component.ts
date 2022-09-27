@@ -84,15 +84,7 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
   bgColor: string[];
   label: string;
 
-  values = [
-    'Line chart',
-    'Pie chart',
-    'Bar chart',
-    'Stacked bar chart'
-  ];
 
-  selectedOption: any;
-  
   constructor(
     private enterpriseApiService: EnterpriseApiService,
     private toasterService: ToasterService, 
@@ -103,7 +95,6 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   
   ngOnInit(): void {
-    this.selectedOption = 'Line chart';
     this.onBookAppointMent();
     this.getRetailerStatus();
   }
@@ -111,18 +102,6 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.animateCount();
-  }
-
-  chartChange() {
-    if(this.selectedOption == 'Pie chart') {
-      this.onConversion();
-    } else if(this.selectedOption == 'Line chart') {
-      this.onBookAppointMent();
-    } else if(this.selectedOption == 'Bar chart') {
-      this.onLiveAgent();
-    } else if(this.selectedOption == 'Stacked bar chart') {
-      this.onFeedback();
-    }
   }
 
   animateCount() {
@@ -204,7 +183,9 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   onBookAppointMent() {
     this.nameOfCounts = "BOOK_APPOINTMENT"
-    this.getChartResults();
+    setTimeout(() => {
+      this.getChartResults();
+    }, 10);
     this.visitorActive = true;
     this.ticketsActive = false;
     this.feedbackActive = false;
@@ -218,11 +199,16 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
       },
     ];
     this.isShown = true;
+    
   }
 
   onLiveAgent() {
-    this.nameOfCounts = "LIVE_AGENT"
-    this.getChartResults();
+    
+    this.nameOfCounts = "LIVE_AGENT";
+    setTimeout(() => {
+      this.getChartResults();
+    }, 10);
+    
     this.visitorActive = false;
     this.ticketsActive = true;
     this.feedbackActive = false;
@@ -240,12 +226,16 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   onFeedback() {
     this.nameOfCounts = "FEEDBACK"
-    this.getFeedbackChartResults();
+    this.lineChartType = "bar";
+    setTimeout(() => {
+      this.getFeedbackChartResults();
+    }, 10);
+    
     this.visitorActive = false;
     this.ticketsActive = false;
     this.feedbackActive = true;
     this.conversionActive = false;
-    this.lineChartType = "bar";
+    
     this.lineChartColors = [
       {        
         backgroundColor:  'rgba(54, 162, 235, 0.8)'
@@ -256,7 +246,10 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
   
   onConversion(){
     this.nameOfCounts = "VISITOR"
-    this.getConversionChartResults();
+    setTimeout(() => {
+      this.getConversionChartResults();
+    }, 10);
+    
     this.visitorActive = false;
     this.ticketsActive = false;
     this.feedbackActive = false;
@@ -273,14 +266,7 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
   }
 
   async getChartResults() {
-    if (this.lineChartData[0] && this.lineChartData[1] && this.lineChartData[2] && this.lineChartData[3]) {
-      this.lineChartData[0].data = [];
-      this.lineChartData[1].data = [];
-      this.lineChartData[2].data = [];
-      this.lineChartData[3].data = [];
-    } else if (this.lineChartData[0]) {
-      this.lineChartData[0]['data'] = [];
-    }  
+    this.lineChartData.shift()
     
     try {
       const params = {
@@ -370,7 +356,7 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
       this.processVariables = response?.ProcessVariables
      
-      if (appiyoError == '0') {
+      if (appiyoError == '0' && apiErrorCode == "200") {
   
         const graphCounts = this.processVariables.graphDateList;
         const year = this.processVariables.xAxis;
@@ -421,21 +407,14 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
   }
 
   async getFeedbackChartResults() {
-    if (this.lineChartData[0] && this.lineChartData[1] && this.lineChartData[2] && this.lineChartData[3]) {
-      this.lineChartData[0].data = [];
-      this.lineChartData[1].data = [];
-      this.lineChartData[2].data = [];
-      this.lineChartData[3].data = [];
-    } else if (this.lineChartData[0]) {
-      this.lineChartData[0]['data'] = [];
-    }    
-    
+    this.lineChartData.shift()
+    this.lineChartColors.shift()
+    this.lineChartLabels.shift()
     try {
       const params = {
         xAxis: this.xAxisType,
         nameOfCounts: this.nameOfCounts
       }
-      // const response: any = await this.enterpriseApiService.getFeedbackChart(params);
       const response: any = {
         "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
         "Error" : "0",
@@ -553,7 +532,7 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
         "startedOn" : "2022-09-23T08:21:17.436170"
      }
      ;
-      console.log('getChart', response);
+     console.log('getChart', response);
 
       const appiyoError = response?.Error;
       const apiErrorCode = response.ProcessVariables?.errorCode;
@@ -763,43 +742,42 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
   
   async getRetailerStatus() {
     const response: any ={
-      "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
-      "Error" : "0",
-      "ErrorCode" : "",
-      "ErrorMessage" : "",
-      "ProcessId" : "93d5b544519911ecb58f0022480d6e6c",
-      "ProcessInstanceId" : "01d4562a3b1b11edbe9e0242ac110002",
-      "ProcessName" : "VPS Count API",
-      "ProcessVariables" : {
-         "appointmentCount" : 77364,
-         "appointmentQuery" : "SELECT COUNT(id) AS appointment_count FROM vps_appointment_booking_report WHERE is_active = 1",
-         "appointmentRating" : 47,
-         "ccDate" : "",
-         "errorCode" : "200",
-         "errorMessage" : "Count Response",
-         "errorStatus" : "S",
-         "feedbackCount" : 29284,
-         "liveAgentCount" : 37785,
-         "test1" : "",
-         "totalAppointment" : 77364,
-         "totalVisitor" : 164223,
-         "visitorQuery" : "SELECT COUNT(id) AS visitor_count FROM vps_user_monitor WHERE is_active = 1"
-      },
-      "Status" : "Execution Completed",
-      "WorkflowId" : "628dbe44d8299cd2b49dd676",
-      "currentCorrelationId" : "281475477336294",
-      "customizedLogId" : "",
-      "endedOn" : "2022-09-23T08:37:50.093934",
-      "isWaitingForEvent" : false,
-      "nodeBPMNId" : "2",
-      "processId" : "93d5b544519911ecb58f0022480d6e6c",
-      "processName" : "VPS Count API",
-      "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
-      "repoName" : "VPS Health_v1",
-      "rootCorrelationId" : "281475477336294",
-      "startedOn" : "2022-09-23T08:37:49.920538"
-   };
-
+        "ApplicationId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "Error" : "0",
+        "ErrorCode" : "",
+        "ErrorMessage" : "",
+        "ProcessId" : "93d5b544519911ecb58f0022480d6e6c",
+        "ProcessInstanceId" : "01d4562a3b1b11edbe9e0242ac110002",
+        "ProcessName" : "VPS Count API",
+        "ProcessVariables" : {
+           "appointmentCount" : 68,
+           "appointmentQuery" : "SELECT COUNT(id) AS appointment_count FROM vps_appointment_booking_report WHERE is_active = 1",
+           "appointmentRating" : 47,
+           "ccDate" : "",
+           "errorCode" : "200",
+           "errorMessage" : "Count Response",
+           "errorStatus" : "S",
+           "feedbackCount" : 39,
+           "liveAgentCount" : 30,
+           "test1" : "",
+           "totalAppointment" : 77364,
+           "totalVisitor" : 164223,
+           "visitorQuery" : "SELECT COUNT(id) AS visitor_count FROM vps_user_monitor WHERE is_active = 1"
+        },
+        "Status" : "Execution Completed",
+        "WorkflowId" : "628dbe44d8299cd2b49dd676",
+        "currentCorrelationId" : "281475477336294",
+        "customizedLogId" : "",
+        "endedOn" : "2022-09-23T08:37:50.093934",
+        "isWaitingForEvent" : false,
+        "nodeBPMNId" : "2",
+        "processId" : "93d5b544519911ecb58f0022480d6e6c",
+        "processName" : "VPS Count API",
+        "repoId" : "603dcdb6dbeb11ec84380022480d6e6c",
+        "repoName" : "VPS Health_v1",
+        "rootCorrelationId" : "281475477336294",
+        "startedOn" : "2022-09-23T08:37:49.920538"
+     };
     console.log('getRetailerStatus', response);
 
     const appiyoError = response.Error;

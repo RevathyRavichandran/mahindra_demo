@@ -1,59 +1,47 @@
-<div class="row m-0 mb-3">
+<div class="row m-0 mb-5">
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pl-3" clickColor>
-        <div class="sub-box-purple curs_pointer active" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active': visitorActive}" (click)="onBookAppointMent()" [ngStyle]="{'background-color':'#fff'}">
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.ticketCount || '0'}}</label> -->
             <!-- <animated-digit [digit]="3000" [duration]="1000"> </animated-digit> -->
-            <app-animated-digit [digit]="retailerStatus?.ticketCount" [duration]="2000"> </app-animated-digit>
-            <p class="font-white">Book Appointment</p>
-            <img src="assets/image/appointment_white_76.png" alt="">
+            <app-animated-digit [digit]="retailerStatus?.ticketCount" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
+            <p class="font-white">Corporate <br> Deck</p>
+            <img src="assets/image/{{visitorActive?'appointment_white_76':'appointment_76'}}.png" alt="">
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pl-3">
-        <div class="sub-box-purple curs_pointer active1" >
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active1': feedbackActive}" (click)="onFeedback()" [ngStyle]="{'background-color':'#fff'}">
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.feedbackCount || '0'}}</label> -->
-            <app-animated-digit [digit]="retailerStatus?.feedbackCount || '0'" [duration]="2000"> </app-animated-digit>
+            <app-animated-digit [digit]="retailerStatus?.feedbackCount || '0'" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
 
-            <p class="font-white">Feedback</p>
-            <img src="assets/image/feedback_white_76.png" alt="">
+            <p class="font-white">Market <br> Updates</p>
+            <img src="assets/image/{{feedbackActive?'feedback_white_76':'feedback_76'}}.png" alt="">
 
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pr-3">
-        <div class="sub-box-purple curs_pointer active2" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active2': ticketsActive}" (click)="onLiveAgent()" [ngStyle]="{'background-color':'#fff'}">
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.visitorCount || '0'}}</label> -->
-            <app-animated-digit [digit]="retailerStatus?.visitorCount || '0'" [duration]="2000"> </app-animated-digit>
-            <p class="font-white">Live Agent</p>
-            <img src="assets/image/live_agent_white_76.png" alt="">
+            <app-animated-digit [digit]="retailerStatus?.visitorCount || '0'" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
+            <p class="font-white">Product <br> Info</p>
+            <img src="assets/image/{{ticketsActive?'live_agent_white_76':'live_agent_76'}}.png" alt="">
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pr-3">
-        <div class="sub-box-purple curs_pointer active3" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': conversionActive}" (click)="onConversion()" [ngStyle]="{'background-color':'#fff'}">
 
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.conversionCount || '0'}}</label> -->
             <!-- <app-animated-digit [digit]="retailerStatus?.conversionCount || '0'" [duration]="3000"> </app-animated-digit> -->
             <app-animated-digit [digit]="retailerStatus?.conversionCount || '0'" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
 
 
-            <p class="font-white pr-5">Appointment <br> Conversion</p>
-            <img src="assets/image/conversion_white_76.png" alt="">
+            <p class="font-white pr-5">Digital <br> Factsheet</p>
+            <img src="assets/image/{{conversionActive?'conversion_white_76':'conversion_76'}}.png" alt="">
         </div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pr-3 mt-2">
-
-    </div>
-    <div class="col-lg-5 col-md-2 col-sm-12 col-xs-12 pr-3 mt-3 text-right">
-        <!-- <span for="username" class="blue_text">Select your chart type: </span> -->
-    </div>
-    <div class="col-lg-5 col-md-10 col-sm-12 col-xs-12 pr-3 mt-2">
-        <!-- <ng-select [virtualScroll]="true" (change)="chartChange()"
-      [(ngModel)]="selectedOption" [items]="values" bindLabel="value" bindValue="key"
-       >
-</ng-select> -->
     </div>
 </div>
 <div class="row m-0">
     <!-- <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-10 col-md-10 col-sm-12':'col-lg-9 col-md-9 col-sm-12'}} "> -->
-    <div class="col-lg-12 col-md-10 col-sm-12">
+    <div class="col-lg-10 col-md-10 col-sm-12">
         <div class="chart">
             <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
           </canvas>
@@ -61,8 +49,8 @@
     </div>
 
     <!-- <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-2 col-md-2 col-sm-12':'col-lg-3 col-md-3 col-sm-12'}} timeline"> -->
-    <!-- <div class="col-lg-2 col-md-2 col-sm-12 timeline">
-        <div class=""> -->
+    <div class="col-lg-2 col-md-2 col-sm-12 timeline">
+        <div class="">
             <!-- <div class="domain" *ngIf="isShown">
                 <h3>Domain</h3>
                 <div class=" radio">
@@ -80,15 +68,15 @@
                 </div>
             </div> -->
 
-            <!-- <div class="timline">
+            <div class="timline">
                 <h3>Timeline</h3>
                 <div class="row">
-                    <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-12':'col-lg-4'}} m-t-2">
+                    <!-- <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-12':'col-lg-4'}} m-t-2"> -->
                     <div class="col-lg-12 m-t-2">
                         <div class="content" [ngClass]="{'active': visitorActive && weekActive, 'active1': feedbackActive && weekActive,  'active2': ticketsActive && weekActive,  'active3': conversionActive && weekActive}" (click)="onWeek()">
-                            <img src="assets/image/weekly_white_76.png" alt="" srcset=""> 
+                            <!-- <img src="assets/image/weekly_white_76.png" alt="" srcset=""> -->
                             <img src="assets/image/{{weekActive?'weekly_white_76':'weekly_76'}}.png" alt="" srcset="">
-                             {{weekActive?'weekly_white_76':'weekly_76'}} 
+                            <!-- {{weekActive?'weekly_white_76':'weekly_76'}} -->
                             <h5>Week</h5>
                         </div>
                     </div>
@@ -105,6 +93,6 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
-        <!-- </div>
-    </div> -->
+            </div>
+        </div>
+    </div>

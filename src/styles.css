@@ -71,7 +71,7 @@ html {
 }
 
 .accordion .fa {
-    font-size: 20px;
+    font-size: 15px;
     padding: 5px 8px;
 }
 
@@ -95,7 +95,7 @@ html {
     /* padding: 10px 20px; */
     border-radius: 20px 0 0 20px;
     background-color: #fff;
-    color: #5399cd;
+    color: #DB1A36;
     font-size: 15px;
     font-weight: 600
 }
@@ -126,7 +126,7 @@ html {
 .sub-ul li:hover,
 .accordion-menu button:hover {
     /* background-color: #ffffff;
-    color: #5399cd; */
+    color: #DB1A36; */
     /* font-weight: 700; */
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
@@ -138,7 +138,7 @@ html {
 
 .ngx-pagination .current {
     padding: 0.1875rem 0.625rem;
-    background: #5399cd !important;
+    background: #DB1A36 !important;
     color: #fefefe;
     cursor: default;
     font-weight: bold;
@@ -192,7 +192,7 @@ html {
 
 a {
     text-decoration: none!important;
-    color: #5399cd!important;
+    color: #DB1A36!important;
 }
 
 #menu-toggle {
@@ -258,8 +258,8 @@ input::placeholder {
 }
 
 .btn-pri {
-    background-color: #1372b9;
-    border: 1px solid #1372b9;
+    background-color: #DB1A36;
+    border: 1px solid #DB1A36;
     color: black;
     padding: 3px 10px;
     cursor: pointer;
@@ -395,7 +395,7 @@ textarea {
     border: 1px solid #848DDB;
     background-color: #fff;
     border: 1px solid #848DDB;
-    color: #1372b9;
+    color: #DB1A36;
     padding: 3px 10px;
     cursor: pointer;
     border-radius: 10px;
@@ -444,7 +444,7 @@ textarea {
 }
 
 .btn-sec:hover {
-    color: #1372b9;
+    color: #DB1A36;
 }
 
 .btn-nrm:hover {
@@ -677,7 +677,7 @@ textarea {
 .table_head tr,
 .table_head tr th {
     background-color: #f7f8ff;
-    color: #5399cd;
+    color: #DB1A36;
     font-size: 12px!important;
     font-weight: 600 !important;
 }
@@ -799,12 +799,12 @@ body {
 @media only screen and (min-width: 1200px) {
     .sub-ul li.active,
     .accordion-menu button.active {
-        font-size: 18px;
+        font-size: 14px;
     }
     .accordion {
-        font-size: 18px;
+        font-size: 14px;
     }
     .accordion:hover {
-        font-size: 20px;
+        font-size: 16px;
     }
 }

@@ -85,7 +85,14 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
   
     let getLoginData;
     try {
-      getLoginData = await this.loginService.getLoginCredentials(data);
+      getLoginData = {
+        aid: 1024,
+        lastLoggedInDateTime: "2022-09-26T04:18:43",
+        roleType: 2,
+        status: true,
+        token: "6BKlTq9itdyiS1kUlRmwVjtSnGTqZkjbah7xW04vIgwfXZJCEMLuKFgxM9RtZPcl",
+        zid: 98
+      }
       console.log('getLoginData', getLoginData)
       if (getLoginData['token']) {
         localStorage.setItem('token', getLoginData['token']);

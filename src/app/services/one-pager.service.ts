@@ -6,11 +6,11 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class MarketUpdateService {
+export class OnePagerService {
 //   private dbUrl = 'https://compute.twixor.digital/d/project/twixor_multisurvey/api/';
 
-  marketList(config: any): Observable<any> {
-    const url = `${environment.baseURL}Market_updates_pagination`;
+  onepagerList(config: any): Observable<any> {
+    const url = `${environment.baseURL}Onepager_pagination`;
     console.log('url--->', config)
 return this.http.post<any>(
         url,
@@ -18,8 +18,8 @@ return this.http.post<any>(
     );
   }
 
-  marketCSV(config: any): Observable<any> {
-    const url = `${environment.baseURL}Market_updates_Report`;
+  onepagerCSV(config: any): Observable<any> {
+    const url = `${environment.baseURL}Onepager_Report`;
     return this.http.post<any>(
         url,
         config
@@ -27,7 +27,7 @@ return this.http.post<any>(
   }
 
   arnlist(config: any): Observable<any> {
-    const url = `${environment.baseURL}Market_ARN`;
+    const url = `${environment.baseURL}ARN_One_Page`;
     console.log('url--->', config)
 return this.http.post<any>(
         url,
@@ -36,7 +36,7 @@ return this.http.post<any>(
   }
 
   filelist(config: any): Observable<any> {
-    const url = `${environment.baseURL}Market_File`;
+    const url = `${environment.baseURL}Onepage_File`;
     return this.http.post<any>(
         url,
         config

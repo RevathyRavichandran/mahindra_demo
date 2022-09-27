@@ -597,7 +597,11 @@ body { font-family: sans-serif;}  */
 }
 
 .form-control {
-    height: 25px;
+    height: 28px;
+}
+
+.text-size {
+    font-size: 12px;
 }
 
 .form-control::placeholder {

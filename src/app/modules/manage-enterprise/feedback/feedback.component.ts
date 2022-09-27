@@ -24,6 +24,9 @@ export class FeedbackComponent implements OnInit {
   feedbackList: any;
   searchDatas: any;
   
+  arnList: any = [];
+  fileList: any = [];
+
   attachments: any;
   totalRecords: any;
   initValues = {
@@ -31,72 +34,50 @@ export class FeedbackComponent implements OnInit {
     formDetails: [
       {
         label: 'ARN Number',
-        controlName: 'arn',
+        controlName: 'arn_number',
         type: 'select',
-        list:[
-          {
-            key: 'arn-345678909876543',
-            value: 'arn-345678909876543'
-          },
-          {
-            key: 'arn-909090',
-            value: 'arn-909090'
-          }
-        ]
+        list:this.arnList
       },
       {
         label: 'Market Updates',
-        controlName: 'mu',
+        controlName: 'folderName',
         type: 'select',
         list:[
           {
-            key: 'Aaj ka Bazaar',
-            value: 'Aaj ka Bazaar'
+             "key" : "Aaj_Ka_Bazar",
+             "value" : "Aaj Ka Bazar"
           },
           {
-            key: 'Fund manager videos',
-            value: 'Fund manager videos'
+             "key" : "Fund_Manager_Videos",
+             "value" : "Fund Manager Videos"
           },
           {
-            key: 'Monthly market snapshot',
-            value: 'Monthly market snapshot'
+             "key" : "Weekly_Snapshot",
+             "value" : "Weekly Snapshot"
           },
           {
-            key: 'Monthly samvaad',
-            value: 'Monthly samvaad'
+             "key" : "Weekly_Debt_Market",
+             "value" : "Weekly Debt Market"
           },
           {
-            key: 'Debt market update',
-            value: 'Debt market update'
+             "key" : "Monthly_Snapshot",
+             "value" : "Monthly Snapshot"
           },
           {
-            key: 'Weekly market snapshot',
-            value: 'Weekly market snapshot'
-          },
-          {
-            key: 'Market update video',
-            value: 'Market update video'
+             "key" : "Monthy_Samvaad",
+             "value" : "Monthy Samvaad"
           }
-        ]
+       ]
       },
       {
         label: 'File Name',
-        controlName: 'file',
+        controlName: 'url',
         type: 'select',
-        list:[
-          {
-            key: 'MMMF_Flexi_cap_July_2022.pdf',
-            value: 'MMMF_Flexi_cap_July_2022.pdf'
-          },
-          {
-            key: 'MMMF_Product_July_2022.pdf',
-            value: 'MMMF_Product_July_2022.pdf'
-          }
-        ]
+        list:this.fileList
       },
    
     ],
-    header: ['SNo', "Created Date","Mobile Number","Profile Name","ARN Number","Market Updates","File Name","File Download"], 
+    header: ['SNo', "Date and Time","Mobile Number","Profile Name","ARN Number","Market Updates","File Name"], 
   }
 
   customListDatas = {};
@@ -115,8 +96,16 @@ export class FeedbackComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    var payload = {ProcessVariables:{} }
     this.getFeedBackList()
+    this.enterpriseService.arnlist(payload).subscribe(res=>{
+      this.arnList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.arnList;
+    }) 
+    this.enterpriseService.filelist(payload).subscribe(res=>{
+      this.fileList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[2].list=this.fileList;
+    }) 
   }
 
   async getFeedBackList(searchData?) {
@@ -129,7 +118,8 @@ export class FeedbackComponent implements OnInit {
     }
 
     console.log('params', params);
-    this.enterpriseService.marketList(params).subscribe(visitors => {
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.marketList(payload).subscribe(visitors => {
       console.log('Visitors', visitors)
 
       const appiyoError = visitors?.Error;
@@ -143,12 +133,12 @@ export class FeedbackComponent implements OnInit {
       this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = 80000;
-      this.totalRecords = processVariables?.count;
+      this.totalRecords = processVariables?.totalCount;
       this.feedbackList = processVariables.output_data;
 
-      for(var i=0; i<processVariables.output_data.length; i++) {
-        this.feedbackList[i].SNo=i+1;
-        this.feedbackList[i].file_download='Yes';
+      for(var i=0; i<processVariables.output_data?.length; i++) {
+        this.feedbackList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
+        this.feedbackList[i].created_at=this.feedbackList[i].created_at.split(' ').join(' and ');
       }
      
       this.customListDatas = {
@@ -157,10 +147,10 @@ export class FeedbackComponent implements OnInit {
         totalCount: this.totalCount,
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
-        marketUpdateCount : 5, //api needed
+        marketUpdateCount : processVariables['totalMarketUpdatsUserCount'], //api needed
         data: this.feedbackList,
         appointment : true,
-        keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number','folder_name',"url",'file_download'],
+        keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number','folder_name',"url"],
       }
 
     } else {
@@ -172,16 +162,7 @@ export class FeedbackComponent implements OnInit {
 
   async onDownloadCsv(event) {
     var params;
-    if (!event.fromDate && !event.toDate) {
-      params = {
-        fromDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().format("YYYY-MM-DD"),
-        // isApplyFilter: false,
-        isCSVDownload: true,
-        ...event
-      }
-    }
-    else {
+    
       params = {
 
         // isApplyFilter: false,
@@ -189,11 +170,10 @@ export class FeedbackComponent implements OnInit {
         ...event
       }
      
-    }
 
     console.log('params', params);
-
-    this.enterpriseService.marketCSV(params).subscribe(visitors => {
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.marketCSV(payload).subscribe(visitors => {
       console.log('Visitors', visitors)
 
     const appiyoError = visitors?.Error;

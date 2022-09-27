@@ -13,6 +13,9 @@ import { DaterangepickerComponent } from 'ng2-daterangepicker';
 })
 export class CustomListComponent implements OnInit, OnChanges {
 
+  pageSize = 8;
+  pageSizes = [3, 5, 8, 10, 15, 20, 25, 30];
+
   searchForm: FormGroup
   searchFromDate: any = '';
   searchToDate: any = '';
@@ -47,7 +50,15 @@ export class CustomListComponent implements OnInit, OnChanges {
   productInfo: any;
   productDeck: any;
   monthlyFactsheet: any;
+  total_product_info_user_count: any;
   onePager: any;
+  total_product_notes_user_count: any;
+  total_equity_user_count: any;
+  total_hybrid_user_count: any;
+  total_debt_user_count: any;
+  total_digital_user_count: any;
+  productOnePagercount: any;
+  productrPoductnotescount: any;
 
   @Input() set initValues(value: any) {
     console.log('value', value)
@@ -101,6 +112,8 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.dataArr = value?.data;
     this.feedBackValue = value?.feedbackValue;
     this.agentValue = value?.agentValue;
+    this.productOnePagercount = value?.productOnePagercount;
+    this.productrPoductnotescount = value?.productrPoductnotescount;
     
 
     // this for user counts
@@ -111,6 +124,12 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.productDeck = value?.productdeckCount;
     this.monthlyFactsheet = value?.productMonthlycount;
     this.onePager = value?.onePager;
+    this.total_product_info_user_count = value?.total_product_info_user_count;
+    this.total_product_notes_user_count = value?.total_product_notes_user_count;
+    this.total_equity_user_count = value?.total_equity_user_count;
+    this.total_hybrid_user_count = value?.total_hybrid_user_count;
+    this.total_debt_user_count = value?.total_debt_user_count;
+    this.total_digital_user_count=value?.digitalUser;
   }
 
   @Output() download = new EventEmitter();
@@ -151,140 +170,143 @@ export class CustomListComponent implements OnInit, OnChanges {
         // 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
     };
-    this.searchForm.get("info")?.valueChanges.subscribe(x => {
+    if(this.title == 'One Pagers' || this.title == 'Product Notes') {
+      this.searchForm.get("folderName")?.valueChanges.subscribe(x => {
+        console.log('firstname value changed')
+        if(x=='One Pagers') {
+          this.formDetails[2].list= [
+            {
+              key: 'Equity',
+              value: 'Equity'
+            },
+            {
+              key: 'Hybrid',
+              value: 'Hybrid'
+            },
+            {
+              key: 'Debt',
+              value: 'Debt'
+            },
+          
+          ]
+        } else if (x=='Product Notes') {
+          this.formDetails[2].list= [
+            {
+              key: 'Equity',
+              value: 'Equity'
+            },
+            {
+              key: 'Hybrid',
+              value: 'Hybrid'
+            },
+          
+          ]
+        }
+        else if (x=='' || x==null) {
+        
+          this.searchForm.controls['info1'].setValue("");
+          this.searchForm.controls['type_prod'].setValue("");
+          this.formDetails[2].list= [];
+          this.formDetails[3].list= [];
+        }
+        
+        console.log(x, this.formDetails[2])
+     })
+     this.searchForm.get("subFolder")?.valueChanges.subscribe(x => {
       console.log('firstname value changed')
-      if(x=='One Pager') {
+      if(x=='Equity') {
         this.formDetails[2].list= [
+         
           {
-            key: 'Equity',
-            value: 'Equity'
+            key: 'ELSS Kar Bachat Yojana - PDF',
+            value: 'ELSS Kar Bachat Yojana - PDF'
           },
           {
-            key: 'Hybrid',
-            value: 'Hybrid'
+            key: 'Multi Cap Badhat Yojana - PDF',
+            value: 'Multi Cap Badhat Yojana - PDF'
           },
           {
-            key: 'Debt',
-            value: 'Debt'
-          },
+              key: 'Mid Cap Unnati Yojana-PDF',
+              value: 'Mid Cap Unnati Yojana-PDF'
+            },
+            {
+              key: 'Rural and Consumption-PDF',
+              value: 'Rural and Consumption-PDF'
+            },
+            {
+              key: 'Large Cap Pragati Yojana-PDF',
+              value: 'Large Cap Pragati Yojana-PDF'
+            },
+            {
+              key: 'Top 250 Nivesh Yojanac-PDF',
+              value: 'Top 250 Nivesh Yojanac-PDF'
+            },
+            {
+              key: 'Focused Equity Yojana-PDF',
+              value: 'Focused Equity Yojana-PDF'
+            },
+            {
+              key: 'Flexi Cap Yojana-PDF',
+              value: 'Flexi Cap Yojana-PDF'
+            }
         
         ]
-      } else if (x=='Product Notes') {
+      } 
+      else if (x=='Hybrid') {
         this.formDetails[2].list= [
           {
-            key: 'Equity',
-            value: 'Equity'
-          },
+                  key: 'Balancing benefit yojana',
+                  value: 'Balancing benefit yojana'
+                },
+                {
+                  key: 'Equity Nivesh Yojana',
+                  value: 'Equity Nivesh Yojana'
+                },
+                {
+                  key: 'Arbitrage Yojana',
+                  value: 'Arbitrage Yojana'
+                },
+                {
+                  key: 'Balancing benefit yojana',
+                  value: 'Balancing benefit yojana'
+                },
+        
+        ]
+      }
+      else if (x=='Debt') {
+        this.formDetails[2].list= [
           {
-            key: 'Hybrid',
-            value: 'Hybrid'
-          },
+                  key: 'Liquid Fund',
+                  value: 'Liquid Fund'
+                },
+                {
+                  key: 'Low Duration Fund',
+                  value: 'Low Duration Fund'
+                },
+                {
+                  key: 'Dynamic Bond Yojana',
+                  value: 'Dynamic Bond Yojana'
+                },
+                {
+                  key: 'Ultra Short Term Fund',
+                  value: 'Ultra Short Term Fund'
+                },
+                {
+                  key: 'Short Term Fund',
+                  value: 'Short Term Fund'
+                },
         
         ]
       }
       else if (x=='' || x==null) {
-      
-        this.searchForm.controls['info1'].setValue("");
         this.searchForm.controls['type_prod'].setValue("");
-        this.formDetails[2].list= [];
         this.formDetails[3].list= [];
       }
       
-      console.log(x, this.formDetails[2])
+      console.log(x, this.formDetails[3])
    })
-   this.searchForm.get("info1")?.valueChanges.subscribe(x => {
-    console.log('firstname value changed')
-    if(x=='Equity') {
-      this.formDetails[3].list= [
-       
-        {
-          key: 'ELSS Kar Bachat Yojana - PDF',
-          value: 'ELSS Kar Bachat Yojana - PDF'
-        },
-        {
-          key: 'Multi Cap Badhat Yojana - PDF',
-          value: 'Multi Cap Badhat Yojana - PDF'
-        },
-        {
-            key: 'Mid Cap Unnati Yojana-PDF',
-            value: 'Mid Cap Unnati Yojana-PDF'
-          },
-          {
-            key: 'Rural and Consumption-PDF',
-            value: 'Rural and Consumption-PDF'
-          },
-          {
-            key: 'Large Cap Pragati Yojana-PDF',
-            value: 'Large Cap Pragati Yojana-PDF'
-          },
-          {
-            key: 'Top 250 Nivesh Yojanac-PDF',
-            value: 'Top 250 Nivesh Yojanac-PDF'
-          },
-          {
-            key: 'Focused Equity Yojana-PDF',
-            value: 'Focused Equity Yojana-PDF'
-          },
-          {
-            key: 'Flexi Cap Yojana-PDF',
-            value: 'Flexi Cap Yojana-PDF'
-          }
-      
-      ]
-    } 
-    else if (x=='Hybrid') {
-      this.formDetails[3].list= [
-        {
-                key: 'Balancing benefit yojana',
-                value: 'Balancing benefit yojana'
-              },
-              {
-                key: 'Equity Nivesh Yojana',
-                value: 'Equity Nivesh Yojana'
-              },
-              {
-                key: 'Arbitrage Yojana',
-                value: 'Arbitrage Yojana'
-              },
-              {
-                key: 'Balancing benefit yojana',
-                value: 'Balancing benefit yojana'
-              },
-      
-      ]
-    }
-    else if (x=='Debt') {
-      this.formDetails[3].list= [
-        {
-                key: 'Liquid Fund',
-                value: 'Liquid Fund'
-              },
-              {
-                key: 'Low Duration Fund',
-                value: 'Low Duration Fund'
-              },
-              {
-                key: 'Dynamic Bond Yojana',
-                value: 'Dynamic Bond Yojana'
-              },
-              {
-                key: 'Ultra Short Term Fund',
-                value: 'Ultra Short Term Fund'
-              },
-              {
-                key: 'Short Term Fund',
-                value: 'Short Term Fund'
-              },
-      
-      ]
-    }
-    else if (x=='' || x==null) {
-      this.searchForm.controls['type_prod'].setValue("");
-      this.formDetails[3].list= [];
     }
     
-    console.log(x, this.formDetails[3])
- })
   }
 
   ngOnChanges() {
@@ -349,7 +371,12 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.applyAndClear.emit(filterClearedDatas)
   }
 
+  handlePageSizeChange(event) {
+    console.log('test', event)
+    this.apply();
+  }
   apply() {
+    console.log('test apply')
     const formValue = this.searchForm.getRawValue();
     const isHaveValues = Object.keys(formValue).some((key) => {
       return (!!(formValue[key]) || !!this.dateRangeValue)
@@ -361,9 +388,10 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.isApplyClicked = true;
 
     this.searchDatas = {
-      fromDate: this.searchFromDate,
-      toDate: this.searchToDate,
+      from_date: this.searchFromDate,
+      to_date: this.searchToDate,
       isApplyFilter: true,
+      per_page: this.pageSize,
       ...formValue,
     }
 
@@ -382,7 +410,8 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.page = Number(event);
     const paginationDatas = {
       searchDatas: this.searchDatas,
-      pageIndex: this.page
+      pageIndex: this.page,
+      per_page: this.pageSize
     }
     this.pagination.emit(paginationDatas)
 

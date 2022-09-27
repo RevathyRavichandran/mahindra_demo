@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { EnterpriseApiService } from '@services/enterprise-api.service'
+import { DigitalService } from '@services/digital.service'
 import { ToasterService } from '@services/toaster.service';
 import { DatePipe } from '@angular/common'
 import { FormGroup, FormControl } from '@angular/forms';
@@ -18,6 +18,9 @@ export class MilestoneComponent implements OnInit {
   page: number = 1;
   itemsPerPage: number = 8;
   totalCount: number;
+
+  arnList: any = [];
+  fileList: any = [];
   
   searchFromDate: any;
   searchToDate: any;
@@ -32,55 +35,25 @@ export class MilestoneComponent implements OnInit {
     formDetails: [
       {
       label: 'ARN Number',
-      controlName: 'arn',
+      controlName: 'arn_number',
       type: 'select',
-      list:[
-        {
-          key: 'arn-345678909876543',
-          value: 'arn-345678909876543'
-        },
-        {
-          key: 'arn-909090',
-          value: 'arn-909090'
-        }
-      ]
+      list:this.arnList
     },
       {
-        label: 'URL',
-        controlName: 'mu',
+        label: 'File Name',
+        controlName: 'url',
         type: 'select',
-        list:[
-          {
-            key: 'MMMF_Product_Deck_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf',
-            value: 'MMMF_Product_Deck_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf'
-          }
-        ]
+        list:this.fileList
       },
-      // {
-      //   label: 'One Pager',
-      //   controlName: 'one',
-      //   type: 'select',
-      //   list:[
-         
-      //   ]
-      // },
-      // {
-      //   label: 'Digital Factsheet',
-      //   controlName: 'one',
-      //   type: 'select',
-      //   list:[
-         
-      //   ]
-      // },
     ],
     // header: ['SNo', "Created Date", 'Mobile Number', "URL",  "One Pager", "Digital Factsheet"]
-    header: ['SNo', "Created Date", "Mobile Number","Profile Name", 'ARN Number',"File Name","File Download"], 
+    header: ['SNo', "Date and Time", "Mobile Number","Profile Name", 'ARN Number',"File Name"], 
   }
   customListDatas= {};
   
 
   constructor(
-    private enterpriseService: EnterpriseApiService, 
+    private enterpriseService: DigitalService, 
     private toasterService: ToasterService, 
     private datePipe: DatePipe,
     private dateService: DateRangeService,
@@ -89,315 +62,53 @@ export class MilestoneComponent implements OnInit {
 
 
   ngOnInit(): void {
+    var payload = {ProcessVariables:{}}
      this.getMilestoneList()
+     this.enterpriseService.arnlist(payload).subscribe(res=>{
+      this.arnList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.arnList;
+    }) 
+    this.enterpriseService.filelist(payload).subscribe(res=>{
+      this.fileList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[1].list=this.fileList;
+    }) 
   }
 
   async getMilestoneList(searchData?) {
 
+
     const params = {
-      currentPage: this.page || 1,
-      perPage: this.itemsPerPage || 10,
-      isApplyFilter: false,
+      current_page: this.page || 1,
+      per_page: this.itemsPerPage || 10,
+      // isApplyFilter: false,
       isCSVDownload: true,
       ...searchData
     }
 
     console.log('params', params);
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.digitalList(payload).subscribe(visitors => {
+      console.log('Visitors', visitors)
 
-    // const milestone: any = await this.enterpriseService.getMilestoneList(params);
+      const appiyoError = visitors?.Error;
+    const apiErrorCode = visitors.ProcessVariables?.errorCode;
+    const errorMessage = visitors.ProcessVariables?.errorMessage;
 
-    // console.log('Milestone', milestone)
+    if (appiyoError == '0') {
+      const processVariables = visitors['ProcessVariables']
+      this.itemsPerPage = processVariables['per_page'];
+      let totalPages = processVariables['total_pages'];
+      this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
+      // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
+      // this.corporateCount = 80000;
+      this.totalRecords = processVariables?.totalCount;
+      this.visitorsList = processVariables.output_data;
 
-    // const appiyoError = milestone?.Error;
-    // const apiErrorCode = milestone.ProcessVariables?.errorCode;
-    // const errorMessage = milestone.ProcessVariables?.errorMessage;
+      for(var i=0; i<processVariables.output_data?.length; i++) {
+        this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
+        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
+      }
     
-
-    if (params) {
-      
-      // const processVariables = milestone['ProcessVariables'];
-      // this.itemsPerPage = processVariables['perPage'];
-      // let totalPages = processVariables['totalPages'];
-      // this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
-      // this.milestoneList = [
-        
-      //   {
-      //     "SNo": "1",
-      //           "arn_number" : "arn-909090",
-      //           "created_at" : "2022-09-15T11:47:28Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "913",
-      //           "latest_product_info" : "Product_Deck | One_Pagers",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "Product_Info | Product_Info",
-      //           "mobile_number" : "+918055191660",
-      //           "one_pager" : "Equity",
-      //           "product_notes" : "-",
-      //           "profile_name" : "lalit maharshi",
-      //           "updated_at" : "2022-09-15T11:54:55Z",
-      //           "url" : "MMMF_Product_Deck_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf"
-      //        },
-      //        {
-      //     "SNo": "2",
-      //           "arn_number" : "Corporate_Deck",
-      //           "created_at" : "2022-09-15T11:23:23Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "912",
-      //           "latest_product_info" : "-",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "-",
-      //           "mobile_number" : "+919025347318",
-      //           "one_pager" : "-",
-      //           "product_notes" : "-",
-      //           "profile_name" : "-",
-      //           "updated_at" : "2022-09-15T11:32:57Z",
-      //           "url" : "-"
-      //        },
-      //        {
-      //     "SNo": "3",
-      //           "arn_number" : "-",
-      //           "created_at" : "2022-09-14T16:27:55Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "911",
-      //           "latest_product_info" : "-",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "-",
-      //           "mobile_number" : "+918226096969",
-      //           "one_pager" : "-",
-      //           "product_notes" : "-",
-      //           "profile_name" : "-",
-      //           "updated_at" : "2022-09-14T16:27:55Z",
-      //           "url" : "-"
-      //        },
-      //        {
-      //     "SNo": "4",
-      //           "arn_number" : "151515",
-      //           "created_at" : "2022-09-13T14:24:02Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "910",
-      //           "latest_product_info" : "One_Pagers",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "Product_Info",
-      //           "mobile_number" : "+919836233352",
-      //           "one_pager" : "Equity",
-      //           "product_notes" : "-",
-      //           "profile_name" : "Amit Teckchandani",
-      //           "updated_at" : "2022-09-13T14:25:27Z",
-      //           "url" : "One_Pager_MMMF_Kar_Bachat__Yojana_July_2022.pdf"
-      //        },
-      //        {
-      //     "SNo": "5",
-      //           "arn_number" : "151515",
-      //           "created_at" : "2022-09-13T14:06:40Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "909",
-      //           "latest_product_info" : "One_Pagers",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "Product_Info",
-      //           "mobile_number" : "+919836233352",
-      //           "one_pager" : "Equity",
-      //           "product_notes" : "-",
-      //           "profile_name" : "Amit Teckchandani",
-      //           "updated_at" : "2022-09-13T14:07:42Z",
-      //           "url" : "One_pager_MMMF_Unnati_Yojana_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf"
-      //        },
-      //        {
-      //     "SNo": "6",
-      //           "arn_number" : "-",
-      //           "created_at" : "2022-09-13T13:48:58Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "908",
-      //           "latest_product_info" : "-",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "-",
-      //           "mobile_number" : "+919836233352",
-      //           "one_pager" : "-",
-      //           "product_notes" : "-",
-      //           "profile_name" : "-",
-      //           "updated_at" : "2022-09-13T13:48:58Z",
-      //           "url" : "-"
-      //        },
-      //    {
-      //     "SNo": "7",
-      //           "arn_number" : "39164",
-      //           "created_at" : "2022-09-15T17:01:15Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "914",
-      //           "latest_product_info" : "-",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "-",
-      //           "mobile_number" : "+919768053120",
-      //           "one_pager" : "-",
-      //           "product_notes" : "-",
-      //           "profile_name" : "-",
-      //           "updated_at" : "2022-09-15T17:02:52Z",
-      //           "url" : "-"
-      //        },
-      //    {
-      //     "SNo": "8",
-      //           "arn_number" : "Hybrid",
-      //           "created_at" : "2022-09-16T10:22:24Z",
-      //           "digital_factsheet" : "-",
-      //           "id" : "916",
-      //           "latest_product_info" : "-",
-      //           "market_updates" : "-",
-      //           "marketing_material" : "-",
-      //           "mobile_number" : "+919833667644",
-      //           "one_pager" : "-",
-      //           "product_notes" : "-",
-      //           "profile_name" : "-",
-      //           "updated_at" : "2022-09-16T10:23:15Z",
-      //           "url" : "-"
-      //        }
-      // ];
-      this.visitorsList = [
-        
-        {
-          "SNo": "1",
-                "arn_number" : "arn-909090",
-                "created_at" : "2022-09-15T11:47:28Z",
-                "digital_factsheet" : "-",
-                "id" : "913",
-                "latest_product_info" : "Product_Deck | One_Pagers",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info | Product_Info",
-                "mobile_number" : "+918055191660",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "lalit maharshi",
-                "corporate_deck_file_name": "pdf",
-                "updated_at" : "2022-09-15T11:54:55Z",
-                "file_download":"YES/NO",
-                "url" : "Link"
-             },
-             {
-          "SNo": "2",
-                "arn_number" : "Corporate_Deck",
-                "created_at" : "2022-09-15T11:23:23Z",
-                "digital_factsheet" : "-",
-                "id" : "912",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919025347318",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "corporate_deck_file_name": "pdf",
-                "updated_at" : "2022-09-15T11:32:57Z",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-             {
-          "SNo": "3",
-                "arn_number" : "-",
-                "created_at" : "2022-09-14T16:27:55Z",
-                "digital_factsheet" : "-",
-                "id" : "911",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+918226096969",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "corporate_deck_file_name": "pdf",
-                "file_download":"YES/NO",
-                "updated_at" : "2022-09-14T16:27:55Z",
-                "url" : "Link"
-             },
-             {
-          "SNo": "4",
-                "arn_number" : "151515",
-                "created_at" : "2022-09-13T14:24:02Z",
-                "digital_factsheet" : "-",
-                "id" : "910",
-                "latest_product_info" : "One_Pagers",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "Amit Teckchandani",
-                "corporate_deck_file_name": "pdf",
-                "updated_at" : "2022-09-13T14:25:27Z",
-                "file_download":"YES/NO",
-                "url" : "Link"
-             },
-             {
-          "SNo": "5",
-                "arn_number" : "151515",
-                "created_at" : "2022-09-13T14:06:40Z",
-                "digital_factsheet" : "-",
-                "id" : "909",
-                "latest_product_info" : "One_Pagers",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "Amit Teckchandani",
-                "corporate_deck_file_name": "pdf",
-                "updated_at" : "2022-09-13T14:07:42Z",
-                "file_download":"YES/NO",
-                "url" : "Link"
-             },
-             {
-          "SNo": "6",
-                "arn_number" : "-",
-                "created_at" : "2022-09-13T13:48:58Z",
-                "digital_factsheet" : "-",
-                "id" : "908",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "corporate_deck_file_name": "pdf",
-                "file_download":"YES/NO",
-                "updated_at" : "2022-09-13T13:48:58Z",
-                "url" : "-"
-             },
-         {
-          "SNo": "7",
-                "arn_number" : "39164",
-                "created_at" : "2022-09-15T17:01:15Z",
-                "digital_factsheet" : "-",
-                "id" : "914",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919768053120",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "corporate_deck_file_name": "pdf",
-                "file_download":"YES/NO",
-                "updated_at" : "2022-09-15T17:02:52Z",
-                "url" : "Link"
-             },
-         {
-          "SNo": "8",
-                "arn_number" : "Hybrid",
-                "created_at" : "2022-09-16T10:22:24Z",
-                "digital_factsheet" : "-",
-                "id" : "916",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919833667644",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "corporate_deck_file_name": "pdf",
-                "file_download":"YES/NO",
-                "updated_at" : "2022-09-16T10:23:15Z",
-                "url" : "Link"
-             }
-      ];
-      // this.totalRecords = processVariables?.totalItems;
       
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
@@ -406,7 +117,8 @@ export class MilestoneComponent implements OnInit {
         totalRecords: this.totalRecords,
         data: this.visitorsList,
         appointment : true,
-        keys: ['SNo', "created_at", 'mobile_number', 'profile_name','arn_number','url','file_download'],
+        digitalUser: processVariables['totalDigitalFactsheetUserCount'],
+        keys: ['SNo', "created_at", 'mobile_number', 'profile_name','arn_number','url'],
         //Table header length should be equal to keys
       }
 
@@ -415,55 +127,46 @@ export class MilestoneComponent implements OnInit {
      
       // this.toasterService.showError(milestone['ProcessVariables']?.errorMessage == undefined ? 'Milestone list error' : milestone['ProcessVariables']?.errorMessage, 'Milestone')
     }
+  })
   }
 
 
   async onDownloadCsv(event) {
-
     var params;
-    if (!event.fromDate && !event.toDate) {
+    
       params = {
-        fromDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().format("YYYY-MM-DD"),
-        isApplyFilter: false,
+
+        // isApplyFilter: false,
         isCSVDownload: true,
         ...event
       }
-    }
-    else {
-      params = {
-
-        isApplyFilter: false,
-        isCSVDownload: true,
-        ...event
-      }
-      
-    }
-
-    console.log('params', params);
-
-    const milestone: any = await this.enterpriseService.milestoneCsvDownload(params);
-
-    console.log('Milestone', milestone)
-
-    const appiyoError = milestone?.Error;
-    const apiErrorCode = milestone.ProcessVariables?.errorCode;
-    const errorMessage = milestone.ProcessVariables?.errorMessage;
+     
     
 
-    if (appiyoError == '0' && apiErrorCode == "200") {
-      
-      const processVariables = milestone['ProcessVariables'];
-      this.attachments = processVariables?.attachment
+    console.log('params', params);
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.digitalCSV(payload).subscribe(visitors => {
+      console.log('Visitors', visitors)
+
+    const appiyoError = visitors?.Error;
+    const apiErrorCode = visitors.ProcessVariables?.errorCode;
+    const errorMessage = visitors.ProcessVariables?.errorMessage;
+
+    if (appiyoError == '0') {
+
+      const processVariables = visitors['ProcessVariables']
+
+      this.attachments = processVariables?.attachment;
       this.utilityService.onDownloadCsv(this.attachments);
 
-      
-    } else {
-     
-      this.toasterService.showError(milestone['ProcessVariables']?.errorMessage == undefined ? 'Milestone download error' : milestone['ProcessVariables']?.errorMessage, 'Milestone')
-    }
-  }
 
+    } else {
+      this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Download error' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
+    }
+    })
+
+   
+  }
 
 
   async pageChangeEvent(event) {

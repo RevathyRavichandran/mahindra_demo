@@ -54,7 +54,7 @@ export class AppointmentComponent implements OnInit {
         ]
       },
     ],
-    header: ['SNo', "Created Date", 'Mobile Number',"Profile Name","ARN Number", "File Name","File Download"], // table headers
+    header: ['SNo', "Date and Time", 'Mobile Number',"Profile Name","ARN Number", "File Name"], // table headers
   }
   customListDatas: {};
 
@@ -106,24 +106,24 @@ export class AppointmentComponent implements OnInit {
       this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = 80000;
-      this.totalRecords = processVariables?.count;
+      this.totalRecords = processVariables?.totalCount;
       this.visitorsList = processVariables.output_data;
 
-      for(var i=0; i<processVariables.output_data.length; i++) {
-        this.visitorsList[i].SNo=i+1;
-        this.visitorsList[i].file_download='Yes';
+      for(var i=0; i<processVariables.output_data?.length; i++) {
+        this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
+        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
       }
      
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
         totalCount: this.totalCount,
-        CorporateDeckCount:3,  //api needed
+        CorporateDeckCount: processVariables['totalCorporateDeckCount'],  //api needed
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
         data: this.visitorsList,
         appointment : true,
-        keys: ['SNo', "created_at", 'mobile_number',"profile_name", 'arn_number', "url","file_download"],  // To get the data from key
+        keys: ['SNo', "created_at", 'mobile_number',"profile_name", 'arn_number', "url"],  // To get the data from key
       }
 
     } else {
@@ -136,16 +136,7 @@ export class AppointmentComponent implements OnInit {
 
   async onDownloadCsv(event) {
     var params;
-    if (!event.fromDate && !event.toDate) {
-      params = {
-        fromDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().format("YYYY-MM-DD"),
-        // isApplyFilter: false,
-        isCSVDownload: true,
-        ...event
-      }
-    }
-    else {
+    
       params = {
 
         // isApplyFilter: false,
@@ -153,11 +144,9 @@ export class AppointmentComponent implements OnInit {
         ...event
       }
      
-    }
-
     console.log('params', params);
-
-    this.enterpriseService.corporateCSV(params).subscribe(visitors => {
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.corporateCSV(payload).subscribe(visitors => {
       console.log('Visitors', visitors)
 
     const appiyoError = visitors?.Error;

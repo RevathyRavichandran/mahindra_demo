@@ -1,7 +1,7 @@
 <div class="shadow-none" id="sidebar-wrapper">
     <div class="sidebar-heading grid-menu">
         <div class="grid-one pointer" (click)="goToDashboard()">
-            <img style="width: 180px;" src="assets/image/logo.png">
+            <img style="width: 180px;" src="assets/image/mahindra.png">
         </div>
     </div>
     <hr class="hr-style">
@@ -48,17 +48,17 @@
                 <h2 class="collapse-inner rounded mb-0">
                     <a class="collapse-item ">
                         <button (click)="open = open=='true' ? 'false' : 'true'"
-                         class="btn accordion" type="button" data-toggle="collapse" [ngClass]="{'active': selectedNavTab === '4' || selectedNavTab === '6' || selectedNavTab === '7' }"
+                         class="btn accordion" type="button" (click)="onTickets()" data-toggle="collapse" [ngClass]="{'active': selectedNavTab === '4' || selectedNavTab === '6' || selectedNavTab === '8'}"
                          data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                            <img class="side-icon" src="assets/image/Ticket icon.png">Products <i class="fa fa-plus" *ngIf="open=='false' || !open" aria-hidden="true"></i>
+                            <img class="side-icon" src="assets/image/Ticket icon.png">Products Info <i class="fa fa-plus" *ngIf="open=='false' || !open" aria-hidden="true"></i>
                             <i class="fa fa-minus" *ngIf="open=='true'" aria-hidden="true"></i>
                         </button>
                         <div style="background-color:lavender;">
-                            <button *ngIf="open=='true'" (click)="onTickets()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '4'}" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                <img class="side-icon" src="assets/image/Ticket icon.png">Product Info
+                            <button *ngIf="open=='true'" (click)="onVisitors()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '4'}" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <img class="side-icon" src="assets/image/Ticket icon.png">One Pagers
                             </button>
-                            <button *ngIf="open=='true'" (click)="onVisitors()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '6'}" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                <img class="side-icon" src="assets/image/Ticket icon.png">OnePager
+                            <button *ngIf="open=='true'" (click)="onVisitors1()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '6'}" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                <img class="side-icon" src="assets/image/Ticket icon.png">Product Notes
                             </button>
                             <!-- <button *ngIf="open=='true'" (click)="onMatrix()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '7'}" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                                 <img class="side-icon" src="assets/image/Ticket icon.png">Product Notes
@@ -119,7 +119,7 @@
                 </h2>
             </div>
             <div id="collapseSix" class="" aria-labelledby="headingOne" data-parent="#accordionExample"></div>
-        </div>
+        </div>-->
         <div class="">
             <div class="accordion-menu" id="headingOne">
                 <h2 class="collapse-inner rounded mb-0">
@@ -131,7 +131,7 @@
                 </h2>
             </div>
             <div id="collapseSeven" class="" aria-labelledby="headingOne" data-parent="#accordionExample"></div>
-        </div> -->
+        </div> 
         <div class="">
             <div class="accordion-menu" id="headingOne">
                 <h2 class="collapse-inner rounded mb-0">

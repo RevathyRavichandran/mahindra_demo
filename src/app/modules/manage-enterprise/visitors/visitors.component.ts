@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { EnterpriseApiService } from '@services/enterprise-api.service'
+import { OnePagerService } from '@services/one-pager.service'
 import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 var moment = require('moment');
@@ -17,13 +17,16 @@ export class VisitorsComponent implements OnInit {
   ticketData: any;
   showTicketModal: boolean;
 
+  arnList: any = [];
+  fileList: any = [];
+  
   visitorsList: any;
   searchDatas: any;
   attachments: any;
   totalRecords: any;
 
   initValues = {
-    title: 'OnePager Report',
+    title: 'One Pagers',
     formDetails: [
       // {
       //   label: 'Mobile Number',
@@ -32,43 +35,33 @@ export class VisitorsComponent implements OnInit {
       // },
       {
         label: 'ARN Number',
-        controlName: 'arn',
+        controlName: 'arn_number',
         type: 'select',
-        list:[
-          {
-            key: 'Corporate_Deck',
-            value: 'Corporate_Deck'
-          },
-          {
-            key: 'arn-909090',
-            value: 'arn-909090'
-          }
-        ]
+        list:this.arnList
       },
-      {
-        label: 'Product Information',
-        controlName: 'info',
-        type: 'select',
-        list:[
-          {
-            key: 'One Pager',
-            value: 'One Pager '
-          },
-          {
-            key: 'Product Notes',
-            value: 'Product Notes'
-          },
-       
-        ]
-      },
+      
       {
         // label: 'Waba Number',
         // controlName: 'waba_no',
         // type: 'input'
-        label: 'Branch',
-        controlName: 'info1',
+        label: 'Fund Type',
+        controlName: 'subFolder',
         type: 'select',
-        list:[]
+        list:[
+          {
+            key: 'Equity',
+            value: 'Equity'
+          },
+          {
+            key: 'Hybrid',
+            value: 'Hybrid'
+          },
+          {
+            key: 'Debt',
+            value: 'Debt'
+          },
+        
+        ]
         //   {
         //     key: 'Equity',
         //     value: 'Equity'
@@ -103,7 +96,7 @@ export class VisitorsComponent implements OnInit {
       //   ]
       // },
       {
-        label: 'Product Type',
+        label: 'Fund',
         controlName: 'type_prod',
         type: 'select',
         list:[]
@@ -195,18 +188,9 @@ export class VisitorsComponent implements OnInit {
       // },
       {
         label: 'File Name',
-        controlName: 'file',
+        controlName: 'url',
         type: 'select',
-        list:[
-          {
-            key: 'MMMF_Product_July_2022.pdf',
-            value: 'MMMF_Product_July_2022.pdf'
-          },
-          {
-            key: 'MMMF_Flexi_cap_July_2022.pdf',
-            value: 'MMMF_Flexi_cap_July_2022.pdf'
-          }
-        ]
+        list:this.fileList
       },
       // {
       //   label: 'Name',
@@ -214,7 +198,7 @@ export class VisitorsComponent implements OnInit {
       //   type: 'input'
       // }
     ],
-    header: ['SNo', "Created Date","Mobile Number","Profile Name","ARN Number","Product Info","Branch","Product Type","File name","File Download"], // table headers
+    header: ['SNo', "Date and Time","Mobile Number","Profile Name","ARN Number","Product Info","Branch","Product Type","File name"], // table headers
   }
   customListDatas: {};
   appointmentRating: any;
@@ -222,222 +206,57 @@ export class VisitorsComponent implements OnInit {
   totalVisitors: any;
 
   constructor(
-    private enterpriseService: EnterpriseApiService,
+    private enterpriseService: OnePagerService,
     private toasterService: ToasterService,
     private utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
+    var payload = {ProcessVariables:{} }
     this.getAppointmentConversationList()
+    this.enterpriseService.arnlist(payload).subscribe(res=>{
+      this.arnList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.arnList;
+    }) 
+    this.enterpriseService.filelist(payload).subscribe(res=>{
+      this.fileList= res.ProcessVariables.output_data;
+      this.initValues.formDetails[3].list=this.fileList;
+    }) 
   }
 
   async getAppointmentConversationList(searchData?) {
     const params = {
-      currentPage: this.page || 1,
-      perPage: this.itemsPerPage || 10,
-      isApplyFilter: false,
+      current_page: this.page || 1,
+      per_page: this.itemsPerPage || 10,
+      // isApplyFilter: false,
       isCSVDownload: true,
       ...searchData
     }
 
     console.log('params', params);
-    if (!params.fromDate && !params.toDate && !params.waba_no) {
-      params.fromDate = moment().format("YYYY-MM-DD"),
-      params.toDate = moment().format("YYYY-MM-DD")
-    }
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.onepagerList(payload).subscribe(visitors => {
+      console.log('Visitors', visitors)
 
-    // const visitors: any = await this.enterpriseService.getConversationList(params);
+      const appiyoError = visitors?.Error;
+    const apiErrorCode = visitors.ProcessVariables?.errorCode;
+    const errorMessage = visitors.ProcessVariables?.errorMessage;
 
-    // console.log('Visitors', visitors)
+    if (appiyoError == '0') {
+      const processVariables = visitors['ProcessVariables']
+      this.itemsPerPage = processVariables['per_page'];
+      let totalPages = processVariables['total_pages'];
+      this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
+      // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
+      // this.corporateCount = 80000;
+      this.totalRecords = processVariables?.totalCount;
+      this.visitorsList = processVariables.output_data;
 
-    // const appiyoError = visitors?.Error;
-    // const apiErrorCode = visitors.ProcessVariables?.errorCode;
-    // const errorMessage = visitors.ProcessVariables?.errorMessage;
-
-    // if (appiyoError == '0' && apiErrorCode == "200") {
-      if (params) {
-
-      // const processVariables = visitors['ProcessVariables']
-      // this.itemsPerPage = processVariables['perPage'];
-      // let totalPages = processVariables['totalPages'];
-      // this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
-      // this.totalRecords = processVariables?.totalItems;
-      // this.totalVisitors = processVariables?.totalCount;
-      // this.totalAppointment = processVariables?.totalAppointment;
-      // this.appointmentRating = processVariables?.appointmentRating;
-      // this.visitorsList = processVariables['appointmentConversionList'] || [];
-      this.visitorsList = [
-        
-        {
-          "SNo": "1",
-                "arn_number" : "arn-909090",
-                "created_at" : "2022-09-15T11:47:28Z",
-                "digital_factsheet" : "-",
-                "id" : "913",
-                "latest_product_info" : "Product_Deck | One_Pagers",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info | Product_Info",
-                "mobile_number" : "+918055191660",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "lalit maharshi",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-15T11:54:55Z",
-                "product_info":"onepager",
-                "product_type":"Multi Cap Badhat Yojana - PDF",
-                "branch": "Equity",
-                "file_download":"YES/NO",
-                "url" : "MMMF_Product_Deck_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf"
-             },
-             {
-          "SNo": "2",
-                "arn_number" : "Corporate_Deck",
-                "created_at" : "2022-09-15T11:23:23Z",
-                "digital_factsheet" : "-",
-                "id" : "912",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919025347318",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
-                "updated_at" : "2022-09-15T11:32:57Z",
-                "product_info":"onepager",
-                "product_type":"Large Cap Pragati Yojana-PDF",
-                "branch": "Equity",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-             {
-          "SNo": "3",
-                "arn_number" : "-",
-                "created_at" : "2022-09-14T16:27:55Z",
-                "digital_factsheet" : "-",
-                "id" : "911",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+918226096969",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-14T16:27:55Z",
-                "product_info":"onepager",
-                "product_type":"Equity Savings Yojana",
-                "branch": "Hybrid",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-             {
-          "SNo": "4",
-                "arn_number" : "151515",
-                "created_at" : "2022-09-13T14:24:02Z",
-                "digital_factsheet" : "-",
-                "id" : "910",
-                "latest_product_info" : "One_Pagers",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "Amit Teckchandani",
-                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
-                "updated_at" : "2022-09-13T14:25:27Z",
-                "product_info":"onepager",
-                "product_type":"Focused Equity Yojana-PDF",
-                "branch": "Equity",
-                "file_download":"YES/NO",
-                "url" : "One_Pager_MMMF_Kar_Bachat__Yojana_July_2022.pdf"
-             },
-             {
-          "SNo": "5",
-                "arn_number" : "151515",
-                "created_at" : "2022-09-13T14:06:40Z",
-                "digital_factsheet" : "-",
-                "id" : "909",
-                "latest_product_info" : "One_Pagers",
-                "market_updates" : "-",
-                "marketing_material" : "Product_Info",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "Equity",
-                "product_notes" : "-",
-                "profile_name" : "Amit Teckchandani",
-                "Corporate Deck_File": "MMMF_Product_July_2022.pdf",
-                "updated_at" : "2022-09-13T14:07:42Z",
-                "product_info":"onepager",
-                "product_type":"Equity Savings Yojana",
-                "branch": "Hybrid",
-                "file_download":"YES/NO",
-                "url" : "One_pager_MMMF_Unnati_Yojana_July_2022.pdf | One_pager_MMMF_Flexi_cap_July_2022.pdf"
-             },
-             {
-          "SNo": "6",
-                "arn_number" : "-",
-                "created_at" : "2022-09-13T13:48:58Z",
-                "digital_factsheet" : "-",
-                "id" : "908",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919836233352",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-13T13:48:58Z",
-                "product_info":"onepager",
-                "product_type":"Equity Savings Yojana",
-                "branch": "Hybrid",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-         {
-          "SNo": "7",
-                "arn_number" : "39164",
-                "created_at" : "2022-09-15T17:01:15Z",
-                "digital_factsheet" : "-",
-                "id" : "914",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919768053120",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-15T17:02:52Z",
-                "product_info":"onepager",
-                "product_type":"Liquid Fund",
-                "branch": "Debt",
-                "file_download":"YES/NO",
-                "url" : "-"
-             },
-         {
-          "SNo": "8",
-                "arn_number" : "arn-123456",
-                "created_at" : "2022-09-16T10:22:24Z",
-                "digital_factsheet" : "-",
-                "id" : "916",
-                "latest_product_info" : "-",
-                "market_updates" : "-",
-                "marketing_material" : "-",
-                "mobile_number" : "+919833667644",
-                "one_pager" : "-",
-                "product_notes" : "-",
-                "profile_name" : "-",
-                "Corporate Deck_File": "MMMF_Flexi_cap_July_2022.pdf",
-                "updated_at" : "2022-09-16T10:23:15Z",
-                "product_info":"onepager",
-                "product_type":"Dynamic Bond Yojana",
-                "branch": "Debt",
-                "file_download":"YES/NO",
-                "url" : "-"
-             }
-      ];
-
+      for(var i=0; i<processVariables?.output_data?.length; i++) {
+        this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
+        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
+      }
+      
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
@@ -446,53 +265,46 @@ export class VisitorsComponent implements OnInit {
         totalVisitors: this.totalVisitors,
         totalAppointment: this.totalAppointment,
         appointmentRating: this.appointmentRating,
-        onePager: 1, //api needed
+        total_equity_user_count: processVariables['output_data2'][1]?.count,
+        total_hybrid_user_count: processVariables['output_data2'][2]?.count,
+        total_debt_user_count: processVariables['output_data2'][0]?.count,
+        onePager: processVariables['output_data1'][0]?.count, //api needed
         conversion : true,
         appointment : false,
         data: this.visitorsList,
         // keys: ['SNo', "createdDate", "createdTime", 'mobileNumber', "waba_no", "isVisitorORBookedUser"],  // To get the data from key
-        keys: ['SNo', "created_at", 'mobile_number','profile_name','arn_number',  "product_info","branch","product_type","Corporate Deck_File",'file_download'],  // To get the data from key
+        keys: ['SNo', "created_at", 'mobile_number','name','arn_number',  "folder_name","subfolder","product_type","url"],  // To get the data from key
       }
 
     } else {
       // this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Appointment conversion list' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
     }
+  })
   }
 
 
   async onDownloadCsv(event) {
-
     var params;
-    if (!event.fromDate && !event.toDate) {
-      params = {
-        fromDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().format("YYYY-MM-DD"),
-        isApplyFilter: false,
-        isCSVDownload: true,
-        ...event
-      }
-    }
-    else {
+    
       params = {
 
-        isApplyFilter: false,
+        // isApplyFilter: false,
         isCSVDownload: true,
         ...event
       }
-      
-    }
+     
+    
 
     console.log('params', params);
-
-    const visitors: any = await this.enterpriseService.conversationCsvDownload(params);
-
-    console.log('Visitors', visitors)
+    var payload = {ProcessVariables:params}
+    this.enterpriseService.onepagerCSV(payload).subscribe(visitors => {
+      console.log('Visitors', visitors)
 
     const appiyoError = visitors?.Error;
     const apiErrorCode = visitors.ProcessVariables?.errorCode;
     const errorMessage = visitors.ProcessVariables?.errorMessage;
 
-    if (appiyoError == '0' && apiErrorCode == "200") {
+    if (appiyoError == '0') {
 
       const processVariables = visitors['ProcessVariables']
 
@@ -503,8 +315,10 @@ export class VisitorsComponent implements OnInit {
     } else {
       this.toasterService.showError(visitors['ProcessVariables']?.errorMessage == undefined ? 'Download error' : visitors['ProcessVariables']?.errorMessage, 'Visitors')
     }
-  }
+    })
 
+   
+  }
 
 
 

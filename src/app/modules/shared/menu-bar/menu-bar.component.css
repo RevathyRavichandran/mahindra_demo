@@ -24,7 +24,7 @@
 }
 
 .grid-menu>div {
-    padding: 10px;
+    padding: 1px;
 }
 
 .grid-one {
@@ -109,5 +109,5 @@
 }
 
 .active1 {
-    color: #0f466e;
+    color: #DB1A36;
 }

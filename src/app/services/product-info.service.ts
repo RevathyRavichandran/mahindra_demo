@@ -26,5 +26,22 @@ return this.http.post<any>(
     );
   }
 
+  arnlist(config: any): Observable<any> {
+    const url = `${environment.baseURL}ProductInfo_ARN`;
+    console.log('url--->', config)
+return this.http.post<any>(
+        url,
+        config
+    );
+  }
+
+  filelist(config: any): Observable<any> {
+    const url = `${environment.baseURL}ProductInfo_File`;
+    return this.http.post<any>(
+        url,
+        config
+    );
+  }
+
   constructor(private http: HttpClient) {}
 }
