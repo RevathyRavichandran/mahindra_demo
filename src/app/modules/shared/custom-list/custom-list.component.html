@@ -5,12 +5,12 @@
             <!-- <hr class="hr-style"> -->
             <div class="row">
                 <div class="col-12">
-                    <p class="font-blk mar-10"> {{title}} </p>
+                    <p class="font-blk mar-7 mt-2"> {{title}} </p>
                 </div>
                 <div id="demo" class="col-md-12 mt-2 mb-3 pl-3 show-hide-div">
                     <div class=" ">
                         <div class="row">
-                            <div class="form-group col-4" *ngFor="let control of formDetails">
+                            <div class="form-group col-3 mb-2" *ngFor="let control of formDetails">
                                 <ng-container *ngIf="control?.type == 'input'">
                                     <label class="show-hide-label">{{control?.label}}</label>
                                     <app-custom-input formControlName="{{control?.controlName}}" placeHolder="Enter {{control?.label}}">
@@ -24,7 +24,7 @@
                                 </ng-container>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-3 mb-2">
                                 <label class="col-lg-12 col-md-12 col-sm-12 show-hide-label" style="padding:0" for="">Select
                                     Date Range&nbsp;</label>
 
@@ -35,27 +35,27 @@
                             </div>
                         </div>
 
-                        <div class="row  mt-3">
+                        <div class="row  mt-2">
                             <div class="col-md-9 float-left">
                                 <p class="label-count label">
-                                    <span class="col-md-2 p-0 text-size" *ngIf="appointment || conversion">Total Count : {{totalRecords || '0'}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="deckCount"> Total Corporate Deck User Count : {{deckCount || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="marketUpdate"> Total Market Update User Count : {{marketUpdate || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="productInfo"> Total Product Info User Count : {{productInfo || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="productDeck"> Total Product Deck User Count : {{productDeck || 0}}</span>
-                                    <span class="col-md-4 text-size" *ngIf="monthlyFactsheet"> Total Monthly Factsheet User Count : {{monthlyFactsheet || 0}}</span>
+                                    <span class="col-md-2 p-0 text-size">Overall Count : {{totalRecords || '0'}}</span>
+                                    <span class="col-md-3 text-size"> Total Count: {{total || 0}}</span>
+                                    <!-- <span class="col-md-3 text-size" *ngIf="marketUpdate"> Total Market Update: {{marketUpdate || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="productInfo"> Total Product Info: {{productInfo || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="productDeck"> Total Product Deck: {{productDeck || 0}}</span>
+                                    <span class="col-md-4 text-size" *ngIf="monthlyFactsheet"> Total Monthly Factsheet: {{monthlyFactsheet || 0}}</span>
                                     
-                                    <span class="col-md-3 text-size" *ngIf="total_product_info_user_count"> Total Product Information User Count : {{total_product_info_user_count || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="onePager"> Total OnePager User Count : {{onePager || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="total_product_notes_user_count"> Total Product Notes User Count : {{total_product_notes_user_count || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="total_equity_user_count"> Total Equity User Count : {{total_equity_user_count || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="total_hybrid_user_count"> Total Hybrid User Count : {{total_hybrid_user_count || 0}}</span>
-                                    <span class="col-md-3 text-size" *ngIf="total_debt_user_count"> Total Debt User Count : {{total_debt_user_count || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="total_product_info_user_count"> Total Product Information: {{total_product_info_user_count || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="onePager"> Total OnePager: {{onePager || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="total_product_notes_user_count"> Total Product Notes: {{total_product_notes_user_count || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="total_equity_user_count"> Total Equity: {{total_equity_user_count || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="total_hybrid_user_count"> Total Hybrid: {{total_hybrid_user_count || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="total_debt_user_count"> Total Debt: {{total_debt_user_count || 0}}</span>
 
-                                    <span class="col-md-4 text-size" *ngIf="productOnePagercount"> Total One Pagers User Count : {{productOnePagercount || 0}}</span>
-                                    <span class="col-md-4 text-size" *ngIf="productrPoductnotescount"> Total Product Notes User Count : {{productrPoductnotescount || 0}}</span>
+                                    <span class="col-md-4 text-size" *ngIf="productOnePagercount"> Total One Pagers: {{productOnePagercount || 0}}</span>
+                                    <span class="col-md-4 text-size" *ngIf="productrPoductnotescount"> Total Product Notes: {{productrPoductnotescount || 0}}</span>
 
-                                    <span class="col-md-3 text-size" *ngIf="total_digital_user_count"> Total Digital Factsheet User Count : {{total_digital_user_count || 0}}</span>
+                                    <span class="col-md-3 text-size" *ngIf="total_digital_user_count"> Total Digital Factsheet: {{total_digital_user_count || 0}}</span> -->
                                     
                                     <!-- <span class="col-md-3" *ngIf="conversion"> Total Visitors : {{totalVisitors || 0}}</span> -->
                                     <!-- <span class="col-md-3" *ngIf="conversion"> Total Count : {{totalVisitors || 0}}</span> -->
@@ -105,13 +105,13 @@
                             <table class="main_table" [ngClass]="{'column-with-25':feedBackValue ,'agent-column': agentValue} ">
                                 <thead class="table_head">
                                     <tr>
-                                        <th *ngFor="let header of tableDetails?.header" [ngClass]="{'sno-width': header=='SNo'}">{{header | uppercase}}</th>
+                                        <th *ngFor="let header of tableDetails?.header" [ngClass]="{'sno-width': header=='S.No:', 'filename-width': header=='File Name'}">{{header | uppercase}}</th>
                                     </tr>
                                 </thead>
                                 <tbody *ngIf="dataArr?.length > 0">
                                     <tr *ngFor="let data of dataArr | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalCount }">
 
-                                        <td *ngFor="let key of tableDetails?.keys" >
+                                        <td *ngFor="let key of tableDetails?.keys" [ngClass]="{'sno': key=='SNo'}">
                                             {{data[key] || '-'}}
                                              <!-- <span *ngIf="key=='url'"><i class="fa fa-download icon"></i></span> -->
                                         </td>
@@ -135,11 +135,11 @@
                 </div>
                 <div class="col-md-3 text-right mt-14">
                     Items per Page:
-                        <select (change)="handlePageSizeChange($event)">
-                          <option *ngFor="let size of pageSizes" [ngValue]="size">
-                            {{ size }}
-                          </option>
-                        </select>
+                    <select #selectElem (change)="setNewUser(selectElem.value)">
+                        <option *ngFor="let user of lUsers" [value]="user.Name" [selected]="user.select">
+                            {{user.Name}}
+                        </option>
+                    </select>
                 </div>
                 <div class="col-md-6 text-right mt-14">
                     

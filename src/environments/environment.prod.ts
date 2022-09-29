@@ -6,11 +6,11 @@ export const environment = {
     api: 'v2/'
   },
 
-  // projectIds: {
-  //   aggregator: 'c9a6590054bd11eb88f4727d5ac274b2',
-  //   whitehatjr: '3f733ce62fe911ec8527727d5ac274b2'
-  // },
-
+  projectIds: {
+    vps: 'c9a6590054bd11eb88f4727d5ac274b2',
+    whitehatjr: '3f733ce62fe911ec8527727d5ac274b2'
+  },
+  baseURL: 'https://appiyo.karix.solutions/appiyo/d/project/Mahindra/api/',
   host:'http://178.128.125.44/appiyo/',
   encryptionType: true,
   appiyoDrive: "d/drive/upload/",

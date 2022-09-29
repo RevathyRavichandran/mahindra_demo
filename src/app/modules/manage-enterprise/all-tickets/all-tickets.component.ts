@@ -17,6 +17,8 @@ export class AllTicketsComponent implements OnInit {
 
   arnList: any = [];
   fileList: any = [];
+
+  search: any;
   
   searchFromDate: any = '';
   searchToDate: any = '';
@@ -28,7 +30,7 @@ export class AllTicketsComponent implements OnInit {
     title: 'Product Information',
     formDetails: [
       {
-        label: 'ARN Number',
+        label: 'ARN',
         controlName: 'arn_number',
         type: 'select',
         list:this.arnList
@@ -73,7 +75,7 @@ export class AllTicketsComponent implements OnInit {
       //   ]
       // },
     ],
-    header: ['SNo', "Date and Time", 'Mobile Number', "Profile Name","ARN Number", "Product Info","File Name"], // table headers
+    header: ['S.No:', "Date & Time", 'Mobile No', "Profile Name","ARN", "Product Info","File Name"], // table headers
   }
 
   customListDatas= {}
@@ -88,6 +90,7 @@ export class AllTicketsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log('values...', this.search)
     var payload = {ProcessVariables:{}}
     this.getLiveAgentData()
     this.enterpriseService.arnlist(payload).subscribe(res=>{
@@ -108,7 +111,16 @@ export class AllTicketsComponent implements OnInit {
       isCSVDownload: true,
       ...searchData
     }
-
+    console.log('foagsy', searchData)
+    if(searchData && (searchData['folderName'] != '')) {
+      var payload1 = {ProcessVariables:{
+        folder_name: searchData.folderName
+      }}
+      this.enterpriseService.filelist(payload1).subscribe(res=>{
+        this.fileList= res.ProcessVariables.output_data;
+        this.initValues.formDetails[2].list=this.fileList;
+      }) 
+    }
     console.log('params', params);
     var payload = {ProcessVariables:params}
     this.enterpriseService.productList(payload).subscribe(visitors => {
@@ -130,16 +142,17 @@ export class AllTicketsComponent implements OnInit {
 
       for(var i=0; i<processVariables.output_data?.length; i++) {
         this.allTickets[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
-        this.allTickets[i].created_at=this.allTickets[i].created_at.split(' ').join(' and ');
+        
       }
      
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
         totalCount: this.totalCount,
+        total: processVariables['count'],
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
-        productInfoCount:processVariables['productInfoUserCount'],   //api needed
+        productInfoCount:processVariables['count'],   //api needed
         productdeckCount:processVariables['output_data1'][2]?.count,  //api needed
         productMonthlycount:processVariables['output_data1'][0]?.count,
         productOnePagercount:processVariables['output_data1'][1]?.count,  //api needed

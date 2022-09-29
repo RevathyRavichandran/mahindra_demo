@@ -94,8 +94,8 @@ html {
     position: relative;
     /* padding: 10px 20px; */
     border-radius: 20px 0 0 20px;
-    background-color: #fff;
-    color: #DB1A36;
+    background-color: lavender;
+    color: black;
     font-size: 15px;
     font-weight: 600
 }
@@ -126,7 +126,7 @@ html {
 .sub-ul li:hover,
 .accordion-menu button:hover {
     /* background-color: #ffffff;
-    color: #DB1A36; */
+    color: black; */
     /* font-weight: 700; */
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
@@ -138,7 +138,7 @@ html {
 
 .ngx-pagination .current {
     padding: 0.1875rem 0.625rem;
-    background: #DB1A36 !important;
+    background: black !important;
     color: #fefefe;
     cursor: default;
     font-weight: bold;
@@ -192,7 +192,7 @@ html {
 
 a {
     text-decoration: none!important;
-    color: #DB1A36!important;
+    color: black!important;
 }
 
 #menu-toggle {
@@ -258,8 +258,8 @@ input::placeholder {
 }
 
 .btn-pri {
-    background-color: #DB1A36;
-    border: 1px solid #DB1A36;
+    background-color: black;
+    border: 1px solid black;
     color: black;
     padding: 3px 10px;
     cursor: pointer;
@@ -395,7 +395,7 @@ textarea {
     border: 1px solid #848DDB;
     background-color: #fff;
     border: 1px solid #848DDB;
-    color: #DB1A36;
+    color: black;
     padding: 3px 10px;
     cursor: pointer;
     border-radius: 10px;
@@ -444,7 +444,7 @@ textarea {
 }
 
 .btn-sec:hover {
-    color: #DB1A36;
+    color: black;
 }
 
 .btn-nrm:hover {
@@ -677,7 +677,7 @@ textarea {
 .table_head tr,
 .table_head tr th {
     background-color: #f7f8ff;
-    color: #DB1A36;
+    color: black;
     font-size: 12px!important;
     font-weight: 600 !important;
 }

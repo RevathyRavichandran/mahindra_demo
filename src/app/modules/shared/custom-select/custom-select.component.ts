@@ -36,6 +36,7 @@ export class CustomSelectComponent
   @Input() isDisabled: boolean;
   @Input('selectedOption') val: any;
   @Input() values: any[];
+  // @Input() formControlName: any[];
   @Input() isRequired: string;
   @Input() keyField = 'key';
   @Input() valueField = 'value';
@@ -47,6 +48,7 @@ export class CustomSelectComponent
   inputError: boolean;
   isFirst: boolean = true;
 
+  
   onChange: any = () => { };
   onTouch: any = () => { };
   size: number
@@ -56,7 +58,8 @@ export class CustomSelectComponent
       this.checkValidation();
     }
   }
-
+ 
+  
   set selectedOption(val) {
     this.val = val;
     this.onChange(this.val);

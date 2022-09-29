@@ -17,6 +17,8 @@ export class MenuBarComponent implements OnInit {
   selectedChildNavTab: string;
 
   open: any;
+  open1: any;
+  open2: any;
 
   constructor(
     private router: Router,

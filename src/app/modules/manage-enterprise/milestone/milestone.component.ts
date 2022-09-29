@@ -34,7 +34,7 @@ export class MilestoneComponent implements OnInit {
     title: 'Digital Factsheet',
     formDetails: [
       {
-      label: 'ARN Number',
+      label: 'ARN',
       controlName: 'arn_number',
       type: 'select',
       list:this.arnList
@@ -47,7 +47,7 @@ export class MilestoneComponent implements OnInit {
       },
     ],
     // header: ['SNo', "Created Date", 'Mobile Number', "URL",  "One Pager", "Digital Factsheet"]
-    header: ['SNo', "Date and Time", "Mobile Number","Profile Name", 'ARN Number',"File Name"], 
+    header: ['S.No:', "Date & Time", "Mobile No","Profile Name", 'ARN',"File Name"], 
   }
   customListDatas= {};
   
@@ -106,7 +106,7 @@ export class MilestoneComponent implements OnInit {
 
       for(var i=0; i<processVariables.output_data?.length; i++) {
         this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
-        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
+        
       }
     
       
@@ -116,8 +116,9 @@ export class MilestoneComponent implements OnInit {
         totalCount: this.totalCount,
         totalRecords: this.totalRecords,
         data: this.visitorsList,
+        total: processVariables['count'],
         appointment : true,
-        digitalUser: processVariables['totalDigitalFactsheetUserCount'],
+        digitalUser: processVariables['count'],
         keys: ['SNo', "created_at", 'mobile_number', 'profile_name','arn_number','url'],
         //Table header length should be equal to keys
       }

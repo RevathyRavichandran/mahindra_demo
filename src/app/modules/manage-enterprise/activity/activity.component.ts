@@ -28,7 +28,7 @@ export class ActivityComponent implements OnInit {
     title: 'Product Notes',
     formDetails: [
       {
-        label: 'ARN Number',
+        label: 'ARN',
         controlName: 'arn_number',
         type: 'select',
         list:this.arnList
@@ -50,12 +50,6 @@ export class ActivityComponent implements OnInit {
         
         ]
       },
-      {
-        label: 'Fund',
-        controlName: 'type_prod',
-        type: 'select',
-        list:[]
-      },
       
       {
         label: 'File Name',
@@ -69,7 +63,7 @@ export class ActivityComponent implements OnInit {
       //   type: 'input'
       // }
     ],
-    header: ['SNo', "Date and Time","Mobile Number","Profile Name","ARN Number","Product Info","Branch","Product Type","File name"], // table headers
+    header: ['S.No:', "Date & Time","Mobile No","Profile Name","ARN","Product Info","Fund Type","File Name"], // table headers
   }
   customListDatas: {};
   appointmentRating: any;
@@ -91,7 +85,7 @@ export class ActivityComponent implements OnInit {
     }) 
     this.enterpriseService.filelist(payload).subscribe(res=>{
       this.fileList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[3].list=this.fileList;
+      this.initValues.formDetails[2].list=this.fileList;
     }) 
   }
 
@@ -102,6 +96,16 @@ export class ActivityComponent implements OnInit {
       // isApplyFilter: false,
       isCSVDownload: true,
       ...searchData
+    }
+
+    if(searchData && (searchData['subFolder'] != '')) {
+      var payload1 = {ProcessVariables:{
+        subFolder: searchData.subFolder
+      }}
+      this.enterpriseService.filelist(payload1).subscribe(res=>{
+        this.fileList= res.ProcessVariables.output_data;
+        this.initValues.formDetails[2].list=this.fileList;
+      }) 
     }
 
     console.log('params', params);
@@ -120,12 +124,12 @@ export class ActivityComponent implements OnInit {
       this.totalCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = Number(this.itemsPerPage) * Number(totalPages);
       // this.corporateCount = 80000;
-      this.totalRecords = processVariables?.count;
+      this.totalRecords = processVariables?.totalCount;
       this.visitorsList = processVariables.output_data;
 
       for(var i=0; i<processVariables?.output_data?.length; i++) {
         this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
-        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
+        
       }
       
       this.customListDatas = {
@@ -136,14 +140,14 @@ export class ActivityComponent implements OnInit {
         totalVisitors: this.totalVisitors,
         totalAppointment: this.totalAppointment,
         appointmentRating: this.appointmentRating,
-        total_product_notes_user_count: processVariables['output_data1'][0]?.count,
+        total: processVariables['count'],
         total_equity_user_count: processVariables['output_data2'][0]?.count,
         total_hybrid_user_count: processVariables['output_data2'][1]?.count,
         conversion : true,
         appointment : false,
         data: this.visitorsList,
         // keys: ['SNo', "createdDate", "createdTime", 'mobileNumber', "waba_no", "isVisitorORBookedUser"],  // To get the data from key
-        keys: ['SNo', "created_at", 'mobile_number','name','arn_number',  "folder_name","subfolder","product_type","url"],  // To get the data from key
+        keys: ['SNo', "created_at", 'mobile_number','name','arn_number',  "folder_name","subfolder","url"],  // To get the data from key
       }
 
     } else {

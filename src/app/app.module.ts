@@ -60,12 +60,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   
   ],
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
     },
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    
     DatePipe
   ],
   bootstrap: [AppComponent]

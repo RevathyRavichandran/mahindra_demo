@@ -623,7 +623,13 @@ body { font-family: sans-serif;}  */
 .sno-width {
     width: 60px;
 }
+.filename-width {
+    width: 300px;
+}
 .icon{
     cursor: pointer;
     color:#1e7eaf;
+}
+.sno {
+    text-align: center;
 }

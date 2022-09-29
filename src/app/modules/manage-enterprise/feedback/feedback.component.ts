@@ -33,7 +33,7 @@ export class FeedbackComponent implements OnInit {
     title: 'Market Updates',
     formDetails: [
       {
-        label: 'ARN Number',
+        label: 'ARN',
         controlName: 'arn_number',
         type: 'select',
         list:this.arnList
@@ -77,7 +77,7 @@ export class FeedbackComponent implements OnInit {
       },
    
     ],
-    header: ['SNo', "Date and Time","Mobile Number","Profile Name","ARN Number","Market Updates","File Name"], 
+    header: ['S.No:', "Date & Time","Mobile No","Profile Name","ARN","Market Updates","File Name"], 
   }
 
   customListDatas = {};
@@ -117,6 +117,16 @@ export class FeedbackComponent implements OnInit {
       ...searchData
     }
 
+    if(searchData && (searchData['folderName'] != '')) {
+      var payload1 = {ProcessVariables:{
+        folder_name: searchData.folderName
+      }}
+      this.enterpriseService.filelist(payload1).subscribe(res=>{
+        this.fileList= res.ProcessVariables.output_data;
+        this.initValues.formDetails[2].list=this.fileList;
+      }) 
+    }
+
     console.log('params', params);
     var payload = {ProcessVariables:params}
     this.enterpriseService.marketList(payload).subscribe(visitors => {
@@ -138,16 +148,17 @@ export class FeedbackComponent implements OnInit {
 
       for(var i=0; i<processVariables.output_data?.length; i++) {
         this.feedbackList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
-        this.feedbackList[i].created_at=this.feedbackList[i].created_at.split(' ').join(' and ');
+        
       }
      
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
         totalCount: this.totalCount,
+        total: processVariables['count'],
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
-        marketUpdateCount : processVariables['totalMarketUpdatsUserCount'], //api needed
+        marketUpdateCount : processVariables['count'], //api needed
         data: this.feedbackList,
         appointment : true,
         keys: ['SNo', "created_at",'mobile_number','profile_name','arn_number','folder_name',"url"],

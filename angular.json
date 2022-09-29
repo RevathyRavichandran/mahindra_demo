@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "twixor-aggregator": {
+        "mahindra-aggregator": {
             "projectType": "application",
             "schematics": {},
             "root": "",
@@ -13,7 +13,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/vps_dashboard",
+                        "outputPath": "dist/mahindra",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -72,18 +72,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "twixor-aggregator:build"
+                        "browserTarget": "mahindra-aggregator:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "twixor-aggregator:build:production"
+                            "browserTarget": "mahindra-aggregator:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "twixor-aggregator:build"
+                        "browserTarget": "mahindra-aggregator:build"
                     }
                 },
                 "test": {
@@ -121,18 +121,18 @@
                     "builder": "@angular-devkit/build-angular:protractor",
                     "options": {
                         "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "twixor-aggregator:serve"
+                        "devServerTarget": "mahindra-aggregator:serve"
                     },
                     "configurations": {
                         "production": {
-                            "devServerTarget": "twixor-aggregator:serve:production"
+                            "devServerTarget": "mahindra-aggregator:serve:production"
                         }
                     }
                 }
             }
         }
     },
-    "defaultProject": "twixor-aggregator",
+    "defaultProject": "mahindra-aggregator",
     "cli": {
         "analytics": "a51c0bc4-00bb-4978-bfb9-dfadfc19dbd0"
     }

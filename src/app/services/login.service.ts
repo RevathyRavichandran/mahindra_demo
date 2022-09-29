@@ -4,6 +4,8 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpService } from '@services/http.service'
 import RequestEntity from '../model/request.entity';
 import { ApiIdsService } from './api-ids.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import { ApiIdsService } from './api-ids.service';
 export class LoginService {
 
   constructor(private httpService: HttpService,
-    private apiService: ApiIdsService) { }
+    private apiService: ApiIdsService, private http: HttpClient) { }
 
   detectModal$: BehaviorSubject<string> = new BehaviorSubject('');
     
@@ -19,6 +21,14 @@ export class LoginService {
         this.detectModal$.next(data)
     }
 
+    login(config: any): Observable<any> {
+      const url = `${environment.baseURL}Login_API`;
+      console.log('url--->', config)
+      return this.http.post<any>(
+          url,
+          config
+      );
+    }
   getLoginCredentials(data) {
 
 

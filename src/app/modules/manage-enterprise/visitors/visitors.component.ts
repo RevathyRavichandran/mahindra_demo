@@ -28,22 +28,14 @@ export class VisitorsComponent implements OnInit {
   initValues = {
     title: 'One Pagers',
     formDetails: [
-      // {
-      //   label: 'Mobile Number',
-      //   controlName: 'mobileNumber',
-      //   type: 'input'
-      // },
       {
-        label: 'ARN Number',
+        label: 'ARN',
         controlName: 'arn_number',
         type: 'select',
         list:this.arnList
       },
       
       {
-        // label: 'Waba Number',
-        // controlName: 'waba_no',
-        // type: 'input'
         label: 'Fund Type',
         controlName: 'subFolder',
         type: 'select',
@@ -62,130 +54,7 @@ export class VisitorsComponent implements OnInit {
           },
         
         ]
-        //   {
-        //     key: 'Equity',
-        //     value: 'Equity'
-        //   },
-        //   {
-        //     key: 'Hybrid',
-        //     value: 'Hybrid'
-        //   },
-        //   {
-        //     key: 'Debt',
-        //     value: 'Debt'
-        //   },
-        
-        // ]
-      },
-      // {
-      //   // label: 'Waba Number',
-      //   // controlName: 'waba_no',
-      //   // type: 'input'
-      //   label: 'Branch',
-      //   controlName: 'info',
-      //   type: 'select',
-      //   list:[
-      //     {
-      //       key: 'Equity',
-      //       value: 'Equity'
-      //     },
-      //     {
-      //       key: 'Hybrid',
-      //       value: 'Hybrid'
-      //     },
-      //   ]
-      // },
-      {
-        label: 'Fund',
-        controlName: 'type_prod',
-        type: 'select',
-        list:[]
-        //   {
-        //     key: 'ELSS Kar Bachat Yojana - PDF',
-        //     value: 'ELSS Kar Bachat Yojana - PDF'
-        //   },
-        //   {
-        //     key: 'Multi Cap Badhat Yojana - PDF',
-        //     value: 'Multi Cap Badhat Yojana - PDF'
-        //   },
-        //   {
-        //     key: 'Mid Cap Unnati Yojana-PDF',
-        //     value: 'Mid Cap Unnati Yojana-PDF'
-        //   },
-        //   {
-        //     key: 'Rural and Consumption-PDF',
-        //     value: 'Rural and Consumption-PDF'
-        //   },
-        //   {
-        //     key: 'Large Cap Pragati Yojana-PDF',
-        //     value: 'Large Cap Pragati Yojana-PDF'
-        //   },
-        //   {
-        //     key: 'Top 250 Nivesh Yojanac-PDF',
-        //     value: 'Top 250 Nivesh Yojanac-PDF'
-        //   },
-        //   {
-        //     key: 'Focused Equity Yojana-PDF',
-        //     value: 'Focused Equity Yojana-PDF'
-        //   },
-        //   {
-        //     key: 'Flexi Cap Yojana-PDF',
-        //     value: 'Flexi Cap Yojana-PDF'
-        //   }
-        // ]
-      },
-      
-      // {
-      //   label: 'Hybrid',
-      //   controlName: 'mu',
-      //   type: 'select',
-      //   list:[
-      //     {
-      //       key: 'Balancing benefit yojana',
-      //       value: 'Balancing benefit yojana'
-      //     },
-      //     {
-      //       key: 'Equity Nivesh Yojana',
-      //       value: 'Equity Nivesh Yojana'
-      //     },
-      //     {
-      //       key: 'Arbitrage Yojana',
-      //       value: 'Arbitrage Yojana'
-      //     },
-      //     {
-      //       key: 'Balancing benefit yojana',
-      //       value: 'Balancing benefit yojana'
-      //     },
-      //   
-      //   ]
-      // },
-       // {
-      //   label: 'Debt',
-      //   controlName: 'mu',
-      //   type: 'select',
-      //   list:[
-      //     {
-      //       key: 'Liquid Fund',
-      //       value: 'Liquid Fund'
-      //     },
-      //     {
-      //       key: 'Low Duration Fund',
-      //       value: 'Low Duration Fund'
-      //     },
-      //     {
-      //       key: 'Dynamic Bond Yojana',
-      //       value: 'Dynamic Bond Yojana'
-      //     },
-      //     {
-      //       key: 'Ultra Short Term Fund',
-      //       value: 'Ultra Short Term Fund'
-      //     },
-      //     {
-      //       key: 'Short Term Fund',
-      //       value: 'Short Term Fund'
-      //     },
-      //   ]
-      // },
+        },
       {
         label: 'File Name',
         controlName: 'url',
@@ -198,7 +67,7 @@ export class VisitorsComponent implements OnInit {
       //   type: 'input'
       // }
     ],
-    header: ['SNo', "Date and Time","Mobile Number","Profile Name","ARN Number","Product Info","Branch","Product Type","File name"], // table headers
+    header: ['S.No:', "Date & Time","Mobile No","Profile Name","ARN","Product Info","Fund Type","File Name"], // table headers
   }
   customListDatas: {};
   appointmentRating: any;
@@ -220,7 +89,7 @@ export class VisitorsComponent implements OnInit {
     }) 
     this.enterpriseService.filelist(payload).subscribe(res=>{
       this.fileList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[3].list=this.fileList;
+      this.initValues.formDetails[2].list=this.fileList;
     }) 
   }
 
@@ -231,6 +100,16 @@ export class VisitorsComponent implements OnInit {
       // isApplyFilter: false,
       isCSVDownload: true,
       ...searchData
+    }
+
+    if(searchData && (searchData['subFolder'] != '')) {
+      var payload1 = {ProcessVariables:{
+        subFolder: searchData.subFolder
+      }}
+      this.enterpriseService.filelist(payload1).subscribe(res=>{
+        this.fileList= res.ProcessVariables.output_data;
+        this.initValues.formDetails[2].list=this.fileList;
+      }) 
     }
 
     console.log('params', params);
@@ -254,7 +133,7 @@ export class VisitorsComponent implements OnInit {
 
       for(var i=0; i<processVariables?.output_data?.length; i++) {
         this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
-        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
+        
       }
       
       this.customListDatas = {
@@ -263,17 +142,18 @@ export class VisitorsComponent implements OnInit {
         totalCount: this.totalCount,
         totalRecords: this.totalRecords,
         totalVisitors: this.totalVisitors,
+        total: processVariables['count'],
         totalAppointment: this.totalAppointment,
         appointmentRating: this.appointmentRating,
         total_equity_user_count: processVariables['output_data2'][1]?.count,
         total_hybrid_user_count: processVariables['output_data2'][2]?.count,
         total_debt_user_count: processVariables['output_data2'][0]?.count,
-        onePager: processVariables['output_data1'][0]?.count, //api needed
+        onePager: processVariables['count'], //api needed
         conversion : true,
         appointment : false,
         data: this.visitorsList,
         // keys: ['SNo', "createdDate", "createdTime", 'mobileNumber', "waba_no", "isVisitorORBookedUser"],  // To get the data from key
-        keys: ['SNo', "created_at", 'mobile_number','name','arn_number',  "folder_name","subfolder","product_type","url"],  // To get the data from key
+        keys: ['SNo', "created_at", 'mobile_number','name','arn_number',  "folder_name","subfolder","url"],  // To get the data from key
       }
 
     } else {

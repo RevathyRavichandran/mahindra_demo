@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   apiVersion: {
     login: 'v3/',
@@ -16,7 +16,7 @@ export const environment = {
   },
 
   // host:' http://178.128.125.44/appiyo/',
-  host: 'https://vpshealth.karix.ae/appiyo/',
+  host: 'https://appiyo.karix.solutions/appiyo/',
   encryptionType: true,
   appiyoDrive: "d/drive/upload/",
   driveLocation: "d/drive/docs/"

@@ -4,6 +4,10 @@ import { DateRangeService } from '@services/date-range.service';
 import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 import { DaterangepickerComponent } from 'ng2-daterangepicker';
+import { MarketUpdateService } from '@services/market-update.service';
+import { ProductInfoService } from '@services/product-info.service';
+import { OnePagerService } from '@services/one-pager.service';
+import { ProductNotesService } from '@services/product-notes.service'
 
 
 @Component({
@@ -60,8 +64,24 @@ export class CustomListComponent implements OnInit, OnChanges {
   productOnePagercount: any;
   productrPoductnotescount: any;
 
+  total: any;
+
+  itemper: any;
+
+  lUsers: any[] = [
+    { id: 1, Name: '3', select: false},
+    { id: 2, Name: '5', select: false},
+    { id: 3, Name: '8', select: true},
+    { id: 4, Name: '10', select: false},
+    { id: 5, Name: '15', select: false },
+    { id: 6, Name: '20', select: false},
+    { id: 7, Name: '25', select: false },
+    { id: 8, Name: '30', select: false}
+  ];
+  curUser: any = this.lUsers[2]; // first will be selected by default by browser
+
+
   @Input() set initValues(value: any) {
-    console.log('value', value)
     if (!value) {
       return;
     }
@@ -80,7 +100,6 @@ export class CustomListComponent implements OnInit, OnChanges {
 
 
   @Input() set data(value: any) {
-    console.log('value', value)
     if (!value) {
       return;
     }
@@ -93,7 +112,6 @@ export class CustomListComponent implements OnInit, OnChanges {
     const headers = this.tableDetails['header'] ;
     const keys = this.tableDetails['keys']
     if ( headers && keys && (headers?.length !== keys?.length)) {
-      console.log('this.tableDetails', this.tableDetails)
       this.toasterService.showInfo('Table Column Count', "Mistatch")
       this.isNoRecord = true;
       return;
@@ -113,10 +131,12 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.feedBackValue = value?.feedbackValue;
     this.agentValue = value?.agentValue;
     this.productOnePagercount = value?.productOnePagercount;
-    this.productrPoductnotescount = value?.productrPoductnotescount;
+    this.productrPoductnotescount = value?.productrPoductnotescount == 0 ? '0' : value?.productrPoductnotescount;
     
 
     // this for user counts
+
+    this.total = value?.total;
 
     this.deckCount = value?.CorporateDeckCount;
     this.marketUpdate = value?.marketUpdateCount;
@@ -147,6 +167,10 @@ export class CustomListComponent implements OnInit, OnChanges {
   dateRangeValue: String = '';
 
   constructor(private dateService: DateRangeService,
+    public productInform: ProductInfoService,
+    public onePagers: OnePagerService,
+    public productNote: ProductNotesService,
+    public market: MarketUpdateService,
     private utilityService: UtilityService,
     private toasterService: ToasterService) {
     // this.roleType = localStorage.getItem('roleType')
@@ -170,9 +194,49 @@ export class CustomListComponent implements OnInit, OnChanges {
         // 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
     };
+
+    if(this.title == 'Market Updates') {
+      this.searchForm.get("folderName")?.valueChanges.subscribe(folder => {
+        var payload1 = {ProcessVariables:{
+          folder_name: folder
+        }}
+        this.market.filelist(payload1).subscribe(res=>{
+          this.formDetails[2].list= res.ProcessVariables.output_data;
+        }) 
+        console.log('market',folder)
+      })
+    } else if(this.title == 'Product Information') {
+      this.searchForm.get("folderName")?.valueChanges.subscribe(folder => {
+        var payload1 = {ProcessVariables:{
+          folder_name: folder
+        }}
+        this.productInform.filelist(payload1).subscribe(res=>{
+          this.formDetails[2].list= res.ProcessVariables.output_data;
+        })
+      })
+    } else if(this.title == 'One Pagers') {
+      this.searchForm.get("subFolder")?.valueChanges.subscribe(folder => {
+        var payload1 = {ProcessVariables:{
+          subFolder: folder
+        }}
+        this.onePagers.filelist(payload1).subscribe(res=>{
+          this.formDetails[2].list= res.ProcessVariables.output_data;
+        })
+      })
+    } else if(this.title == 'Product Notes') {
+      this.searchForm.get("subFolder")?.valueChanges.subscribe(folder => {
+        var payload1 = {ProcessVariables:{
+          subFolder: folder
+        }}
+        this.productNote.filelist(payload1).subscribe(res=>{
+          this.formDetails[2].list= res.ProcessVariables.output_data;
+        })
+      })
+    }
+    
+    
     if(this.title == 'One Pagers' || this.title == 'Product Notes') {
       this.searchForm.get("folderName")?.valueChanges.subscribe(x => {
-        console.log('firstname value changed')
         if(x=='One Pagers') {
           this.formDetails[2].list= [
             {
@@ -210,101 +274,7 @@ export class CustomListComponent implements OnInit, OnChanges {
           this.formDetails[3].list= [];
         }
         
-        console.log(x, this.formDetails[2])
      })
-     this.searchForm.get("subFolder")?.valueChanges.subscribe(x => {
-      console.log('firstname value changed')
-      if(x=='Equity') {
-        this.formDetails[2].list= [
-         
-          {
-            key: 'ELSS Kar Bachat Yojana - PDF',
-            value: 'ELSS Kar Bachat Yojana - PDF'
-          },
-          {
-            key: 'Multi Cap Badhat Yojana - PDF',
-            value: 'Multi Cap Badhat Yojana - PDF'
-          },
-          {
-              key: 'Mid Cap Unnati Yojana-PDF',
-              value: 'Mid Cap Unnati Yojana-PDF'
-            },
-            {
-              key: 'Rural and Consumption-PDF',
-              value: 'Rural and Consumption-PDF'
-            },
-            {
-              key: 'Large Cap Pragati Yojana-PDF',
-              value: 'Large Cap Pragati Yojana-PDF'
-            },
-            {
-              key: 'Top 250 Nivesh Yojanac-PDF',
-              value: 'Top 250 Nivesh Yojanac-PDF'
-            },
-            {
-              key: 'Focused Equity Yojana-PDF',
-              value: 'Focused Equity Yojana-PDF'
-            },
-            {
-              key: 'Flexi Cap Yojana-PDF',
-              value: 'Flexi Cap Yojana-PDF'
-            }
-        
-        ]
-      } 
-      else if (x=='Hybrid') {
-        this.formDetails[2].list= [
-          {
-                  key: 'Balancing benefit yojana',
-                  value: 'Balancing benefit yojana'
-                },
-                {
-                  key: 'Equity Nivesh Yojana',
-                  value: 'Equity Nivesh Yojana'
-                },
-                {
-                  key: 'Arbitrage Yojana',
-                  value: 'Arbitrage Yojana'
-                },
-                {
-                  key: 'Balancing benefit yojana',
-                  value: 'Balancing benefit yojana'
-                },
-        
-        ]
-      }
-      else if (x=='Debt') {
-        this.formDetails[2].list= [
-          {
-                  key: 'Liquid Fund',
-                  value: 'Liquid Fund'
-                },
-                {
-                  key: 'Low Duration Fund',
-                  value: 'Low Duration Fund'
-                },
-                {
-                  key: 'Dynamic Bond Yojana',
-                  value: 'Dynamic Bond Yojana'
-                },
-                {
-                  key: 'Ultra Short Term Fund',
-                  value: 'Ultra Short Term Fund'
-                },
-                {
-                  key: 'Short Term Fund',
-                  value: 'Short Term Fund'
-                },
-        
-        ]
-      }
-      else if (x=='' || x==null) {
-        this.searchForm.controls['type_prod'].setValue("");
-        this.formDetails[3].list= [];
-      }
-      
-      console.log(x, this.formDetails[3])
-   })
     }
     
   }
@@ -343,6 +313,10 @@ export class CustomListComponent implements OnInit, OnChanges {
     this.dateRangeValue = '';
   }
 
+  setNewUser(name: any): void {
+    this.itemper = name;
+    this.apply();
+}
 
   onDownload() {
     const formValue = this.searchForm.getRawValue()
@@ -372,7 +346,6 @@ export class CustomListComponent implements OnInit, OnChanges {
   }
 
   handlePageSizeChange(event) {
-    console.log('test', event)
     this.apply();
   }
   apply() {
@@ -381,7 +354,7 @@ export class CustomListComponent implements OnInit, OnChanges {
     const isHaveValues = Object.keys(formValue).some((key) => {
       return (!!(formValue[key]) || !!this.dateRangeValue)
     })
-    if (!isHaveValues) {
+    if (!isHaveValues && !this.itemper) {
       this.clear()
       return;
     }
@@ -391,7 +364,7 @@ export class CustomListComponent implements OnInit, OnChanges {
       from_date: this.searchFromDate,
       to_date: this.searchToDate,
       isApplyFilter: true,
-      per_page: this.pageSize,
+      per_page: parseInt(this.itemper),
       ...formValue,
     }
 

@@ -33,7 +33,7 @@ export class AppointmentComponent implements OnInit {
     title: 'Corporate Deck',
     formDetails: [
       {
-        label: 'ARN Number',
+        label: 'ARN',
         controlName: 'arn_number',
         type: 'select',
         list:this.arnList,
@@ -54,7 +54,7 @@ export class AppointmentComponent implements OnInit {
         ]
       },
     ],
-    header: ['SNo', "Date and Time", 'Mobile Number',"Profile Name","ARN Number", "File Name"], // table headers
+    header: ['S.No:', "Date & Time", 'Mobile No',"Profile Name","ARN", "File Name"], // table headers
   }
   customListDatas: {};
 
@@ -90,6 +90,7 @@ export class AppointmentComponent implements OnInit {
       ...searchData
     }
 
+
     console.log('params', params);
   var payload = {ProcessVariables:params}
     this.enterpriseService.corporateList(payload).subscribe(visitors => {
@@ -111,14 +112,15 @@ export class AppointmentComponent implements OnInit {
 
       for(var i=0; i<processVariables.output_data?.length; i++) {
         this.visitorsList[i].SNo=(this.itemsPerPage * (processVariables['current_page']-1)) + i+1;
-        this.visitorsList[i].created_at=this.visitorsList[i].created_at.split(' ').join(' and ');
+        
       }
      
       this.customListDatas = {
         itemsPerPage: this.itemsPerPage,
         perPage: this.page,
         totalCount: this.totalCount,
-        CorporateDeckCount: processVariables['totalCorporateDeckCount'],  //api needed
+        total: processVariables['count'],
+        CorporateDeckCount: processVariables['count'],  //api needed
         // corporateCount: this.corporateCount,
         totalRecords: this.totalRecords,
         data: this.visitorsList,
