@@ -73,7 +73,16 @@ export class RegionComponent implements OnInit {
   selectedEquity='';
   selectedHybrid='';
   selectedDebt='';
+  selectedInfoTwo='';
+  selectedInfoFour = '';
+  selectedInfoThree = '';
+  selectedInfoFive = '';
+  selectedInfoSix = '';
+  selectedInfoSeven = '';
+  selectedInfoEight='';
 
+  selectedSales='';
+  
   constructor(
     private enterpriseService: EnterpriseApiService,
     private dateService: DateRangeService,
@@ -149,20 +158,20 @@ export class RegionComponent implements OnInit {
          "metricList" : [
             {
                "metricCount" : 63,
-               "metricName" : "Corporate Deck"
+               "metricName" : "Products & offer"
             },
             {
                "metricCount" : 24,
-               "metricName" : "Market Updates"
+               "metricName" : "After Sales"
             },
             {
                "metricCount" : 73,
-               "metricName" : "Product Info"
+               "metricName" : "Online Chef Classes"
             },
-            {
-               "metricCount" : 45,
-               "metricName" : "Digital Factsheet"
-            }
+            // {
+            //    "metricCount" : 45,
+            //    "metricName" : "Digital Factsheet"
+            // }
          ],
          "query" : "select distinct region_name as name, count(id) as count from    vps_appointment_booking_report where is_active = 1    and     (region_name in ((select english_region_name from vps_region where is_active=1))     or region_name in ((select arabic_region_name from vps_region where is_active=1)))     group by region_name",
          "selectedDepartment" : "",
@@ -280,26 +289,229 @@ export class RegionComponent implements OnInit {
           return accumulator + value.metricCount;
         }, 0);
         // this.physicianCount = regionResponse.totalMetricCount;
-      } else if (this.selectedInfoOne != '' && this.selectedInfoNotes=='') {
+      } else if (this.selectedInfoOne == 'LED TV') {
         console.log('test')
-            this.departmentSource = [{
-              "metricCount" : 63,
-              "metricName" : "Equity"
-          },
-          {
-              "metricCount" : 24,
-              "metricName" : "Hybrid"
-          },
-          {
-              "metricCount" : 73,
-              "metricName" : "Debt"
-          }];
+            this.departmentSource = [	{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Know Current Offers'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Locate Store Near You'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Buy a Product'
+            },
+            {
+              "metricCount": 2,
+              "metricName": 'Book Online Product Demo'
+            },];
             this.physicianSource = '';
             this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
               return accumulator + value.metricCount;
             }, 0);
         // this.departmentCount = regionResponse.totalMetricCount;
-      } else if (this.selectedInfoNotes != '') {
+      } 
+
+      else if (this.selectedInfoTwo == 'Air Conditioner' ) {
+        console.log('test')
+            this.departmentSource = [ 	{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Know Current Offers'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Locate Store Near You'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Buy a Product'
+            },
+            {
+              "metricCount": 2,
+              "metricName": 'Book Online Product Demo'
+            },
+          {
+              "metricCount": '3',
+              "metricName": 'nanaoeX - Know more'
+            },];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      } 
+      else if (this.selectedInfoThree == 'Washing Machine' || this.selectedInfoThree == 'Refrigerator' ) {
+        console.log('test')
+            this.departmentSource = [ 	{
+              "metricCount": 5,
+              "metricName": 'Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Know Current Offers'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Locate Store Near You'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Buy a Product'
+            },
+            {
+              "metricCount": 2,
+              "metricName": 'Book Online Product Demo'
+            },
+         ];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      } 
+ 
+      else if (this.selectedInfoFive == 'Microwave Oven' ) {
+        console.log('test')
+            this.departmentSource = [ 	 	{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Know Current Offers'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Locate Store Near You'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Buy a Product'
+            },
+            {
+              "metricCount": 2,
+              "metricName": 'Book Online Product Demo'
+            },
+            {
+              "metricCount": 10,
+              "metricName": 'Cookery Classes'
+            },
+            {
+              "metricCount": 11,
+              "metricName": 'Microwave Recipes'
+            },];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      } 
+      
+      else if (this.selectedInfoFour=='Camera'||this.selectedInfoFour=='Audio System'||this.selectedInfoFour=='Beauty Care Products' || this.selectedInfoFour=='Air Purifier' || this.selectedInfoFour=='Water Purifier' || this.selectedInfoFour=='Vacuum Cleaner' || this.selectedInfoFour=='Iron') {
+        console.log('test')
+            this.departmentSource = [  	{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Know Current Offers'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Locate Store Near You'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Buy a Product'
+            },];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      } 
+      else if (this.selectedInfoSix == 'Miraie' ) {
+        console.log('test')
+            this.departmentSource = [ 		{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Download Miraie App'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Know more about Miraie'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Book Online Product Demo',
+            },
+            ];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      }
+      else if (this.selectedInfoSeven == 'Chest Freezer' ) {
+        console.log('test')
+            this.departmentSource = [ 	 	{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Know Current Offers'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Locate Store Near You'
+            },
+           
+            ];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      }
+      else if (this.selectedInfoEight == 'Video Conf Cameras' ) {
+        console.log('test')
+            this.departmentSource = [ 		{
+              "metricCount": 5,
+              "metricName": 'Get Product Catalogue'
+            },
+            {
+              "metricCount": 3,
+              "metricName": 'Buy a Product'
+            },
+            {
+              "metricCount": 6,
+              "metricName": 'Book a online Demo'
+            },
+           
+            ];
+            this.physicianSource = '';
+            this.departmentCount = this.departmentSource.reduce((accumulator, value) => {
+              return accumulator + value.metricCount;
+            }, 0);
+        // this.departmentCount = regionResponse.totalMetricCount;
+      }
+
+      else if (this.selectedInfoNotes != '') {
         this.departmentSource = [{
           "metricCount" : 63,
           "metricName" : "Equity"
@@ -313,38 +525,125 @@ export class RegionComponent implements OnInit {
           return accumulator + value.metricCount;
         }, 0);
     // this.departmentCount = regionResponse.totalMetricCount;
-      } else if (this.selectedFacility != ''  && this.selectedInfoOne == '' && this.selectedInfoNotes == '') {
-        this.facilitysource = [{
-          "metricCount" : 63,
-          "metricName" : "Aaj Ka Bazar"
-       },
-       {
-          "metricCount" : 24,
-          "metricName" : "Fund Manager Videos"
-       },
-       {
-          "metricCount" : 73,
-          "metricName" : "Weekly Snapshot"
-       },
-       {
-          "metricCount" : 15,
-          "metricName" : "Weekly Debt Market"
-       },
-       {
-          "metricCount" : 20,
-          "metricName" : "Monthly Snapshot"
-       },
-       {
-          "metricCount" : 15,
-          "metricName" : "Monthy Samvaad"
-       }];
+      } else if (this.selectedFacility == 'Products & offer'  && this.selectedInfoOne == '' && this.selectedInfoNotes == '') {
+        this.facilitysource = [
+          {
+            "metricCount": 10,
+            "metricName": 'LED TV'
+          },
+          {
+            "metricCount": 12,
+            "metricName": 'Air Conditioner'
+          },
+          {
+            "metricCount": 10,
+            "metricName": 'Washing Machine'
+          },
+          {
+            "metricCount": 20,
+            "metricName": 'Refrigerator'
+          },
+          {
+            "metricCount": 25,
+            "metricName": 'Microwave Oven'
+          },
+          {
+            "metricCount":  15,
+            "metricName":'Camera'
+          },
+          {
+            "metricCount": 10,
+            "metricName": 'Audio System'
+          },
+          {
+            "metricCount": 50,
+            "metricName": 'Beauty Care Products'
+          },
+          {
+            "metricCount":  25,
+            "metricName":'Air Purifier'
+          },
+          {
+            "metricCount":  40,
+            "metricName":'Water Purifier'
+          },
+          {
+            "metricCount":  45,
+            "metricName":'Vacuum Cleaner'
+          },
+          {
+            "metricCount":  50,
+            "metricName":'Iron'
+          },
+          {
+            "metricCount":  20,
+            "metricName":'Miraie'
+          },
+          {
+            "metricCount":  30,
+            "metricName":'Chest Freezer'
+          },
+          {
+            "metricCount":  50,
+            "metricName":'Video Conf Cameras'
+          },
+          {
+            "metricCount":  20,
+            "metricName":'Bulk Purchase Enquiry'
+          },
+
+];
+
         this.departmentSource = '';
         this.physicianSource = '';
         this.facilityCount = this.facilitysource.reduce((accumulator, value) => {
           return accumulator + value.metricCount;
         }, 0);
         // this.facilityCount = regionResponse.totalMetricCount;
-      } else if (this.selectedProduct != '' && this.selectedInfoOne == '' && this.selectedInfoNotes == '') {
+      }
+
+      else if (this.selectedSales == 'After Sales'  && this.selectedInfoOne == '' && this.selectedInfoNotes == '') {
+        this.facilitysource = [
+          {
+            "metricCount": 10,
+            "metricName": 'Installation/Demo'
+          },
+          {
+            "metricCount": 12,
+            "metricName": 'Repair/PMS'
+          },
+          {
+            "metricCount": 10,
+            "metricName": 'Online Support'
+          },
+          {
+            "metricCount": 20,
+            "metricName": 'Follow Up'
+          },
+          {
+            "metricCount": 25,
+            "metricName": 'Purchase Warranty'
+          },
+          {
+            "metricCount":  15,
+            "metricName":'Purchase Accessories'
+          },
+          {
+            "metricCount": 10,
+            "metricName": 'Out of Warranty Charges'
+          },
+          
+
+];
+
+        this.departmentSource = '';
+        this.physicianSource = '';
+        this.facilityCount = this.facilitysource.reduce((accumulator, value) => {
+          return accumulator + value.metricCount;
+        }, 0);
+        // this.facilityCount = regionResponse.totalMetricCount;
+      }
+       else if (this.selectedProduct != '' && this.selectedInfoOne == '' && this.selectedInfoNotes == '' && this.selectedInfoTwo == '') {
         this.facilitysource = [{
           "metricCount" : 63,
           "metricName" : "Product Deck"
@@ -414,9 +713,10 @@ export class RegionComponent implements OnInit {
   }
 
   getFacility(regionId) {
-    if(regionId == 'Market Updates') {
-      this.selectedFacility='Market Updates'
+    if(regionId == 'Products & offer' ||regionId == 'After Sales' ) {
+      this.selectedFacility=regionId;
       this.selectedInfoOne='';
+      this.selectedSales = regionId;
       this.selectedInfoNotes='';
       this.selectedProduct='';
       this.market_updates=true;
@@ -454,11 +754,18 @@ export class RegionComponent implements OnInit {
 
   getHospital(facilityId) {
     
-    if(facilityId == 'One pagers') {
+    if(facilityId == 'LED TV' || facilityId == 'Air Conditioner' || facilityId == 'Washing Machine' || facilityId == 'Refrigerator' || facilityId == 'Microwave Oven' ||  facilityId == 'Audio System' || facilityId=='Beauty Care Products' || facilityId=='Air Purifier' || facilityId=='Water Purifier' || facilityId=='Vacuum Cleaner' || facilityId=='Iron' || facilityId=='Miraie' || facilityId=='Chest Freezer' || facilityId == 'Video Conf Cameras') {
       this.selectedDebt='';
       this.selectedHybrid='';
       this.selectedEquity='';
-      this.selectedInfoOne='One Pagers'
+      this.selectedInfoOne=facilityId;
+      this.selectedInfoTwo = facilityId;
+      this.selectedInfoThree = facilityId;
+      this.selectedInfoFive = facilityId;
+      this.selectedInfoSix =facilityId; 
+      this.selectedInfoFour=facilityId; 
+      this.selectedInfoSeven=facilityId; 
+      this.selectedInfoEight = facilityId;
       this.selectedInfoNotes=''
       this.one_pagers=true;
       this.product_notes=false;

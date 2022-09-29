@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async login() {
-    
+   
     this.isDirty = true;
     if (this.loginForm.invalid) {
       this.loginForm.reset();
@@ -82,27 +82,33 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
       'long-term-token': true
     }
 
-  
+ 
     let getLoginData;
     try {
-      getLoginData = {
-        aid: 1024,
-        lastLoggedInDateTime: "2022-09-26T04:18:43",
-        roleType: 2,
-        status: true,
-        token: "6BKlTq9itdyiS1kUlRmwVjtSnGTqZkjbah7xW04vIgwfXZJCEMLuKFgxM9RtZPcl",
-        zid: 98
+      let payload = {
+        "ProcessVariables": {
+          'emailId': this.loginForm.value.userName,
+          'password': this.loginForm.value.password
+        }        
       }
-      console.log('getLoginData', getLoginData)
-      if (getLoginData['token']) {
-        localStorage.setItem('token', getLoginData['token']);
-        localStorage.setItem('loginRequired', `${this.isLoginRequried}`);
-        localStorage.setItem('roleType', getLoginData['roleType']);
-        this.utilityService.setSessionTimeOut(0);
-        this.toasterService.showSuccess('Logged In Successfully', '');
-        this.router.navigate(['pages/dashboard']);
-
-      }
+      this.loginService.login(payload).subscribe(res => {
+        console.log('getLoginData', res)
+        if (res['ProcessVariables']?.login_status == '1') {
+          localStorage.setItem('loginRequired', `${this.isLoginRequried}`);
+          this.utilityService.setSessionTimeOut(0);
+          localStorage.setItem('token', "/PTWAvOCU54Sb8xnYdNEI0xBMVhHpQISn+Qc0VEjMjUfXZJCEMLuKFgxM9RtZPcl");
+          this.toasterService.showSuccess('Logged In Successfully', '');
+          this.router.navigate(['pages/dashboard']);
+ 
+        } else {
+          this.toasterService.showError('User Name & Password mismatching', 'Login Failed');
+          this.loginForm.reset();
+          this.isDirty = false;
+        }
+      });
+     
+     
+     
     } catch (err) {
       console.log("Error", err);
       //this.showAlertModal = true;

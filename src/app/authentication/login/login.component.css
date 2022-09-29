@@ -59,14 +59,14 @@
 }
 
 .blue_text {
-    color: #DB1A36;
+    color: #0053A3;
     font-weight: bold;
     font-size: 18px;
 }
 
 .img-wid {
-    width: 40%;
-    margin: 10px 10px 0px;
+    width: 37%;
+    margin: 10px 12px 9px;
 }
 
 #reg_password,
@@ -233,16 +233,16 @@
     /*border: 1px solid #1f7daf; */
     border-radius: 25px;
     width: 30%;
-    -webkit-box-shadow: inset 1px 6px 12px #DB1A36, inset -1px -10px 5px #DB1A36;
-    -moz-box-shadow: inset 1px 6px 12px#DB1A36, inset -1px -10px 5px #DB1A36;
-    box-shadow: inset 1px 6px 12px #DB1A36, inset -1px -10px 5px #DB1A36;
-    background-color: #DB1A36;
+    -webkit-box-shadow: inset 1px 6px 12px #0053A3, inset -1px -10px 5px #0053A3;
+    -moz-box-shadow: inset 1px 6px 12px#0053A3, inset -1px -10px 5px #0053A3;
+    box-shadow: inset 1px 6px 12px #0053A3, inset -1px -10px 5px #0053A3;
+    background-color: #0053A3;
     color: white;
     font-weight: bold;
 }
 
 .submit-btn:hover {
-    background-color: #DB1A36;
+    background-color: #0053A3;
     box-shadow: none;
 }
 

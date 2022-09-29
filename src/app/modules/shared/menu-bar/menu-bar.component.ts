@@ -17,6 +17,8 @@ export class MenuBarComponent implements OnInit {
   selectedChildNavTab: string;
 
   open: any;
+  open1: any;
+  open2: any;
 
   constructor(
     private router: Router,
@@ -36,7 +38,7 @@ export class MenuBarComponent implements OnInit {
       if (location.includes('dashboard')) {
         this.selectedNavTab = '1';
         this.isEnterpriseClicked = true;
-      } 
+      }
       else if (location.includes('Corporate-Deck')) {
         this.selectedNavTab = '2';
         this.isEnterpriseClicked = true;
@@ -75,7 +77,7 @@ export class MenuBarComponent implements OnInit {
       if (location.includes('dashboard')) {
         this.selectedNavTab = '1';
         this.isEnterpriseClicked = true;
-      } 
+      }
       else if(location.includes('Corporate-Deck')){
         this.selectedNavTab = '2';
         this.isEnterpriseClicked = true;
@@ -144,13 +146,13 @@ export class MenuBarComponent implements OnInit {
     this.router.navigateByUrl('pages/list/OnePager-Report');
     this.selectedNavTab = '4';
     this.selectedChildNavTab = '0';
-  } 
+  }
 
   onVisitors1() {
     this.router.navigateByUrl('pages/list/Product-Notes');
     this.selectedNavTab = '6';
     this.selectedChildNavTab = '0';
-  } 
+  }
 
   onMatrix(){
     this.router.navigateByUrl('pages/list/metrix/region');
@@ -198,5 +200,3 @@ export class MenuBarComponent implements OnInit {
   }
 
 }
-
-
