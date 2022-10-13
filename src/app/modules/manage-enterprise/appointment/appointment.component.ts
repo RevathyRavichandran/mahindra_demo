@@ -23,6 +23,7 @@ export class AppointmentComponent implements OnInit {
   visitorsList: any;
   arnList: any = [];
   fileList: any = [];
+  mobile: any = [];
   branchList: any = [];
   deptList: any = [];
   searchDatas: any;
@@ -32,6 +33,12 @@ export class AppointmentComponent implements OnInit {
   initValues = {
     title: 'Corporate Deck',
     formDetails: [
+      {
+        label: 'Mobile Number',
+        controlName: 'mobile_number',
+        type: 'select',
+        list:this.mobile
+      },
       {
         label: 'ARN',
         controlName: 'arn_number',
@@ -72,11 +79,15 @@ export class AppointmentComponent implements OnInit {
     this.getAppointmentList(); 
     this.filterService.arnlist(payload).subscribe(res=>{
       this.arnList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[0].list=this.arnList;
+      this.initValues.formDetails[1].list=this.arnList;
     }) 
     this.filterService.filelist(payload).subscribe(res=>{
       this.fileList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[1].list=this.fileList;
+      this.initValues.formDetails[2].list=this.fileList;
+    }) 
+    this.filterService.mobileList(payload).subscribe(res=>{
+      this.mobile= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.mobile;
     }) 
   }
 

@@ -18,7 +18,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { AnimatedDigitComponent } from './animated-digit/animated-digit.component';
 
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -43,6 +43,7 @@ import { AnimatedDigitComponent } from './animated-digit/animated-digit.componen
     NgSelectModule,
     NgxPaginationModule,
     Daterangepicker,
+    MatSlideToggleModule
   ],
   exports: [
     MenuBarComponent,

@@ -23,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {MatButtonModule} from '@angular/material/button';
     SharedModule,
     Daterangepicker,
     SharedModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule
   ]
 })
 export class ManageEnterpriseModule { }

@@ -26,5 +26,13 @@ return this.http.post<any>(
     );
   }
 
+  mobileList(config: any): Observable<any> {
+    const url = `${environment.baseURL}Corporate_Deck_Mobile_Number`;
+    return this.http.post<any>(
+        url,
+        config
+    );
+  }
+
   constructor(private http: HttpClient) {}
 }

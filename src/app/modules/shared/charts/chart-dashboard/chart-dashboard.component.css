@@ -68,36 +68,66 @@
     background: linear-gradient(to right, #0662a7d1 10%, #0391f1b5 90%);
     color: #fff !important;
     border-color: #0662a7;
+    -webkit-box-shadow: 5px 5px 5px #666;
+    -moz-box-shadow: 5px 5px 5px #666;
+    box-shadow: 5px 5px 5px #666;
 }
 
 .active2 {
     /* background: linear-gradient(to right, #ba002abf 0%, #e7242bc2 80%);
      */
-    background: linear-gradient(to right, #e7242b 20%, #f54646cf 80%);
+    background: linear-gradient(to right, #e7b338 20%, #debf76 80%);
     color: #fff !important;
-    border-color: #ba002abf;
+    border-color: #F3D48B;
+    box-shadow: 10px 5px 5px #F3D48B !important;
 }
 
 .active3 {
-    background: linear-gradient(to right, #11af12 30%, #75d41d 80%);
+    background: linear-gradient(to right, #3bde3b 30%, #75d41d 80%);
     color: #fff !important;
     /* border-color: #11af12; */
-    border: 1px solid #11af12;
+    border: 1px solid #3bde3b;
+    box-shadow: 10px 5px 5px #3bde3b !important;
+    
 }
 
 .active-bg {
     border: 1px solid #11af12;
 }
 
-.active label,
-.active p,
+.active5 label,
+.active5 p,
 .active1 label,
 .active1 p,
-.active2 label,
-.active2 p,
+.active6 label,
+.active6 p,
 .active3 label,
 .active3 p {
     color: #fff;
+}
+
+.active5 {
+    background: linear-gradient(to right, #efc564 20%, #d9c28d 80%);;
+    color: #fff !important;
+    /* border-color: #11af12; */
+    border: 1px solid #F3D48B;
+    background-color:'#fff';
+    -webkit-box-shadow: 5px 5px 5px #666;
+    -moz-box-shadow: 5px 5px 5px #666;
+    box-shadow: 5px 5px 5px #666;
+    
+}
+
+.active6 {
+    background: linear-gradient(to right, #56d556 30%, #b6dd91 80%);
+    color: #fff !important;
+    /* border-color: #11af12; */
+    border: 1px solid #75d41d;
+    background-color:'#fff';
+    -webkit-box-shadow: 5px 5px 5px #666;
+    -moz-box-shadow: 5px 5px 5px #666;
+    box-shadow: 5px 5px 5px #666;
+    
 }
 
 
@@ -542,7 +572,7 @@ p {
 }
 
 .font-white {
-    color: #828282;
+    color: white;
 }
 
 .font-14 {
@@ -1314,3 +1344,9 @@ body { font-family: sans-serif;}  */
 .container1 {width:100%; float:left;}
 .col1{ width:20%; float:left}
 
+::ng-deep.mat-slide-toggle-bar {
+    background-color: gray;
+}
+::ng-deep.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: lightseagreen;
+}

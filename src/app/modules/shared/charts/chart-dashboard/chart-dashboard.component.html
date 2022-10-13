@@ -1,6 +1,6 @@
 <div class="container1 m-0 mb-3 mt-2">
     <div class="col1 col-sm-12 col-xs-12" clickColor>
-        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': overallActive}" (click)="onOverAll()" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': overallActive, 'active6': !overallActive}" (click)="onOverAll()">
 
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.conversionCount || '0'}}</label> -->
             <!-- <app-animated-digit [digit]="retailerStatus?.conversionCount || '0'" [duration]="3000"> </app-animated-digit> -->
@@ -12,7 +12,7 @@
     </div>
 
     <div class="col1 col-sm-12 col-xs-12">
-        <div class="sub-box-purple curs_pointer" [ngClass]="{'active2': visitorActive}" (click)="onBookAppointMent()" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active2': visitorActive, 'active5': !visitorActive}" (click)="onBookAppointMent()">
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.ticketCount || '0'}}</label> -->
             <!-- <animated-digit [digit]="3000" [duration]="1000"> </animated-digit> -->
             <app-animated-digit [digit]="retailerStatus?.ticketCount" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="col1 col-sm-12 col-xs-12">
-        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': feedbackActive}" (click)="onFeedback()" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': feedbackActive, 'active6': !feedbackActive}" (click)="onFeedback()">
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.feedbackCount || '0'}}</label> -->
             <app-animated-digit [digit]="retailerStatus?.feedbackCount || '0'" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
 
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="col1 col-sm-12 col-xs-12 pr-3">
-        <div class="sub-box-purple curs_pointer" [ngClass]="{'active2': ticketsActive}" (click)="onLiveAgent()" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active2': ticketsActive, 'active5': !ticketsActive}" (click)="onLiveAgent()">
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.visitorCount || '0'}}</label> -->
             <app-animated-digit [digit]="retailerStatus?.visitorCount || '0'" [duration]="2000"> </app-animated-digit><span class="f-s-25 font-weight-bold">%</span>
             <p class="font-white">Product <br> Info</p>
@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="col1 col-sm-12 col-xs-12 pr-1">
-        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': conversionActive}" (click)="onConversion()" [ngStyle]="{'background-color':'#fff'}">
+        <div class="sub-box-purple curs_pointer" [ngClass]="{'active3': conversionActive, 'active6': !conversionActive}" (click)="onConversion()">
 
             <!-- <label class="big-num-wht curs_pointer">{{retailerStatus?.conversionCount || '0'}}</label> -->
             <!-- <app-animated-digit [digit]="retailerStatus?.conversionCount || '0'" [duration]="3000"> </app-animated-digit> -->
@@ -58,78 +58,49 @@
     <div class="col-5">
         
     </div>
-    <div class="form-group col-5">
+    <div class="form-group col-5"  *ngIf="!overallActive">
         
 
-        <input readonly type="text" class="col-lg-12 col-md-12 col-sm-12 form-control outer-border" placeholder="Select Date Range" [value]="dateRangeValue" name="daterangeInput" daterangepicker #pickerDate [options]="options" (selected)="selectedDate($event, daterange)"
+        <input readonly type="text" 
+        class="col-lg-12 col-md-12 col-sm-12 form-control outer-border" 
+        placeholder="Select Date Range" [value]="dateRangeValue" name="daterangeInput"
+         daterangepicker #pickerDate [options]="options" (selected)="selectedDate($event, daterange)"
         />
-        <i *ngIf="dateRangeValue" (click)="clearDate()" class="fa fa-times icon-caret-times"></i>
+        <i *ngIf="dateRangeValue" (click)="clearDate()"
+         class="fa fa-times icon-caret-times"></i>
         <i (click)="pickerDate.click()" class="fa fa-calendar-alt icon-caret"></i>
     </div>
-    <div class="col-2 text-center">
+    <div class="col-2 text-center"  *ngIf="!overallActive">
         
         <button class="btn btn-pri btn-pri-shadow mr-2" (click)="apply()">
             Apply
         </button>
-        <button class="btn btn-sec btn-sec-shadow" (click)="clear()">
+        <button class="btn btn-sec btn-sec-shadow" (click)="clearDate()">
             Clear
         </button>
     </div>
 </div>
 <div class="row m-0 mb-4">
     <!-- <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-10 col-md-10 col-sm-12':'col-lg-9 col-md-9 col-sm-12'}} "> -->
-    <div class="col-lg-10 col-md-10 col-sm-12">
+    <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="chart">
-            <canvas id="myChart" baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+            <div class="row" style="margin-top: -1rem;">
+                <div class="col-6">
+                    <mat-slide-toggle (change)="setMessage($event)">{{message}}</mat-slide-toggle>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn  btn-sec btn-sec-shadow mr-2" [ngClass]="{'active2': ( visitorActive && weekActive && !dateFilter) || (ticketsActive && weekActive && !dateFilter),  'active3': (feedbackActive && weekActive && !dateFilter) || (conversionActive && weekActive && !dateFilter) || (overallActive && weekActive && !dateFilter)}" (click)="onWeek()">Week</button>
+                    <button class="btn  btn-sec btn-sec-shadow mr-2" [ngClass]="{'active2': (visitorActive && monthActive && !dateFilter) || (ticketsActive && monthActive && !dateFilter),  'active3': (feedbackActive && monthActive && !dateFilter) || (conversionActive && monthActive && !dateFilter) || (overallActive && monthActive && !dateFilter)}" (click)="onMonth()">Month</button>
+                    <button class="btn  btn-sec btn-sec-shadow mr-2" [ngClass]="{'active2': (visitorActive && yearActive && !dateFilter) || (ticketsActive && yearActive && !dateFilter),  'active3': (feedbackActive && yearActive && !dateFilter) || (conversionActive && yearActive && !dateFilter) || (overallActive && yearActive && !dateFilter)}" (click)="onYear()">Year</button>
+                </div>
+            </div>
+            
+            <canvas id="canvas" baseChart [datasets]="lineChartData" [labels]="lineChartLabels" 
+                [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" 
+                [chartType]="lineChartType" [plugins]="lineChartPlugins">
           </canvas>
         </div>
     </div>
 
     <!-- <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-2 col-md-2 col-sm-12':'col-lg-3 col-md-3 col-sm-12'}} timeline"> -->
-    <div class="col-lg-2 col-md-2 col-sm-12 timeline">
-        <div class="">
-            <!-- <div class="domain" *ngIf="isShown">
-                <h3>Domain</h3>
-                <div class=" radio">
-                    <input label="PWA" type="radio" id="pwa" name="domain" value="pwa" checked>
-                    <input label="WhatsApp" type="radio" id="whatsapp" name="domain" value="whatsapp">
-                    <input label="Both" type="radio" id="both" name="domain" value="both">
-                </div>
-            </div>
-            <div class="domain" *ngIf="isShown">
-                <h3>Language</h3>
-                <div class="radio">
-                    <input label="English" type="radio" id="eng" name="Lng" value="eng" checked>
-                    <input label="Arabic" type="radio" id="ar" name="Lng" value="ar">
-                    <input label="Both" type="radio" id="both" name="Lng" value="both">
-                </div>
-            </div> -->
-
-            <div class="timline">
-                <h3>Timeline</h3>
-                <div class="row">
-                    <!-- <div class="{{conversionActive || feedbackActive || ticketsActive ?'col-lg-12':'col-lg-4'}} m-t-2"> -->
-                    <div class="col-lg-12 m-t-2">
-                        <div class="content" [ngClass]="{'active2': ( visitorActive && weekActive) || (ticketsActive && weekActive),  'active3': (feedbackActive && weekActive) || (conversionActive && weekActive) || (overallActive && weekActive)}" (click)="onWeek()">
-                            <!-- <img src="assets/image/weekly_white_76.png" alt="" srcset=""> -->
-                            <img src="assets/image/{{weekActive?'weekly_white_76':'weekly_76'}}.png" alt="" srcset="">
-                            <!-- {{weekActive?'weekly_white_76':'weekly_76'}} -->
-                            <h5>Week</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-12 m-t-2">
-                        <div class="content" [ngClass]="{'active2': (visitorActive && monthActive) || (ticketsActive && monthActive),  'active3': (feedbackActive && monthActive) || (conversionActive && monthActive) || (overallActive && monthActive)}" (click)="onMonth()">
-                            <img src="assets/image/{{monthActive?'monthly_white_76':'monthly_76'}}.png" alt="" srcset="">
-                            <h5>Month</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 m-t-2">
-                        <div class="content" [ngClass]="{'active2': (visitorActive && yearActive) || (ticketsActive && yearActive),  'active3': (feedbackActive && yearActive) || (conversionActive && yearActive) || (overallActive && yearActive)}" (click)="onYear()">
-                            <img src="assets/image/{{yearActive?'yearly_white_76':'yearly_76'}}.png" alt="" srcset="">
-                            <h5>Year</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    

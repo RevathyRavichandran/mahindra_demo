@@ -43,5 +43,13 @@ return this.http.post<any>(
     );
   }
 
+  mobile(config: any): Observable<any> {
+    const url = `${environment.baseURL}Product_Info_Mobile_Number`;
+    return this.http.post<any>(
+        url,
+        config
+    );
+  }
+
   constructor(private http: HttpClient) {}
 }

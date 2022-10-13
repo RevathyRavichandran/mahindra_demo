@@ -36,34 +36,34 @@
                 <h2 class="collapse-inner rounded mb-0">
                     <a class="collapse-item ">
                         <button (click)="open2 = open2=='true' ? 'false' : 'true'"  class="btn accordion" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <img class="side-icon" src="assets/image/Book_appointment.png">Reports <i class="fa fa-caret-down" *ngIf="open2=='false' || !open2" aria-hidden="true"></i>
+                            <img class="side-icon" src="assets/image/Feedback icon.png">Reports <i class="fa fa-caret-down" *ngIf="open2=='false' || !open2" aria-hidden="true"></i>
                             <i class="fa fa-caret-up" *ngIf="open2=='true'" aria-hidden="true"></i>
                         </button>
                         <button *ngIf="open2=='true'" (click)="onAppointment()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '2'}" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <img class="side-icon" src="assets/image/Book_appointment.png">Corporate Deck
+                            <img class="side-icon" src="assets/image/company.png">Corporate Deck
                         </button>
                         <button *ngIf="open2=='true'" (click)="onFeedback()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '3'}" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <img class="side-icon" src="assets/image/Feedback icon.png">Market Updates
+                            <img class="side-icon" src="assets/image/shopping-store.png">Market Updates
                         </button>
                         <button *ngIf="open2=='true'" (click)="open = open=='true' ? 'false' : 'true'"
                          class="btn accordion pl-4" type="button" (click)="onTickets()" data-toggle="collapse" [ngClass]="{'active': selectedNavTab === '8'}"
                          data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                            <img class="side-icon" src="assets/image/Ticket icon.png">Products Info <i class="fa fa-caret-down" *ngIf="open=='false' || !open" aria-hidden="true"></i>
+                            <img class="side-icon" src="assets/image/box.png">Products Info <i class="fa fa-caret-down" *ngIf="open=='false' || !open" aria-hidden="true"></i>
                             <i class="fa fa-caret-up" *ngIf="open=='true'" aria-hidden="true"></i>
                         </button>
                         <div>
                             <button *ngIf="open=='true' && open2=='true'" (click)="onVisitors()" class="btn accordion pl-5" [ngClass]="{'active1': selectedNavTab === '4'}" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                <img class="side-icon" src="assets/image/Ticket icon.png">One Pagers
+                                <img class="side-icon" src="assets/image/pager.png">One Pagers
                             </button>
                             <button *ngIf="open=='true' && open2=='true'" (click)="onVisitors1()" class="btn accordion pl-5" [ngClass]="{'active1': selectedNavTab === '6'}" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                <img class="side-icon" src="assets/image/Ticket icon.png">Product Notes
+                                <img class="side-icon" src="assets/image/sticky-notes.png">Product Notes
                             </button>
                             <!-- <button *ngIf="open=='true'" (click)="onMatrix()" class="btn accordion pl-4" [ngClass]="{'active1': selectedNavTab === '7'}" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                                 <img class="side-icon" src="assets/image/Ticket icon.png">Product Notes
                             </button> -->
                         </div>
                         <button *ngIf="open2=='true'" class="btn accordion pl-4" (click)="onMilestone()" [ngClass]="{'active1': selectedNavTab === '5'}" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                            <img class="side-icon" src="assets/image/milestone_icon.png">Digital Factsheet
+                            <img class="side-icon" src="assets/image/digitalization.png">Digital Factsheet
                         </button>
                     </a>
                 </h2>
@@ -149,19 +149,27 @@
             </div>
             <div id="collapseSeven" class="" aria-labelledby="headingOne" data-parent="#accordionExample"></div>
         </div>  -->
-        <div class="">
+        <!-- <div class="">
             <div class="accordion-menu" id="headingOne">
                 <h2 class="collapse-inner rounded mb-0">
                     <a class="collapse-item ">
-                        <button (click)="logOut()" class="btn accordion" type="button">
+                        <a (click)="logOut()" class="btn accordion" type="button">
                             <img class="side-icon" src="assets/image/power-off.png">Logout
-                        </button>
+                        </a>
                     </a>
                 </h2>
             </div>
             <div id="collapseEight" class="" aria-labelledby="headingOne" data-parent="#accordionExample"></div>
-        </div>
+        </div> -->
 
     </div>
+    
     <!-- <p class="version-class">Version 1.0</p> -->
 </div>
+<div style="bottom: 0; position: absolute; padding-bottom: 1rem;width: 100%;">
+    <a (click)="logOut()" class="btn accordion" type="button">
+        <img class="side-icon" src="assets/image/power-off.png">Logout
+    </a>
+
+</div>
+

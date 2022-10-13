@@ -28,7 +28,7 @@ import {
 export class CustomSelectComponent
   implements OnInit, OnChanges, ControlValueAccessor, Validator {
   @Input() className = 'form-control mandatory brd_radius';
-  @Input() placeholder = '-- Select One --'
+  @Input() placeholder = '-- Select --'
   @Input() defaultOption = {
     key: '',
     value: '-- Select One --',
@@ -36,7 +36,8 @@ export class CustomSelectComponent
   @Input() isDisabled: boolean;
   @Input('selectedOption') val: any;
   @Input() values: any[];
-  // @Input() formControlName: any[];
+  @Input() controlName: any;
+  
   @Input() isRequired: string;
   @Input() keyField = 'key';
   @Input() valueField = 'value';
@@ -47,7 +48,7 @@ export class CustomSelectComponent
 
   inputError: boolean;
   isFirst: boolean = true;
-
+  isChecked: boolean = false;
   
   onChange: any = () => { };
   onTouch: any = () => { };
@@ -59,6 +60,9 @@ export class CustomSelectComponent
     }
   }
  
+  dropdownList = [];
+    selectedItems = [];
+    dropdownSettings = {};
   
   set selectedOption(val) {
     this.val = val;
@@ -67,6 +71,7 @@ export class CustomSelectComponent
       return;
     }
     const selectedValue = this.getSelectedObject();
+    this.isChecked = this.val?.length == this.values?.length ? true : false; 
     //console.log('selectedValue', selectedValue)
     this.valueChange.emit(selectedValue);
     this.checkValidation();
@@ -90,7 +95,9 @@ export class CustomSelectComponent
   constructor() { }
 
   ngOnInit() {
+    console.log('valezzzzzzzzzz', this.values)
     this.selectedOption = this.selectedOption || this.defaultOption.key;
+    
   }
 
   checkValidation() {
@@ -106,7 +113,8 @@ export class CustomSelectComponent
   }
 
   ngOnChanges() {
-    console.log(this.values.length);  
+    console.log('onchange',this.val?.length, this.values?.length); 
+    
     if (this.selectedOption) {
       this.onChange(this.val);
       
@@ -174,4 +182,38 @@ export class CustomSelectComponent
   onFilterChange(event){
   console.log("filter",event.value)
   }
+
+  selectAllItems() {
+    const newList = this.values.map((x) => x.key);
+    
+    this.selectedOption = newList;
+    console.log('newlist', this.selectedOption, this.val)
+    this.onChange(this.val);
+  }
+
+  unselectAllItems() {
+    this.selectedOption = [];
+    this.onChange('');
+  }
+  toggleCheckAll(values: any) {
+    
+    if (values.currentTarget.checked) {
+      this.selectAllItems();
+    } else {
+      this.unselectAllItems();
+    }
+    // this.isChecked = this.val?.length == this.values?.length ? true : false; 
+  }
+
+  // selectAll() {
+  //   const newList = this.values.map((x) => x.key);
+    
+  //   this.selectedOption = [...newList];
+  //   this.onChange([...newList]);
+  // }
+
+  // unselectAll() {
+  //   this.selectedOption = [];
+  //   this.onChange([]);
+  // }
 }

@@ -40,6 +40,10 @@ export class RegionComponent implements OnInit {
   physicianCount: any;
   departmentCount: any;
   facilityCount: any;
+  regionPer: any;
+  physicianPer: any;
+  departmentPer: any;
+  facilityPer: any;
   options: any;
   page: Number;
   isApplyClicked: boolean;
@@ -68,6 +72,13 @@ export class RegionComponent implements OnInit {
   private picker: DaterangepickerComponent;
   
   facility: boolean = false;
+
+  message = 'Count';
+
+  setMessage(e) {
+    if (e.checked) this.message = 'Percentage';
+    else this.message = 'Count';
+  }
 
   constructor(
     private enterpriseService: MetricService,
@@ -157,13 +168,15 @@ export class RegionComponent implements OnInit {
         this.physicianCount = regionResponse.metricList.reduce((accumulator, value) => {
           return accumulator + parseInt(value.metricCount);
         }, 0);
+        this.physicianPer = regionResponse.totalAverage;
         // this.physicianCount = regionResponse.totalMetricCount;
       } else if (regionResponse.selectedFolder != '') {
         this.departmentSource = regionResponse.metricList;
         this.physicianSource = '';
         this.departmentCount = regionResponse.metricList.reduce((accumulator, value) => {
           return accumulator + parseInt(value.metricCount);
-        }, 0)
+        }, 0);
+        this.departmentPer = regionResponse.totalAverage;
        } else if(regionResponse.selectedUsecase != '') {
         this.facility=true;
         this.facilitysource = regionResponse.metricList;
@@ -172,6 +185,7 @@ export class RegionComponent implements OnInit {
         this.facilityCount = regionResponse.metricList.reduce((accumulator, value) => {
           return accumulator + parseInt(value.metricCount);
         }, 0);
+        this.facilityPer = regionResponse.totalAverage;
       } else if (regionResponse.selectedUsecase == '') {
         this.regionSoruce = regionResponse.metricList;
         this.departmentSource = '';
@@ -179,6 +193,7 @@ export class RegionComponent implements OnInit {
         this.regionCount = regionResponse.metricList.reduce((accumulator, value) => {
           return accumulator + parseInt(value.metricCount);
         }, 0);
+        this.regionPer = regionResponse.totalAverage;
         // this.regionCount = regionResponse.totalMetricCount;
       }
     } else {

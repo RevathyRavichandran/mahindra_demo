@@ -63,9 +63,8 @@
 }
 
 .shadow-none {
-    position: fixed;
     margin: 0;
-    width: 16.55%;
+    width: 100%;
 }
 
 .admin-span {
@@ -110,6 +109,8 @@
 
 .active1 {
     color: black;
-    background-color: lavender;
+    background: linear-gradient(to bottom, #F6D285
+    0%, 
+    #BBF0F3 100%);
     padding-left: 10px;
 }

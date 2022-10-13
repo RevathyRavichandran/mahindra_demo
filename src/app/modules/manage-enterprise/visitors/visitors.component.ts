@@ -19,6 +19,7 @@ export class VisitorsComponent implements OnInit {
 
   arnList: any = [];
   fileList: any = [];
+  mobile: any = [];
   
   visitorsList: any;
   searchDatas: any;
@@ -28,6 +29,12 @@ export class VisitorsComponent implements OnInit {
   initValues = {
     title: 'One Pagers',
     formDetails: [
+      {
+        label: 'Mobile Number',
+        controlName: 'mobile_number',
+        type: 'select',
+        list:this.mobile
+      },
       {
         label: 'ARN',
         controlName: 'arn_number',
@@ -85,11 +92,15 @@ export class VisitorsComponent implements OnInit {
     this.getAppointmentConversationList()
     this.enterpriseService.arnlist(payload).subscribe(res=>{
       this.arnList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[0].list=this.arnList;
+      this.initValues.formDetails[1].list=this.arnList;
     }) 
     this.enterpriseService.filelist(payload).subscribe(res=>{
       this.fileList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[2].list=this.fileList;
+      this.initValues.formDetails[3].list=this.fileList;
+    }) 
+    this.enterpriseService.mobile(payload).subscribe(res=>{
+      this.mobile= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.mobile;
     }) 
   }
 

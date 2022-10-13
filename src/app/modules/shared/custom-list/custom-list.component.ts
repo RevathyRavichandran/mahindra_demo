@@ -198,38 +198,38 @@ export class CustomListComponent implements OnInit, OnChanges {
     if(this.title == 'Market Updates') {
       this.searchForm.get("folderName")?.valueChanges.subscribe(folder => {
         var payload1 = {ProcessVariables:{
-          folder_name: folder
+          folder_name: folder.map(d => `'${d}'`).join(',')
         }}
         this.market.filelist(payload1).subscribe(res=>{
-          this.formDetails[2].list= res.ProcessVariables.output_data;
+          this.formDetails[3].list= res.ProcessVariables.output_data;
         }) 
         console.log('market',folder)
       })
     } else if(this.title == 'Product Information') {
       this.searchForm.get("folderName")?.valueChanges.subscribe(folder => {
         var payload1 = {ProcessVariables:{
-          folder_name: folder
+          folder_name: folder.map(d => `'${d}'`).join(',')
         }}
         this.productInform.filelist(payload1).subscribe(res=>{
-          this.formDetails[2].list= res.ProcessVariables.output_data;
+          this.formDetails[3].list= res.ProcessVariables.output_data;
         })
       })
     } else if(this.title == 'One Pagers') {
       this.searchForm.get("subFolder")?.valueChanges.subscribe(folder => {
         var payload1 = {ProcessVariables:{
-          subFolder: folder
+          subFolder: folder.map(d => `'${d}'`).join(',')
         }}
         this.onePagers.filelist(payload1).subscribe(res=>{
-          this.formDetails[2].list= res.ProcessVariables.output_data;
+          this.formDetails[3].list= res.ProcessVariables.output_data;
         })
       })
     } else if(this.title == 'Product Notes') {
       this.searchForm.get("subFolder")?.valueChanges.subscribe(folder => {
         var payload1 = {ProcessVariables:{
-          subFolder: folder
+          subFolder: folder.map(d => `'${d}'`).join(',')
         }}
         this.productNote.filelist(payload1).subscribe(res=>{
-          this.formDetails[2].list= res.ProcessVariables.output_data;
+          this.formDetails[3].list= res.ProcessVariables.output_data;
         })
       })
     }
@@ -238,7 +238,7 @@ export class CustomListComponent implements OnInit, OnChanges {
     if(this.title == 'One Pagers' || this.title == 'Product Notes') {
       this.searchForm.get("folderName")?.valueChanges.subscribe(x => {
         if(x=='One Pagers') {
-          this.formDetails[2].list= [
+          this.formDetails[3].list= [
             {
               key: 'Equity',
               value: 'Equity'
@@ -359,12 +359,32 @@ export class CustomListComponent implements OnInit, OnChanges {
       return;
     }
     this.isApplyClicked = true;
+    if(formValue && formValue.folderName?.length > 0) {
+      formValue.folderName = formValue.folderName.map(d => `'${d}'`).join(',')
+    }
+
+    if(formValue && formValue.url?.length > 0) {
+      formValue.url = formValue.url.map(d => `'${d}'`).join(',')
+    }
+
+    if(formValue && formValue.mobile_number?.length > 0) {
+      formValue.mobile_number = formValue.mobile_number.map(d => `'${d}'`).join(',')
+    }
+
+    if(formValue && formValue.subFolder?.length > 0) {
+      formValue.subFolder = formValue.subFolder.map(d => `'${d}'`).join(',')
+    }
+
+    if(formValue && formValue.arn_number?.length > 0) {
+      formValue.arn_number = formValue.arn_number.map(d => `'${d}'`).join(',')
+    }
+
 
     this.searchDatas = {
       from_date: this.searchFromDate,
       to_date: this.searchToDate,
       isApplyFilter: true,
-      per_page: parseInt(this.itemper),
+      per_page: parseInt(this.itemper) ? parseInt(this.itemper) : 8,
       ...formValue,
     }
 
@@ -381,10 +401,26 @@ export class CustomListComponent implements OnInit, OnChanges {
 
   pageChangeEvent(event) {
     this.page = Number(event);
+    if(this.searchDatas && this.searchDatas.folderName?.length > 0 ) {
+      this.searchDatas.folderName = this.searchDatas.folderName.map(d => `'${d}'`).join(',')
+    }
+    if(this.searchDatas && this.searchDatas.url?.length > 0 ) {
+      this.searchDatas.url = this.searchDatas.url.map(d => `'${d}'`).join(',')
+    }
+    if(this.searchDatas && this.searchDatas.mobile_number?.length > 0 ) {
+      this.searchDatas.mobile_number = this.searchDatas.mobile_number.map(d => `'${d}'`).join(',')
+    }
+    if(this.searchDatas && this.searchDatas.subFolder?.length > 0 ) {
+      this.searchDatas.subFolder = this.searchDatas.subFolder.map(d => `'${d}'`).join(',')
+    }
+    if(this.searchDatas && this.searchDatas.arn_number?.length > 0 ) {
+      this.searchDatas.arn_number = this.searchDatas.arn_number.map(d => `'${d}'`).join(',')
+    }
+
     const paginationDatas = {
       searchDatas: this.searchDatas,
       pageIndex: this.page,
-      per_page: this.pageSize
+      per_page: this.pageSize ? this.pageSize : 8
     }
     this.pagination.emit(paginationDatas)
 

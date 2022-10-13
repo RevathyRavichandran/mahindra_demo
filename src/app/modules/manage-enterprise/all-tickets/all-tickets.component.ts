@@ -17,6 +17,7 @@ export class AllTicketsComponent implements OnInit {
 
   arnList: any = [];
   fileList: any = [];
+  mobile: any = [];
 
   search: any;
   
@@ -29,6 +30,12 @@ export class AllTicketsComponent implements OnInit {
   initValues = {
     title: 'Product Information',
     formDetails: [
+      {
+        label: 'Mobile Number',
+        controlName: 'mobile_number',
+        type: 'select',
+        list:this.mobile
+      },
       {
         label: 'ARN',
         controlName: 'arn_number',
@@ -95,11 +102,15 @@ export class AllTicketsComponent implements OnInit {
     this.getLiveAgentData()
     this.enterpriseService.arnlist(payload).subscribe(res=>{
       this.arnList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[0].list=this.arnList;
+      this.initValues.formDetails[1].list=this.arnList;
     }) 
     this.enterpriseService.filelist(payload).subscribe(res=>{
       this.fileList= res.ProcessVariables.output_data;
-      this.initValues.formDetails[2].list=this.fileList;
+      this.initValues.formDetails[3].list=this.fileList;
+    }) 
+    this.enterpriseService.mobile(payload).subscribe(res=>{
+      this.mobile= res.ProcessVariables.output_data;
+      this.initValues.formDetails[0].list=this.mobile;
     }) 
   }
 

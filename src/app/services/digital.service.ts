@@ -43,6 +43,14 @@ return this.http.post<any>(
     );
   }
 
+  mobile(config: any): Observable<any> {
+    const url = `${environment.baseURL}Digital_Factsheet_Mobile `;
+    return this.http.post<any>(
+        url,
+        config
+    );
+  }
+
 
   constructor(private http: HttpClient) {}
 }
