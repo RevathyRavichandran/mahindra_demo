@@ -19,6 +19,13 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import { AnimatedDigitComponent } from './animated-digit/animated-digit.component';
 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { NgApexchartsModule } from "ng-apexcharts";
+import { RadialChartComponent } from './radial-chart/radial-chart.component';
+import { AreaChartComponent } from './area-chart/area-chart.component';
+import { ColumnChartComponent } from './column-chart/column-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 
 
 @NgModule({
@@ -32,7 +39,13 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     PageNotFoundComponent,
     ConfirmModalComponent,
     CustomListComponent,
-    AnimatedDigitComponent
+    AnimatedDigitComponent,
+    PieChartComponent,
+    RadialChartComponent,
+    AreaChartComponent,
+    ColumnChartComponent,
+    LineChartComponent,
+    BarChartComponent
     ],
   imports: [
     CommonModule,
@@ -43,7 +56,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     NgSelectModule,
     NgxPaginationModule,
     Daterangepicker,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NgApexchartsModule
   ],
   exports: [
     MenuBarComponent,

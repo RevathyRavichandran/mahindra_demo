@@ -5,6 +5,7 @@ import { Color, Label } from "ng2-charts";
 import { ToasterService } from '@services/toaster.service';
 import { AnimatedDigitComponent } from '@shared/animated-digit/animated-digit.component';
 import { DateRangeService } from '@services/date-range.service';
+import ApexCharts from 'apexcharts'
 
 
 @Component({
@@ -24,6 +25,8 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   isShown: boolean = true;
   dateFilter: boolean = false;
+
+  overAll: boolean = true;
 
   retailerStatus: {
     feedbackCount: any,
@@ -151,6 +154,10 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
         // 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
     };
+   
+    
+    
+    
   }
 
 
@@ -475,7 +482,6 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
       this.getDigital();
     }, 10);
 
-    console.log('vajlsdjioeud', this.message)
     // if(this.message == 'Percentage') {
     //   console.log('tetststst', this.message)
     //   this.lineChartOptions.tooltips = {
@@ -558,104 +564,9 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   async getChartResults() {
     // this.lineChartData.shift()
-
-    try {
-      const params = {
-        "ProcessVariables": {
-          xAxis: this.xAxisType,
-          nameOfCounts: this.nameOfCounts,
-          "fromDate": this.searchFromDate,
-          "toDate": this.searchToDate
-        }
-
-      }
-
-      
-
-
-      this.enterpriseApiService.corporateDeckChart(params).subscribe(response => {
-        console.log('getChart', response);
-
-        const appiyoError = response?.Error;
-        const apiErrorCode = response.ProcessVariables?.errorCode;
-        const errorMessage = response.ProcessVariables?.errorMessage;
-
-        this.processVariables = response?.ProcessVariables
-
-        if (appiyoError == '0') {
-
-          const graphCounts = this.processVariables.graphDateList;
-          const year = this.processVariables.xAxis;
-          const totalCount = this.processVariables.totalAverage;
-          this.lineChartLabels = [];
-          this.lineChartData = [{
-            data: [],
-
-            // label: totalCount 
-            label: "Average Count  " + parseFloat(totalCount),
-            
-          }];
-
-          let yAxis = [];
-          let Percentag = [];
-          let xAxis = [];
-          
-          graphCounts.forEach((graph) => {
-
-            const graphDate = graph.graphDate;
-              const split = graphDate.split('-');
-              const output = `${split[2]}/${split[1]}`
-              const Percentage = graph.graphPercentage + '%';
-              if (split[2]) {
-                this.lineChartLabels.push(output);
-                xAxis.push(output);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  Percentag.push(Percentage);
-                  yAxis.push(graph.graphPercentage); 
-                }
-                
-              } else {
-                xAxis.push(graph.graphDate);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  Percentag.push(Percentage);
-                  yAxis.push(graph.graphPercentage);
-                  
-                }
-              }
-              
-            this.bgColor = ['#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF'];
-          })
-          
-
-          this.lineChartData[0]['data'] = yAxis.reverse();
-          this.lineChartLabels = xAxis.reverse();
-
-          
-
-         
-
-          console.log('this.lineChartLabels', this.lineChartOptions.tooltips) //xAxis
-          console.log('this.lineChartData', this.lineChartData) //yAxis
-          
-        }
-        
-        
-        else {
-          if (errorMessage === undefined) {
-            return;
-          }
-          this.toasterService.showError(errorMessage == undefined ? 'Chart error' : errorMessage, 'Dashboard Chart')
-        }
-      })
-
-
-
-    } catch (err) {
-      console.log("Error", err);
+    
+    if(this.visitorActive) {
+      this.enterpriseApiService.sendClickEvent();
     }
 
   }
@@ -663,394 +574,37 @@ export class ChartDashboardComponent implements OnInit, AfterViewInit {
 
   async getFeedbackChartResults() {
 
-    try {
-      const params = {
-        "ProcessVariables": {
-          xAxis: this.xAxisType,
-          nameOfCounts: this.nameOfCounts,
-          "fromDate": this.searchFromDate,
-          "toDate": this.searchToDate
-        }
-
-      }
-      
-
-      this.enterpriseApiService.marketUpdatesChart(params).subscribe(response => {
-        console.log('getChart', response);
-
-        const appiyoError = response?.Error;
-        const apiErrorCode = response.ProcessVariables?.errorCode;
-        const errorMessage = response.ProcessVariables?.errorMessage;
-
-        this.processVariables = response?.ProcessVariables
-
-        if (appiyoError == '0') {
-
-          const graphCounts = this.processVariables.graphDateList;
-          const year = this.processVariables.xAxis;
-          const totalCount = this.processVariables.totalAverage;
-          this.lineChartLabels = [];
-          this.lineChartData = [{
-            data: [],
-            // label: totalCount 
-            label: "Average Count  " + totalCount,
-            
-          }];
-          let yAxis = []
-          let xAxis = [];
-          graphCounts.forEach((graph) => {
-
-            const graphDate = graph.graphDate;
-              const split = graphDate.split('-');
-              const output = `${split[2]}/${split[1]}`
-              if (split[2]) {
-                this.lineChartLabels.push(output);
-                xAxis.push(output);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-                
-              } else {
-                xAxis.push(graph.graphDate);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-              }
-            this.bgColor = ['#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF'];
-          })
-
-          this.lineChartData[0]['data'] = yAxis.reverse();
-          this.lineChartLabels = xAxis.reverse();
-
-          
-          console.log('this.lineChartData', this.lineChartData) //yAxis
-        }
-        else {
-          if (errorMessage === undefined) {
-            return;
-          }
-          this.toasterService.showError(errorMessage == undefined ? 'Chart error' : errorMessage, 'Dashboard Chart')
-        }
-      })
-
-
-
-    } catch (err) {
-      console.log("Error", err);
+    if(this.feedbackActive) {
+      this.enterpriseApiService.sendClickEvent();
     }
+
 
   }
 
 
   async getproductInfo() {
 
-    try {
-      const params = {
-        "ProcessVariables": {
-          xAxis: this.xAxisType,
-          nameOfCounts: this.nameOfCounts,
-          "fromDate": this.searchFromDate,
-          "toDate": this.searchToDate
-        }
-
-      }
-
-      this.enterpriseApiService.productInfoChart(params).subscribe(response => {
-        console.log('getChart', response);
-
-        const appiyoError = response?.Error;
-        const apiErrorCode = response.ProcessVariables?.errorCode;
-        const errorMessage = response.ProcessVariables?.errorMessage;
-
-        this.processVariables = response?.ProcessVariables
-
-        if (appiyoError == '0') {
-
-          const graphCounts = this.processVariables.graphDateList;
-          const year = this.processVariables.xAxis;
-          const totalCount = this.processVariables.totalAverage;
-          this.lineChartLabels = [];
-          this.lineChartData = [{
-            data: [],
-            // label: totalCount 
-            label: "Average Count  " + totalCount
-          }];
-          let yAxis = []
-          let xAxis = [];
-          graphCounts.forEach((graph) => {
-
-            const graphDate = graph.graphDate;
-              const split = graphDate.split('-');
-              const output = `${split[2]}/${split[1]}`
-              if (split[2]) {
-                this.lineChartLabels.push(output);
-                xAxis.push(output);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-                
-              } else {
-                xAxis.push(graph.graphDate);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-              }
-            this.bgColor = ['#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF'];
-          })
-
-          this.lineChartData[0]['data'] = yAxis.reverse();
-          this.lineChartLabels = xAxis.reverse();
-
-          console.log('this.lineChartLabels', this.lineChartLabels) //xAxis
-          console.log('this.lineChartData', this.lineChartData) //yAxis
-        }
-        else {
-          if (errorMessage === undefined) {
-            return;
-          }
-          this.toasterService.showError(errorMessage == undefined ? 'Chart error' : errorMessage, 'Dashboard Chart')
-        }
-      })
-
-
-
-    } catch (err) {
-      console.log("Error", err);
+    if(this.ticketsActive) {
+      this.enterpriseApiService.sendClickEvent();
     }
+    
 
   }
 
   async getDigital() {
     // this.lineChartData.shift()
-
-    try {
-      const params = {
-        "ProcessVariables": {
-          xAxis: this.xAxisType,
-          nameOfCounts: this.nameOfCounts,
-          "fromDate": this.searchFromDate,
-          "toDate": this.searchToDate
-        }
-
-      }
-      
-
-      this.enterpriseApiService.digitalChart(params).subscribe(response => {
-        console.log('getChart', response);
-
-        const appiyoError = response?.Error;
-        const apiErrorCode = response.ProcessVariables?.errorCode;
-        const errorMessage = response.ProcessVariables?.errorMessage;
-
-        this.processVariables = response?.ProcessVariables
-
-        if (appiyoError == '0') {
-
-          const graphCounts = this.processVariables.graphDateList;
-          const year = this.processVariables.xAxis;
-          const totalCount = this.processVariables.totalAverage;
-          this.lineChartLabels = [];
-          this.lineChartData = [{
-            data: [],
-            // label: totalCount 
-            label: "Average Count  " + totalCount,
-            
-          }];
-          let yAxis = []
-          let xAxis = [];
-          graphCounts.forEach((graph) => {
-
-            const graphDate = graph.graphDate;
-              const split = graphDate.split('-');
-              const output = `${split[2]}/${split[1]}`
-              if (split[2]) {
-                this.lineChartLabels.push(output);
-                xAxis.push(output);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-                
-              } else {
-                xAxis.push(graph.graphDate);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-              }
-            this.bgColor = ['#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF'];
-          })
-
-          this.lineChartData[0]['data'] = yAxis.reverse();
-          this.lineChartLabels = xAxis.reverse();
-
-          
-
-          console.log('this.lineChartData', this.lineChartData) //yAxis
-        }
-        else {
-          if (errorMessage === undefined) {
-            return;
-          }
-          this.toasterService.showError(errorMessage == undefined ? 'Chart error' : errorMessage, 'Dashboard Chart')
-        }
-      })
-
-
-
-    } catch (err) {
-      console.log("Error", err);
+console.log(this.conversionActive)
+    if(this.conversionActive) {
+      this.enterpriseApiService.sendClickEvent();
     }
+    
 
   }
 
   async getOverall() {
-    // this.lineChartData = [{ data: [],
-    // }];
-
-    
-    const params = {
-      "ProcessVariables": {
-        "xAxis": this.xAxisType
-      }
-    }
-
-
-    this.enterpriseApiService.overallChart(params).subscribe(response => {
-      console.log('getChart', response);
-
-      const Error = response?.Error;
-      const ErrorCode = response?.ErrorCode;
-      const ErrorMessage = response?.ErrorMessage;
-
-      this.processVariables = response?.ProcessVariables
-
-      if (Error == '0') {
-
-        // if(this.message == 'Percentage') {
-        //   console.log('peewrywrey')
-        //   this.lineChartOptions.tooltips = {
-        //     callbacks: {
-        //       label: (tooltipItem, data) => {
-        //         return 'Graph Percentage: ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
-                
-        //       }
-        //   }
-        // }
-    
-        // } else {
-        //   this.lineChartOptions.tooltips = {
-        //     callbacks: {
-        //       label: (tooltipItem, data) => {
-        //         console.log('ceiouowie', tooltipItem)
-        //         return 'Graph Count: ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                
-        //       }
-        //   }
-        // }
-        // }
-
-        const appointmentCount = this.processVariables.count_list[3];
-        const appointmentPer = this.processVariables.graphDateList[3].graphPercentage;
-        const visitorCount = this.processVariables.count_list[2];
-        const visitorPer = this.processVariables.graphDateList[3].graphPercentage;
-        const productCount = this.processVariables.count_list[1];
-        const productPer = this.processVariables.graphDateList[3].graphPercentage;
-        const digitalCount = this.processVariables.count_list[0];
-        const digitalPer = this.processVariables.graphDateList[3].graphPercentage;
-
-        const year = this.processVariables.xAxis;
-        const graphCounts = [{
-          "graphCount": appointmentCount,
-          "graphDate": appointmentCount,
-          "graphPercentage": appointmentPer
-        },
-        {
-          "graphCount": visitorCount,
-          "graphDate": visitorCount,
-          "graphPercentage": visitorPer
-        },
-        {
-          "graphCount": productCount,
-          "graphDate": productCount,
-          "graphPercentage": productPer
-        },
-        {
-          "graphCount": digitalCount,
-          "graphDate": digitalCount,
-          "graphPercentage": digitalPer
-        }]
-        // this.lineChartLabels = [];
-        // this.lineChartData = [{ data: [],
-        //   label: 'Count' }];
-        let yAxis = []
-        let xAxis = [];
-
-        graphCounts.forEach((graph) => {
-
-          const graphDate = graph.graphDate;
-              const split = graphDate.split('-');
-              const output = `${split[2]}/${split[1]}`
-              if (split[2]) {
-                this.lineChartLabels.push(output);
-                xAxis.push(output);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage); 
-                }
-                
-              } else {
-                xAxis.push(graph.graphDate);
-                if(this.message == 'Count') {
-                  yAxis.push(graph.graphCount);
-                } else {
-                  yAxis.push(graph.graphPercentage);
-                  
-                }
-              }
-          // this.bgColor =  ['#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF','#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF', '#FFE5A8', '#CAADFF', '#FFD1A3', '#9CFCFC', '#D7D7DF', '#FFE0E6', '#A3D9FF'];
-        })
-
-        this.lineChartColors = [
-          {
-            borderColor: 'white',
-            backgroundColor: ['rgb(242, 80, 34, 0.5)', 'rgb(127, 186, 0, 0.5)', 'rgb(0, 164, 239, 0.5)', 'rgb(255, 185, 0, 0.5)']
-          },
-        ];
-
-        this.lineChartData[0]['data'] = yAxis.reverse();
-        // this.lineChartData[0]['data'] = [appointmentCount, visitorCount]
-        this.lineChartLabels = ["Corporate Deck", "Market Updates", "Product Info", "Digital Factsheet"]
-
-        
-        console.log('this.lineChartLabels', this.lineChartLabels) //xAxis
-        console.log('this.lineChartData', this.lineChartData) //yAxis
-
-        
-      }
-      else {
-        if (ErrorMessage === undefined) {
-          return;
-        }
-        this.toasterService.showError(ErrorMessage == undefined ? 'Chart error' : ErrorMessage, 'Dashboard Chart')
-      }
-
-
-
-    })
-
-
+    if(this.overallActive) {
+      this.enterpriseApiService.sendClickEvent();
+    } 
   }
 
 

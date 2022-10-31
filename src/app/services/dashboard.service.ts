@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -8,6 +8,14 @@ import { environment } from '../../environments/environment';
 })
 export class DashboardService {
 //   private dbUrl = 'https://compute.twixor.digital/d/project/twixor_multisurvey/api/';
+
+private subject = new Subject<any>();
+sendClickEvent() {
+  this.subject.next();
+}
+getClickEvent(): Observable<any>{ 
+  return this.subject.asObservable();
+}
 
 corporateDeckChart(config: any): Observable<any> {
     const url = `${environment.baseURL}Corporate_DEck_chart`;
@@ -17,6 +25,7 @@ return this.http.post<any>(
         config
     );
   }
+
 
   marketUpdatesChart(config: any): Observable<any> {
     const url = `${environment.baseURL}Market_Updates_Chart`;

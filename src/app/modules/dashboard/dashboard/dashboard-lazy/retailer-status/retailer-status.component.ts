@@ -25,7 +25,7 @@ export class RetailerStatusComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getRetailerStatus();
+    // this.getRetailerStatus();
   }
 
   

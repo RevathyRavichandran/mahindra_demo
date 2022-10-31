@@ -65,8 +65,8 @@
                                     </ng-container>
                                     <ng-container matColumnDef="Country">
                                         <td mat-cell *matCellDef="let element" (click)="getFacility(element.metricName)" [ngClass]="{'selectedItem': regionId == element.metricName, 'none': element.metricName == '' }"> {{element.metricName}} 
-                                            <span *ngIf="message =='Count'">{{element.metricCount}}</span> 
-                                            <span *ngIf="message !='Count'">{{element.metricPercentage}} %</span> </td>
+                                            <span *ngIf="message =='Count'"><i class="fa fa-download" style="cursor: pointer;" aria-hidden="true"></i> {{element.metricCount}}</span> 
+                                            <span *ngIf="message !='Count'"><i class="fa fa-download" style="cursor: pointer;" aria-hidden="true"></i> {{element.metricPercentage}} %</span> </td>
                                     </ng-container>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                 </table>
@@ -98,8 +98,9 @@
                                     </ng-container> -->
                                     <ng-container matColumnDef="hospital">
                                         <td mat-cell *matCellDef="let element" (click)="getHospital(element.metricName)" [ngClass]="{'selectedItem': facilityId == element.metricName, 'none': element.metricName == '-' }"> {{element.metricName}} 
-                                            <span *ngIf="message =='Count'">{{element.metricCount}}</span> 
-                                            <span *ngIf="message !='Count'">{{element.metricPercentage}} %</span> </td>
+                                            
+                                            <span *ngIf="message =='Count'"><i class="fa fa-download" style="cursor: pointer;" aria-hidden="true"></i> {{element.metricCount}}</span> 
+                                            <span *ngIf="message !='Count'"><i class="fa fa-download" style="cursor: pointer;" aria-hidden="true"></i> {{element.metricPercentage}} %</span> </td>
                                     </ng-container>
                                     <tr mat-row *matRowDef="let row; columns: facilityColumns;"></tr>
                                 </table>
@@ -116,7 +117,6 @@
                                         <!-- <img src="./././assets/image/metrics svg icons/metrics_department_128.svg" alt="" srcset=""> -->
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-12 pt-1">
-
                                         <h3 *ngIf="departmentSource && message == 'Count'">{{departmentCount || '0'}} </h3>
                                         <h3 *ngIf="departmentSource && message != 'Count'">{{departmentPer || '0'}} %</h3>
                                         <h3 *ngIf="!departmentSource">{{'0'}} </h3>
@@ -129,8 +129,9 @@
                                 <table mat-table [dataSource]="departmentSource" class=" departmentTable">
                                     <ng-container matColumnDef="department">
                                         <td mat-cell *matCellDef="let element"  [ngClass]="{'selectedItem': physicianId == element.metricName, 'none': element.metricName == '-' }"> {{element.metricName}} 
-                                            <span *ngIf="message =='Count'">{{element.metricCount}}</span> 
-                                            <span *ngIf="message !='Count'">{{element.metricPercentage}} %</span> </td>
+                                            
+                                            <span *ngIf="message =='Count'"><i class="fa fa-download" style="cursor: pointer;" aria-hidden="true"></i> {{element.metricCount}}</span> 
+                                            <span *ngIf="message !='Count'"><i class="fa fa-download" style="cursor: pointer;" aria-hidden="true"></i> {{element.metricPercentage}} %</span> </td>
                                     </ng-container>
                                     <tr mat-row *matRowDef="let row; columns: departmentColumns;"></tr>
                                 </table>
